@@ -1,54 +1,67 @@
 import React, { useState } from 'react';
+import PropTypes from 'prop-types';
 import { useNavigate } from 'react-router-dom';
 import { useAuth } from '../contexts/AuthContext';
+import './Dashboard.css';
 
-const Dashboard = () => {
-  const { user, logout } = useAuth();
+const DASHBOARD_DATA = [
+  {
+    title: 'Total Projects',
+    value: '12',
+    description: 'Active projects in your portfolio'
+  },
+  {
+    title: 'Tasks Completed',
+    value: '89',
+    description: 'Tasks completed this month'
+  },
+  {
+    title: 'Team Members',
+    value: '8',
+    description: 'Active team members'
+  },
+  {
+    title: 'Performance Score',
+    value: '94%',
+    description: 'Your overall performance rating'
+  }
+];
+
+const RECENT_ACTIVITIES = [
+  'Project "E-commerce Platform" updated - 2 hours ago',
+  'New team member "Sarah Johnson" joined - 1 day ago',
+  'Task "User Authentication" completed - 3 days ago',
+  'Monthly report generated - 1 week ago'
+];
+
+const Dashboard = ({ user }) => {
+  const { logout } = useAuth();
   const navigate = useNavigate();
   const [isLoggingOut, setIsLoggingOut] = useState(false);
+  const [error, setError] = useState('');
 
   const handleLogout = async () => {
     setIsLoggingOut(true);
     try {
       await logout();
       navigate('/login');
-    } catch (error) {
-      console.error('Logout error:', error);
+    } catch {
+      setError('Failed to log out');
       setIsLoggingOut(false);
     }
   };
 
-  // Mock dashboard data
-  const dashboardData = [
-    {
-      title: 'Total Projects',
-      value: '12',
-      description: 'Active projects in your portfolio'
-    },
-    {
-      title: 'Tasks Completed',
-      value: '89',
-      description: 'Tasks completed this month'
-    },
-    {
-      title: 'Team Members',
-      value: '8',
-      description: 'Active team members'
-    },
-    {
-      title: 'Performance Score',
-      value: '94%',
-      description: 'Your overall performance rating'
-    }
-  ];
+  if (!user) {
+    return <div className="error">User data not available</div>;
+  }
 
   return (
     <div className="container">
       <div className="dashboard">
         <div className="dashboard-header">
           <div>
-            <h1>Welcome, {user?.name || 'User'}!</h1>
-            <p style={{ color: '#666', marginTop: '0.5rem' }}>
+            <h1>Welcome, {user.name}!</h1>
+            <p className="dashboard-header-description">
               Here's your personalized dashboard overview
             </p>
           </div>
@@ -62,10 +75,10 @@ const Dashboard = () => {
         </div>
 
         <div className="dashboard-content">
-          {dashboardData.map((item, index) => (
+          {DASHBOARD_DATA.map((item, index) => (
             <div key={index} className="dashboard-card">
               <h3>{item.title}</h3>
-              <p style={{ fontSize: '2rem', fontWeight: 'bold', color: '#667eea', margin: '1rem 0' }}>
+              <p className="dashboard-card-value">
                 {item.value}
               </p>
               <p>{item.description}</p>
@@ -73,26 +86,25 @@ const Dashboard = () => {
           ))}
         </div>
 
-        <div style={{ marginTop: '2rem', padding: '1.5rem', background: '#f8f9fa', borderRadius: '8px' }}>
-          <h3 style={{ marginBottom: '1rem', color: '#333' }}>Recent Activity</h3>
-          <div style={{ display: 'flex', flexDirection: 'column', gap: '0.5rem' }}>
-            <p style={{ color: '#666' }}>• Project "E-commerce Platform" updated - 2 hours ago</p>
-            <p style={{ color: '#666' }}>• New team member "Sarah Johnson" joined - 1 day ago</p>
-            <p style={{ color: '#666' }}>• Task "User Authentication" completed - 3 days ago</p>
-            <p style={{ color: '#666' }}>• Monthly report generated - 1 week ago</p>
+        <div className="recent-activity">
+          <h3 className="recent-activity-title">Recent Activity</h3>
+          <div className="recent-activity-list">
+            {RECENT_ACTIVITIES.map((activity, index) => (
+              <p key={index} className="recent-activity-item">{activity}</p>
+            ))}
           </div>
         </div>
 
-        <div style={{ marginTop: '2rem', padding: '1.5rem', background: '#e8f4fd', borderRadius: '8px', borderLeft: '4px solid #667eea' }}>
-          <h3 style={{ marginBottom: '1rem', color: '#333' }}>Quick Actions</h3>
-          <div style={{ display: 'flex', gap: '1rem', flexWrap: 'wrap' }}>
-            <button className="btn btn-primary" style={{ width: 'auto', padding: '8px 16px' }}>
+        <div className="quick-actions">
+          <h3 className="quick-actions-title">Quick Actions</h3>
+          <div className="quick-actions-buttons">
+            <button className="btn btn-primary">
               Create New Project
             </button>
-            <button className="btn btn-secondary" style={{ width: 'auto', padding: '8px 16px' }}>
+            <button className="btn btn-secondary">
               View Reports
             </button>
-            <button className="btn btn-secondary" style={{ width: 'auto', padding: '8px 16px' }}>
+            <button className="btn btn-secondary">
               Manage Team
             </button>
           </div>
@@ -102,4 +114,8 @@ const Dashboard = () => {
   );
 };
 
-export default Dashboard; 
+Dashboard.propTypes = {
+  user: PropTypes.object.isRequired
+};
+
+export default Dashboard;
