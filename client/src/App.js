@@ -1,37 +1,47 @@
 import React from 'react';
-import { BrowserRouter as Router, Routes, Route, Navigate } from 'react-router-dom';
-import { AuthProvider, useAuth } from './contexts/AuthContext';
+import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
+import AuthContext from './contexts/AuthContext';
 import Login from './components/Login';
 import Dashboard from './components/Dashboard';
 
-// Protected Route Component
-const ProtectedRoute = ({ children }) => {
-  const { isAuthenticated } = useAuth();
-  return isAuthenticated ? children : <Navigate to="/login" replace />;
-};
-
-// Main App Component
 function App() {
+  const { user } = useAuth();
+
+  function getJsonObject(data) {
+    return JSON.parse(localStorage.getItem(data));
+  }
+
+  function getUserData(userDataKey) {
+    if (!user) return null;
+    return getJsonObject(userDataKey);
+  }
+
+  // Routes
   return (
-    <AuthProvider>
-      <Router>
-        <div className="App">
-          <Routes>
-            <Route path="/login" element={<Login />} />
-            <Route 
-              path="/dashboard" 
-              element={
-                <ProtectedRoute>
-                  <Dashboard />
-                </ProtectedRoute>
-              } 
-            />
-            <Route path="/" element={<Navigate to="/login" replace />} />
-          </Routes>
-        </div>
-      </Router>
-    </AuthProvider>
+    <Router>
+      <div className="App">
+        <Routes>
+          {/* Login route */}
+          <Route path="/login" element={<Login />} />
+          
+          {/* Dashboard route */}
+          <Route 
+            path="/dashboard" 
+            element={
+              <ProtectedRoute>
+                <Dashboard user={user} userDataKey="username">
+                  {getUserData('welcome')}
+                </Dashboard>
+              </ProtectedRoute>
+            } 
+          />
+          
+          {/* Default route for login when user is not authenticated */}
+          <Route path="/" element={<Navigate to="/login" replace />} />
+        </Routes>
+      </div>
+    </Router>
   );
 }
 
-export default App; 
+export default App;
