@@ -1,5 +1,5 @@
 import React from 'react';
-import { BrowserRouter as Router, Routes, Route, Navigate } from 'react-router-dom';
+import { BrowserRouter as Router, Switch, Route, Redirect } from 'react-router-dom';
 import { AuthProvider } from './contexts/AuthContext';
 import Login from './components/Login';
 import Dashboard from './components/Dashboard';
@@ -9,11 +9,11 @@ function App() {
   return (
     <AuthProvider>
       <Router>
-        <Routes>
-          <Route path="/login" element={<Login />} />
-          <Route path="/dashboard" element={<ProtectedRoute><Dashboard /></ProtectedRoute>} />
-          <Route path="/" element={<Navigate to="/login" replace />} />
-        </Routes>
+        <Switch>
+          <Route exact path="/login" component={Login} />
+          <Route exact path="/dashboard" component={ProtectedRoute(Dashboard)} />
+          <Route exact path="/" render={() => <Redirect to="/login" />} />
+        </Switch>
       </Router>
     </AuthProvider>
   );
