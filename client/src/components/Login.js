@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useCallback } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useAuth } from '../contexts/AuthContext';
 
@@ -11,43 +11,41 @@ const Login = () => {
   const [isLoading, setIsLoading] = useState(false);
   const [submitError, setSubmitError] = useState('');
 
-  const { login, isAuthenticated } = useAuth();
+  const { login } = useAuth();
   const navigate = useNavigate();
 
-  // Redirect if already authenticated
-  useEffect(() => {
-    if (isAuthenticated) {
-      navigate('/dashboard');
-    }
-  }, [isAuthenticated, navigate]);
-
-  const validateForm = () => {
-    const newErrors = {};
-
-    // Email validation
+  const validateEmail = () => {
     if (!formData.email) {
-      newErrors.email = 'Email is required';
+      return 'Email is required';
     } else if (!/\S+@\S+\.\S+/.test(formData.email)) {
-      newErrors.email = 'Please enter a valid email address';
+      return 'Please enter a valid email address';
     }
-
-    // Password validation
-    if (!formData.password) {
-      newErrors.password = 'Password is required';
-    }
-
-    setErrors(newErrors);
-    return Object.keys(newErrors).length === 0;
+    return '';
   };
 
-  const handleInputChange = (e) => {
+  const validatePassword = () => {
+    if (!formData.password) {
+      return 'Password is required';
+    }
+    return '';
+  };
+
+  const validateForm = () => {
+    const emailError = validateEmail();
+    const passwordError = validatePassword();
+
+    setErrors({ email: emailError, password: passwordError });
+
+    return !emailError && !passwordError;
+  };
+
+  const handleInputChange = useCallback((e) => {
     const { name, value } = e.target;
     setFormData(prev => ({
       ...prev,
       [name]: value
     }));
 
-    // Clear field-specific error when user starts typing
     if (errors[name]) {
       setErrors(prev => ({
         ...prev,
@@ -55,15 +53,14 @@ const Login = () => {
       }));
     }
 
-    // Clear submit error when user makes changes
     if (submitError) {
       setSubmitError('');
     }
-  };
+  }, [errors, submitError]);
 
-  const handleSubmit = async (e) => {
+  const handleSubmit = useCallback(async (e) => {
     e.preventDefault();
-    
+
     if (!validateForm()) {
       return;
     }
@@ -73,26 +70,19 @@ const Login = () => {
 
     try {
       const result = await login(formData.email, formData.password);
-      
-      if (result.success) {
-        navigate('/dashboard');
-      } else {
-        setSubmitError(result.message);
-      }
+      result.success ? navigate('/dashboard') : setSubmitError(result.message);
     } catch (error) {
       setSubmitError('An unexpected error occurred. Please try again.');
     } finally {
       setIsLoading(false);
     }
-  };
+  }, [formData.email, formData.password, login, navigate]);
 
   return (
     <div className="container">
       <div className="card">
-        <h1 style={{ textAlign: 'center', marginBottom: '2rem', color: '#333' }}>
-          Welcome Back
-        </h1>
-        
+        <h1 className="welcome-text">Welcome Back</h1>
+
         <form onSubmit={handleSubmit}>
           <div className="form-group">
             <label htmlFor="email">Email Address</label>
@@ -125,7 +115,7 @@ const Login = () => {
           </div>
 
           {submitError && (
-            <div className="error" style={{ textAlign: 'center', marginBottom: '1rem' }}>
+            <div className="error submit-error">
               {submitError}
             </div>
           )}
@@ -139,7 +129,7 @@ const Login = () => {
           </button>
         </form>
 
-        <div style={{ marginTop: '2rem', textAlign: 'center', color: '#666' }}>
+        <div className="demo-credentials">
           <p><strong>Demo Credentials:</strong></p>
           <p>Email: user@example.com</p>
           <p>Password: password</p>
@@ -149,4 +139,4 @@ const Login = () => {
   );
 };
 
-export default Login; 
+export default Login;
