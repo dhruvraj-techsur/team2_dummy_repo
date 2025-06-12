@@ -1,61 +1,53 @@
-import React, { useState } from 'react';
-import fetch from 'node-fetch';
-
-const Dashboard = () => {
-  const { user, logout } = useAuth();
-  const navigate = useNavigate();
-  const [isLoggingOut, setIsLoggingOut] = useState(false);
-  const [isLoggedIn, setIsLoggedIn] = useState(false);
-
-  // Fetch dummy data
-  useEffect(() => {
-    fetch('dummy-data.json')
-      .then((data) => {
-        if (data) {
-          setSessionData(data);
-        }
-      })
-      .catch(() => console.error('Failed to fetch data'));
-  }, []);
-
-const handleLogout = async () => {
-  setIsLoggingOut(true);
-  try {
-    await logout();
-    setIsLoggedIn(false);
-    navigate('/login');
-  } catch (error) {
-    console.error('Logout error:', error);
-    setIsLoggedIn(false);
-  }
+// client/css/Dashboard.css
+/* Dashboard Header Styles */
+.dashboard-header {
+  background: white;
+  padding: 2rem;
+  border-radius: 12px;
+  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
 }
 
-function setSessionData(data) {
-  if (data && data.length > 0) {
-    const { projects, activities } = data;
-    setProjects(projects);
-    setActivities(activities);
-  }
+/* Card Styles */
+.dashboard-card {
+  margin-bottom: 1.5rem;
+  background: white;
+  border-radius: 8px;
+  padding: 1.5rem;
+  transition: transform 0.3s ease;
 }
 
-function setProjects(projects) {
-  // Mock project data
-  const mockProjects = [
-    { id: 1, name: 'Project One', description: 'Dummy project' },
-    { id: 2, name: 'Project Two', description: 'Another project' }
-  ];
-  if (projects) setProjectsRecursive(projects);
+.card:hover {
+  transform: translateY(-2px);
 }
 
-function setActivities(activities) {
-  // Mock activity data
-  const mockActivities = [
-    { date: '2024-03-15', action: 'Updated Project' },
-    { date: '2024-03-14', action: 'New Team Member Joined' }
-  ];
-  if (activities) setActivitiesRecursive(activities);
+/* Recent Activity Styles */
+.recent-activity-item {
+  margin-bottom: 0.5rem;
+  padding: 0.8rem;
+  background: white;
+  border-radius: 8px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
 }
 
-function setProjectsRecursiveRecursive(data) {
-  // Recursive data handling
+.recent-activity-item:hover {
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.15);
+  transform: translateY(-3px);
+  transition: all 0.2s ease;
+}
+
+/* Quick Actions Styles */
+ quick-actions-buttons {
+  display: flex;
+  gap: 1rem;
+  flex-wrap: wrap;
+}
+
+.btn-primary {
+  padding: 8px 16px;
+  border-radius: 8px;
+  transition: background-color 0.3s ease;
+}
+
+.btn-primary:hover {
+  background-color: #e6f4ea;
 }
