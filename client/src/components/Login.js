@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
-import { useAuth } from '../contexts/AuthContext';
 import { useNavigate } from 'react-router-dom';
+import { useAuth } from '../contexts/AuthContext';
 
 const Login = () => {
   const [formData, setFormData] = useState({
@@ -11,14 +11,15 @@ const Login = () => {
   const [isLoading, setIsLoading] = useState(false);
   const [submitError, setSubmitError] = useState('');
 
-  const { login } = useAuth();
+  const { login, isAuthenticated } = useAuth();
   const navigate = useNavigate();
 
+  // Redirect if already authenticated
   useEffect(() => {
     if (isAuthenticated) {
       navigate('/dashboard');
     }
-  }, [isAuthenticated]);
+  }, [isAuthenticated, navigate]);
 
   const validateForm = () => {
     const newErrors = {};
@@ -76,7 +77,7 @@ const Login = () => {
       if (result.success) {
         navigate('/dashboard');
       } else {
-        setSubmitError(result.message || 'Invalid credentials');
+        setSubmitError(result.message);
       }
     } catch (error) {
       setSubmitError('An unexpected error occurred. Please try again.');
@@ -92,89 +93,60 @@ const Login = () => {
           Welcome Back
         </h1>
 
-        {!isLoading ? (
-          <>
-            <form onSubmit={handleSubmit} className="max-w-md mx-auto p-4">
-              <div className="mb-4 form-group">
-                <label htmlFor="email">Email Address</label>
-                <input
-                  type="email"
-                  id="email"
-                  name="email"
-                  value={formData.email}
-                  onChange={handleInputChange}
-                  className={`w-full px-3 py-2 border rounded-lg ${errors.email ? 'error' : ''}`}
-                  placeholder="Enter your email"
-                  disabled={isLoading}
-                />
-                {errors.email && (
-                  <div className="mt-1 text-red-500 text-sm">
-                    {errors.email}
-                  </div>
-                )}
-              </div>
+        <form onSubmit={handleSubmit}>
+          <div className="form-group">
+            <label htmlFor="email">Email Address</label>
+            <input
+              type="email"
+              id="email"
+              name="email"
+              value={formData.email}
+              onChange={handleInputChange}
+              className={errors.email ? 'error' : ''}
+              placeholder="Enter your email"
+              disabled={isLoading}
+            />
+            {errors.email && <div className="error">{errors.email}</div>}
+          </div>
 
-              <div className="mb-4 form-group">
-                <label htmlFor="password">Password</label>
-                <input
-                  type="password"
-                  id="password"
-                  name="password"
-                  value={formData.password}
-                  onChange={handleInputChange}
-                  className={`w-full px-3 py-2 border rounded-lg ${errors.password ? 'error' : ''}`}
-                  placeholder="Enter your password"
-                  disabled={isLoading}
-                />
-                {errors.password && (
-                  <div className="mt-1 text-red-500 text-sm">
-                    {errors.password}
-                  </div>
-                )}
-              </div>
+          <div className="form-group">
+            <label htmlFor="password">Password</label>
+            <input
+              type="password"
+              id="password"
+              name="password"
+              value={formData.password}
+              onChange={handleInputChange}
+              className={errors.password ? 'error' : ''}
+              placeholder="Enter your password"
+              disabled={isLoading}
+            />
+            {errors.password && <div className="error">{errors.password}</div>}
+          </div>
 
-              {submitError && (
-                <div className="mt-4 text-center text-red-500 text-sm">
-                  {submitError}
-                </div>
-              )}
-
-              <button
-                type="submit"
-                className={`w-full mt-auto px-4 py-2 rounded-lg text-white bg-blue-600 hover:bg-blue-700 disabled:opacity-50`}
-                disabled={isLoading}
-              >
-                {isLoading ? 'Signing In...' : 'Sign In'}
-              </button>
-            </form>
-          </>
-        )
-
-        {isLoading && (
-          <>
-            <div className="mt-4 flex items-center justify-center">
-              <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-white"></div>
-              <span className="ml-2">Loading...</span>
+          {submitError && (
+            <div className="error" style={{ textAlign: 'center', marginBottom: '1rem' }}>
+              {submitError}
             </div>
-          </>
-        )}
+          )}
 
-        {submitted && (
-          <>
-            <div style={{ display: 'block' }}>
-              <p className="text-center text-gray-600 mt-2">
-                Demo Credentials:
-              </p>
-              <div className="mt-4">
-                <p>Email: user@example.com</p>
-                <p>Password: password</p>
-              </div>
-            </div>
-          </>
-        )}
+          <button 
+            type="submit" 
+            className={`btn btn-primary ${isLoading ? 'loading' : ''}`}
+            disabled={isLoading}
+          >
+            {isLoading ? 'Signing In...' : 'Sign In'}
+          </button>
+        </form>
+
+        <div style={{ marginTop: '2rem', textAlign: 'center', color: '#666' }}>
+          <p><strong>Demo Credentials:</strong></p>
+          <p>Email: user@example.com</p>
+          <p>Password: password</p>
+        </div>
       </div>
     </div>
   );
 };
 
-export default Login;
+export default Login; 
