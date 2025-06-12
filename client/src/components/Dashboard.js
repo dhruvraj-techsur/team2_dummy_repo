@@ -1,11 +1,51 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useAuth } from '../contexts/AuthContext';
+import PropTypes from 'prop-types';
+import styles from './Dashboard.module.css';
 
 const Dashboard = () => {
   const { user, logout } = useAuth();
   const navigate = useNavigate();
   const [isLoggingOut, setIsLoggingOut] = useState(false);
+  const [dashboardData, setDashboardData] = useState([]);
+  const [isLoading, setIsLoading] = useState(true);
+
+  useEffect(() => {
+    fetchDashboardData();
+  }, []);
+
+  const fetchDashboardData = async () => {
+    // Mock dashboard data
+    const data = [
+      {
+        id: '1',
+        title: 'Total Projects',
+        value: '12',
+        description: 'Active projects in your portfolio'
+      },
+      {
+        id: '2',
+        title: 'Tasks Completed',
+        value: '89',
+        description: 'Tasks completed this month'
+      },
+      {
+        id: '3',
+        title: 'Team Members',
+        value: '8',
+        description: 'Active team members'
+      },
+      {
+        id: '4',
+        title: 'Performance Score',
+        value: '94%',
+        description: 'Your overall performance rating'
+      }
+    ];
+    setDashboardData(data);
+    setIsLoading(false);
+  };
 
   const handleLogout = async () => {
     setIsLoggingOut(true);
@@ -18,42 +58,20 @@ const Dashboard = () => {
     }
   };
 
-  // Mock dashboard data
-  const dashboardData = [
-    {
-      title: 'Total Projects',
-      value: '12',
-      description: 'Active projects in your portfolio'
-    },
-    {
-      title: 'Tasks Completed',
-      value: '89',
-      description: 'Tasks completed this month'
-    },
-    {
-      title: 'Team Members',
-      value: '8',
-      description: 'Active team members'
-    },
-    {
-      title: 'Performance Score',
-      value: '94%',
-      description: 'Your overall performance rating'
-    }
-  ];
+  if (!user) {
+    return <div>Error: User data not available</div>;
+  }
 
   return (
-    <div className="container">
-      <div className="dashboard">
-        <div className="dashboard-header">
+    <div className={styles.container}>
+      <div className={styles.dashboard}>
+        <div className={styles.dashboardHeader}>
           <div>
             <h1>Welcome, {user?.name || 'User'}!</h1>
-            <p style={{ color: '#666', marginTop: '0.5rem' }}>
-              Here's your personalized dashboard overview
-            </p>
+            <p>Here's your personalized dashboard overview</p>
           </div>
           <button 
-            className="logout-btn"
+            className={styles.logoutBtn}
             onClick={handleLogout}
             disabled={isLoggingOut}
           >
@@ -61,11 +79,11 @@ const Dashboard = () => {
           </button>
         </div>
 
-        <div className="dashboard-content">
-          {dashboardData.map((item, index) => (
-            <div key={index} className="dashboard-card">
+        <div className={styles.dashboardContent}>
+          {isLoading ? 'Loading...' : dashboardData.map((item) => (
+            <div key={item.id} className={styles.dashboardCard}>
               <h3>{item.title}</h3>
-              <p style={{ fontSize: '2rem', fontWeight: 'bold', color: '#667eea', margin: '1rem 0' }}>
+              <p className={styles.dashboardCardValue}>
                 {item.value}
               </p>
               <p>{item.description}</p>
@@ -73,26 +91,26 @@ const Dashboard = () => {
           ))}
         </div>
 
-        <div style={{ marginTop: '2rem', padding: '1.5rem', background: '#f8f9fa', borderRadius: '8px' }}>
-          <h3 style={{ marginBottom: '1rem', color: '#333' }}>Recent Activity</h3>
-          <div style={{ display: 'flex', flexDirection: 'column', gap: '0.5rem' }}>
-            <p style={{ color: '#666' }}>• Project "E-commerce Platform" updated - 2 hours ago</p>
-            <p style={{ color: '#666' }}>• New team member "Sarah Johnson" joined - 1 day ago</p>
-            <p style={{ color: '#666' }}>• Task "User Authentication" completed - 3 days ago</p>
-            <p style={{ color: '#666' }}>• Monthly report generated - 1 week ago</p>
+        <div className={styles.recentActivity}>
+          <h3>Recent Activity</h3>
+          <div className={styles.activityList}>
+            <p>• Project "E-commerce Platform" updated - 2 hours ago</p>
+            <p>• New team member "Sarah Johnson" joined - 1 day ago</p>
+            <p>• Task "User Authentication" completed - 3 days ago</p>
+            <p>• Monthly report generated - 1 week ago</p>
           </div>
         </div>
 
-        <div style={{ marginTop: '2rem', padding: '1.5rem', background: '#e8f4fd', borderRadius: '8px', borderLeft: '4px solid #667eea' }}>
-          <h3 style={{ marginBottom: '1rem', color: '#333' }}>Quick Actions</h3>
-          <div style={{ display: 'flex', gap: '1rem', flexWrap: 'wrap' }}>
-            <button className="btn btn-primary" style={{ width: 'auto', padding: '8px 16px' }}>
+        <div className={styles.quickActions}>
+          <h3>Quick Actions</h3>
+          <div className={styles.actionButtons}>
+            <button className={styles.btnPrimary}>
               Create New Project
             </button>
-            <button className="btn btn-secondary" style={{ width: 'auto', padding: '8px 16px' }}>
+            <button className={styles.btnSecondary}>
               View Reports
             </button>
-            <button className="btn btn-secondary" style={{ width: 'auto', padding: '8px 16px' }}>
+            <button className={styles.btnSecondary}>
               Manage Team
             </button>
           </div>
@@ -102,4 +120,9 @@ const Dashboard = () => {
   );
 };
 
-export default Dashboard; 
+Dashboard.propTypes = {
+  user: PropTypes.object,
+  logout: PropTypes.func.isRequired
+};
+
+export default Dashboard;
