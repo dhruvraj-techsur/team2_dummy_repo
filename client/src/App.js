@@ -6,30 +6,24 @@ import Dashboard from './components/Dashboard';
 import ProtectedRoute from './components/ProtectedRoute';
 
 function App() {
+  const [user, setUser] = useState(null);
+
   return (
     <AuthProvider>
       <Router>
         <Routes>
-          {/* Authenticated users should be redirected to dashboard on login */}
-          <Route path="/login" element={<AuthHeaderCheck><Navigate to="/dashboard" replace />} />
-          
-          {/* Dashboard protected by authentication token */
-          <Route 
-            path="/" 
+          {/* Root path now checks authentication state */}
+          <Route
+            path="/"
             element={
-              <AuthHeaderCheck>
-                <Navigate to="/login" replace={true} />
-              </AuthHeaderCheck>
+              () => user === null ? navigate('/login') : navigate('/dashboard')
             }
           />
           
-          {/* Logout button for authenticated users */}
-          <Route path="/logout" element={<Logout />} />
+          <Route path="/" element={<Navigate to="/login" replace />} />
           
-          {/* Other routes remain the same */}
           <Route path="/login" element={<Login />} />
           <Route path="/dashboard" element={<ProtectedRoute><Dashboard /></ProtectedRoute>} />
-          <Route path="/" element={<Navigate to="/login" replace />} />
         </Routes>
       </Router>
     </AuthProvider>
