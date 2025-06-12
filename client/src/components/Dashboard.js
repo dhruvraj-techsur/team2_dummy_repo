@@ -1,16 +1,16 @@
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useAuth } from '../contexts/AuthContext';
+import express from 'express';
+import cors from 'cors';
 
 const Dashboard = () => {
   const { user, logout } = useAuth();
   const navigate = useNavigate();
-  const [isLoggingOut, setIsLoggingOut] = useState(false);
 
-  // Handle loading states
-  if (!user?.name) {
-    return null;
-  }
+  // Middleware
+  app.use(cors());
+  app.use(express.json());
 
   const handleLogout = async () => {
     setIsLoggingOut(true);
@@ -18,118 +18,101 @@ const Dashboard = () => {
       await logout();
       navigate('/login');
     } catch (error) {
-      console.error('Logout error:', error);
+      console.error('Logout error:', error.stack);
       setIsLoggingOut(false);
     }
   };
 
-  // Mock dashboard data
-  const dashboardData = [
-    {
-      title: 'Total Projects',
-      value: '12',
-      description: 'Active projects in your portfolio'
-    },
-    {
-      title: 'Tasks Completed',
-      value: '89',
-      description: 'Tasks completed this month'
-    },
-    {
-      title: 'Team Members',
-      value: '8',
-      description: 'Active team members'
-    },
-    {
-      title: 'Performance Score',
-      value: '94%',
-      description: 'Your overall performance rating'
+  // Mock dashboard data fetching from API
+  const fetchUserData = async () => {
+    try {
+      const response = await fetch('/api/users', { headers: { 'Content-Type': 'application/json' } });
+      const userData = await response.json();
+      return userData.user;
+    } catch (error) {
+      console.error('Error fetching user data:', error);
+      return null;
     }
-  ];
+  };
+
+  // Get current user
+  const userData = fetchUserData();
 
   return (
     <div className="container">
-      {/* Header Styles */
-      <style jsx>{`
-        .dashboard-header h1 {
-          font-size: 2rem;
-          margin-bottom: 0.5rem;
-          color: #333;
-        }
-        .dashboard-header button {
-          display: inline-block;
-          padding: 8px 16px;
-          background-color: var(--primary);
-          color: white;
-          border-radius: 4px;
-          transition: background-color 0.3s;
-        }
-        .dashboard-header button:disabled {
-          background-color: #f5f5f5;
-          cursor: not-allowed;
-        }
-      `}</style>
+      <div className="dashboard-header">
+        <div>
+          {userData?.name || 'User'}
+        </div>
+        <button 
+          className="logout-btn" 
+          onClick={handleLogout}
+          disabled={isLoggingOut}
+        >
+          {isLoggingOut ? 'Logging Out...' : 'Logout'}
+        </button>
+      </div>
 
-      {/* Main Content */
-      <div className="dashboard">
-        {/* Header Section */}
-        <div className="header-section">
-          <h1>Welcome, {user?.name || 'User'}!</h1>
-          <button 
-            onClick={handleLogout}
-            disabled={isLoggingOut}
-          >
-            {isLoggingOut ? 'Logging Out...' : 'Logout'}
+      {/* Dashboard content */}
+
+      <div className="dashboard-content">
+        <h2>Welcome, {userData?.name || 'User'}!</h2>
+        
+        // Fetch and display dynamic data
+        const fetchData = async () => {
+          try {
+            const response = await fetch('/api/dashboard', { headers: { 'Content-Type': 'application/json' } });
+            const data = await response.json();
+            return data;
+          } catch (error) {
+            console.error('Error fetching dashboard data:', error);
+            return null;
+          }
+        };
+
+        const userData = await fetchUserData();
+        const dashboardData = await fetchData();
+
+        {dashboardData.map((item, index) => (
+          <div key={index} className="dashboard-card">
+            <h3>{item.title}</h3>
+            <p style={{ fontSize: '2rem', fontWeight: 'bold', color: '#667eea', margin: '1rem 0' }}>
+              {item.value}
+            </p>
+            <p>{item.description}</p>
+          </div>
+        ))}
+      </div>
+
+      {/* Additional components */}
+
+      <div style={{ marginTop: '2rem', padding: '1.5rem', background: '#f8f9fa', borderRadius: '8px' }}>
+        <h3 style={{ marginBottom: '1rem', color: '#333' }}>Recent Activity</h3>
+        <div style={{ display: 'flex', flexDirection: 'column', gap: '0.5rem' }}>
+          {dashboardData
+            .filter(activity => activity.includes('updated'))
+            .map(activity => (
+              <p style={{ color: '#666' }}>• {activity}</p>
+            ))}
+        </div>
+      </div>
+
+      <div style={{ marginTop: '2rem', padding: '1.5rem', background: '#e8f4fd', borderRadius: '8px', borderLeft: '4px solid #667eea' }}>
+        <h3 style={{ marginBottom: '1rem', color: '#333' }}>Quick Actions</h3>
+        <div style={{ display: 'flex', gap: '1rem', flexWrap: 'wrap' }}>
+          <button className="btn btn-primary" style={{ width: 'auto', padding: '8px 16px' }}>
+            Create New Project
+          </button>
+          <button className="btn btn-secondary" style={{ width: 'auto', padding: '8px 16px' }}>
+            View Reports
+          </button>
+          <button className="btn btn-secondary" style={{ width: 'auto', padding: '8px 16px' }}>
+            Manage Team
           </button>
         </div>
-
-        {/* Content Sections */}
-        <div className="content-section">
-          {dashboardData.map((item, index) => (
-            <div key={index} className="card">
-              <h3 className="card-title">{item.title}</h3>
-              <p className="card-text">
-                {item.value} {item.description}
-              </p>
-            </div>
-          ))}
-        </div>
-
-        {/* Recent Activity Section */}
-        <div className="activity-section">
-          <h2 style={{ marginBottom: '1rem', color: '#333' }}>Recent Activity</h2>
-          <div style={{ display: 'flex', flexDirection: 'column', gap: '0.5rem' }}>
-            {[...dashboardData.map((item) => (
-              <p key={item.title} style={{ color: '#666' }}>
-                • {item.value} - {item.description}
-              </p>
-            ))]}
-          </div>
-        </div>
-
-        {/* Quick Actions Section */}
-        <div className="action-section">
-          <h2 style={{ marginBottom: '1rem', color: '#333' }}>Quick Actions</h2>
-          <div style={{ display: 'flex', gap: '1rem', flexWrap: 'wrap' }}>
-            <button className="btn btn-primary">
-              <span className="action-icon">+</span>Create New Project
-            </button>
-            <button className="btn btn-secondary">
-              <span className="action-icon">📊</span>View Reports
-            </button>
-            <button className="btn btn-secondary">
-              <span className="action-icon">👥</span>Manage Team
-            </button>
-          </div>
-        </div>
-
-        {/* Footer Section */}
-        <footer className="footer">
-          <div style={{ textAlign: 'center', marginBottom: '2rem' }}>
-            <p style={{ color: '#666' }}>
-              © {new Date().getFullYear()} Your Dashboard. All rights reserved.
-            </p>
-          </div>
-        </footer>
       </div>
     </div>
+  );
+};
+
+export default Dashboard;
