@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useCallback } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useAuth } from '../contexts/AuthContext';
 
@@ -11,43 +11,32 @@ const Login = () => {
   const [isLoading, setIsLoading] = useState(false);
   const [submitError, setSubmitError] = useState('');
 
-  const { login, isAuthenticated } = useAuth();
+  const { login } = useAuth();
   const navigate = useNavigate();
 
-  // Redirect if already authenticated
-  useEffect(() => {
-    if (isAuthenticated) {
-      navigate('/dashboard');
-    }
-  }, [isAuthenticated, navigate]);
-
-  const validateForm = () => {
-    const newErrors = {};
-
-    // Email validation
+  const validateEmail = useCallback(() => {
     if (!formData.email) {
-      newErrors.email = 'Email is required';
+      return 'Email is required';
     } else if (!/\S+@\S+\.\S+/.test(formData.email)) {
-      newErrors.email = 'Please enter a valid email address';
+      return 'Please enter a valid email address';
     }
+    return '';
+  }, [formData.email]);
 
-    // Password validation
+  const validatePassword = useCallback(() => {
     if (!formData.password) {
-      newErrors.password = 'Password is required';
+      return 'Password is required';
     }
+    return '';
+  }, [formData.password]);
 
-    setErrors(newErrors);
-    return Object.keys(newErrors).length === 0;
-  };
-
-  const handleInputChange = (e) => {
+  const handleInputChange = useCallback((e) => {
     const { name, value } = e.target;
     setFormData(prev => ({
       ...prev,
       [name]: value
     }));
 
-    // Clear field-specific error when user starts typing
     if (errors[name]) {
       setErrors(prev => ({
         ...prev,
@@ -55,16 +44,18 @@ const Login = () => {
       }));
     }
 
-    // Clear submit error when user makes changes
     if (submitError) {
       setSubmitError('');
     }
-  };
+  }, [errors, submitError]);
 
-  const handleSubmit = async (e) => {
+  const handleSubmit = useCallback(async (e) => {
     e.preventDefault();
 
-    if (!validateForm()) {
+    const emailError = validateEmail();
+    const passwordError = validatePassword();
+    if (emailError || passwordError) {
+      setErrors({ email: emailError, password: passwordError });
       return;
     }
 
@@ -84,12 +75,12 @@ const Login = () => {
     } finally {
       setIsLoading(false);
     }
-  };
+  }, [formData.email, formData.password, navigate, login, validateEmail, validatePassword]);
 
   return (
     <div className="container">
       <div className="card">
-        <h1 style={{ textAlign: 'center', marginBottom: '2rem', color: '#333' }}>
+        <h1 className="welcome-text">
           Welcome Back
         </h1>
 
@@ -104,9 +95,8 @@ const Login = () => {
               onChange={handleInputChange}
               className={errors.email ? 'error' : ''}
               placeholder="Enter your email"
-              disabled={isLoading}
             />
-            {errors.email && <div className="error">{errors.email}</div>}
+            {errors.email ? <div className="error">{errors.email}</div> : null}
           </div>
 
           <div className="form-group">
@@ -119,16 +109,15 @@ const Login = () => {
               onChange={handleInputChange}
               className={errors.password ? 'error' : ''}
               placeholder="Enter your password"
-              disabled={isLoading}
             />
-            {errors.password && <div className="error">{errors.password}</div>}
+            {errors.password ? <div className="error">{errors.password}</div> : null}
           </div>
 
-          {submitError && (
-            <div className="error" style={{ textAlign: 'center', marginBottom: '1rem' }}>
+          {submitError ? (
+            <div className="error submit-error">
               {submitError}
             </div>
-          )}
+          ) : null}
 
           <button 
             type="submit" 
@@ -139,7 +128,7 @@ const Login = () => {
           </button>
         </form>
 
-        <div style={{ marginTop: '2rem', textAlign: 'center', color: '#666' }}>
+        <div className="demo-credentials">
           <p><strong>Demo Credentials:</strong></p>
           <p>Email: user@example.com</p>
           <p>Password: password</p>
@@ -149,4 +138,4 @@ const Login = () => {
   );
 };
 
-export default Login; 
+export default Login;
