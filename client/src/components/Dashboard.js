@@ -1,25 +1,30 @@
-import React from 'react';
+import React, { useState } from 'react';
+import PropTypes from 'prop-types';
 import { useNavigate } from 'react-router-dom';
 import { useAuth } from '../contexts/AuthContext';
-import PropTypes from 'prop-types';
 import styles from './Dashboard.module.css';
 
 const Dashboard = () => {
   const { user, logout } = useAuth();
   const navigate = useNavigate();
+  const [isLoggingOut, setIsLoggingOut] = useState(false);
+  const [isLoading, setIsLoading] = useState(true);
+
+  if (!user) {
+    console.error('User data not available');
+    return <div>Error: User data not available</div>;
+  }
 
   const handleLogout = async () => {
+    setIsLoggingOut(true);
     try {
       await logout();
       navigate('/login');
     } catch (error) {
       console.error('Logout error:', error);
+      setIsLoggingOut(false);
     }
   };
-
-  if (!user) {
-    return <p>Error: User data not available</p>;
-  }
 
   const dashboardData = [
     {
@@ -54,15 +59,14 @@ const Dashboard = () => {
         <div className={styles.dashboardHeader}>
           <div>
             <h1>Welcome, {user?.name || 'User'}!</h1>
-            <p className={styles.dashboardIntro}>
-              Here's your personalized dashboard overview
-            </p>
+            <p>Here's your personalized dashboard overview</p>
           </div>
           <button 
             className={styles.logoutBtn}
             onClick={handleLogout}
+            disabled={isLoggingOut}
           >
-            Logout
+            {isLoggingOut ? 'Logging Out...' : 'Logout'}
           </button>
         </div>
 
@@ -70,7 +74,7 @@ const Dashboard = () => {
           {dashboardData.map((item) => (
             <div key={item.id} className={styles.dashboardCard}>
               <h3>{item.title}</h3>
-              <p className={styles.dashboardValue}>
+              <p className={styles.dashboardCardValue}>
                 {item.value}
               </p>
               <p>{item.description}</p>
@@ -79,7 +83,7 @@ const Dashboard = () => {
         </div>
 
         <div className={styles.recentActivity}>
-          <h3 className={styles.activityTitle}>Recent Activity</h3>
+          <h3>Recent Activity</h3>
           <div className={styles.activityList}>
             <p>• Project "E-commerce Platform" updated - 2 hours ago</p>
             <p>• New team member "Sarah Johnson" joined - 1 day ago</p>
@@ -89,8 +93,8 @@ const Dashboard = () => {
         </div>
 
         <div className={styles.quickActions}>
-          <h3 className={styles.actionsTitle}>Quick Actions</h3>
-          <div className={styles.actionsButtons}>
+          <h3>Quick Actions</h3>
+          <div className={styles.actionButtons}>
             <button className={styles.btnPrimary}>
               Create New Project
             </button>
