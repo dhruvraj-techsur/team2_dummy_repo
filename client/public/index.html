@@ -10,10 +10,57 @@
       content="Login and Dashboard Application"
     />
     <title>Login Dashboard App</title>
+    
+    <!-- Security Headers -->
+    <meta http-equiv="Content-Security-Policy" content="default-src 'self' https: 'unsafe-inline' 'www.google.com'" />
+    <meta http-equiv="Content-ORF" content="on">
+    <meta http-equiv="Content-Isolation-CSP" content="none; enforce-strict-origin-when-cross-origin;">
+    
   </head>
   <body>
     <noscript>You need to enable JavaScript to run this app.</noscript>
     <div id="root"></div>
   </body>
-  
+
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      margin: 0;
+      padding: 20px;
+    }
+    
+    .app-container {
+      max-width: 1200px;
+      margin: 0 auto;
+      background-color: #f4f4f4;
+    }
+    
+    .auth-header {
+      border-bottom: 1px solid #eee;
+      padding-bottom: 1rem;
+    }
+    
+    .login-form {
+      display: flex;
+      gap: 20px;
+    }
+    
+    input[type="email"] {
+      flex-grow: 1;
+      padding: 0.5rem;
+      border: 1px solid #ddd;
+      border-radius: 4px;
+    }
+    
+    .dashboard-list {
+      list-style: none;
+      padding: 20px;
+    }
+    
+    .dashboard-item {
+      margin-bottom: 15px;
+    }
+  </style>
+
+  <script src="%PUBLIC_URL%/js/src/app.js"></script>
 </html>
