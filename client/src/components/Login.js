@@ -7,40 +7,11 @@ const Login = () => {
     email: '',
     password: ''
   });
-  const [errors, setErrors] = useState({});
   const [isLoading, setIsLoading] = useState(false);
   const [submitError, setSubmitError] = useState('');
 
-  const { login, isAuthenticated } = useAuth();
+  const { login } = useAuth();
   const navigate = useNavigate();
-
-  const validateEmail = () => {
-    if (!formData.email) {
-      return 'Email is required';
-    } else if (!/\S+@\S+\.\S+/.test(formData.email)) {
-      return 'Please enter a valid email address';
-    }
-    return '';
-  };
-
-  const validatePassword = () => {
-    if (!formData.password) {
-      return 'Password is required';
-    }
-    return '';
-  };
-
-  const validateForm = () => {
-    const emailError = validateEmail();
-    const passwordError = validatePassword();
-
-    setErrors({
-      email: emailError,
-      password: passwordError
-    });
-
-    return !emailError && !passwordError;
-  };
 
   const handleInputChange = (e) => {
     const { name, value } = e.target;
@@ -48,35 +19,25 @@ const Login = () => {
       ...prev,
       [name]: value
     }));
-
-    if (errors[name]) {
-      setErrors(prev => ({
-        ...prev,
-        [name]: ''
-      }));
-    }
-
-    if (submitError) {
-      setSubmitError('');
-    }
   };
 
   const handleSubmit = async (e) => {
     e.preventDefault();
 
-    if (!validateForm()) {
-      return;
-    }
-
     setIsLoading(true);
     setSubmitError('');
 
-    const result = await login(formData.email, formData.password);
+    try {
+      const result = await login(formData.email, formData.password);
 
-    if (result.success) {
-      navigate('/dashboard');
-    } else {
-      setSubmitError(result.message);
+      if (result.success) {
+        navigate('/dashboard');
+      } else {
+        setSubmitError(result.message);
+      }
+    } catch (error) {
+      setSubmitError('An unexpected error occurred. Please try again.');
+    } finally {
       setIsLoading(false);
     }
   };
@@ -100,8 +61,9 @@ const Login = () => {
               className={errors.email ? 'error' : ''}
               placeholder="Enter your email"
               disabled={isLoading}
+              required
+              pattern="\S+@\S+\.\S+"
             />
-            {errors.email && <div className="error">{errors.email}</div>}
           </div>
 
           <div className="form-group">
@@ -115,8 +77,8 @@ const Login = () => {
               className={errors.password ? 'error' : ''}
               placeholder="Enter your password"
               disabled={isLoading}
+              required
             />
-            {errors.password && <div className="error">{errors.password}</div>}
           </div>
 
           {submitError && (
