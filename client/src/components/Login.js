@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect, useCallback } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useAuth } from '../contexts/AuthContext';
 
@@ -30,7 +30,7 @@ const Login = () => {
   const { login, isAuthenticated } = useAuth();
   const navigate = useNavigate();
 
-  const handleInputChange = (e) => {
+  const handleInputChange = useCallback((e) => {
     const { name, value } = e.target;
     setFormData(prev => ({
       ...prev,
@@ -43,27 +43,15 @@ const Login = () => {
         [name]: ''
       }));
     }
+  }, [errors]);
 
-    if (submitError) {
-      setSubmitError('');
-    }
-  };
-
-  const handleSubmit = async (e) => {
+  const handleSubmit = useCallback(async (e) => {
     e.preventDefault();
-
-    if (isAuthenticated) {
-      navigate('/dashboard');
-      return;
-    }
 
     const emailError = validateEmail(formData.email);
     const passwordError = validatePassword(formData.password);
     if (emailError || passwordError) {
-      setErrors({
-        email: emailError,
-        password: passwordError
-      });
+      setErrors({ email: emailError, password: passwordError });
       return;
     }
 
@@ -71,14 +59,24 @@ const Login = () => {
     setSubmitError('');
 
     try {
-      await login(formData.email, formData.password);
-      navigate('/dashboard');
+      const result = await login(formData.email, formData.password);
+
+      if (result.success) {
+        navigate('/dashboard');
+      } else {
+        setSubmitError(result.message);
+      }
     } catch (error) {
       setSubmitError('An unexpected error occurred. Please try again.');
     } finally {
       setIsLoading(false);
     }
-  };
+  }, [formData, login, navigate]);
+
+  if (isAuthenticated) {
+    navigate('/dashboard');
+    return null;
+  }
 
   return (
     <div className="container">
@@ -99,9 +97,8 @@ const Login = () => {
               className={errors.email ? 'error' : ''}
               placeholder="Enter your email"
               disabled={isLoading}
-              required
               aria-label="Email Address"
-              autoComplete="email"
+              required
             />
             {errors.email && <div className="error">{errors.email}</div>}
           </div>
@@ -117,9 +114,8 @@ const Login = () => {
               className={errors.password ? 'error' : ''}
               placeholder="Enter your password"
               disabled={isLoading}
-              required
               aria-label="Password"
-              autoComplete="current-password"
+              required
             />
             {errors.password && <div className="error">{errors.password}</div>}
           </div>
