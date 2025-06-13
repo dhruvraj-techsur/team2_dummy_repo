@@ -1,7 +1,8 @@
-import React, { useState } from 'react';
-import PropTypes from 'prop-types';
+import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useAuth } from '../contexts/AuthContext';
+import PropTypes from 'prop-types';
+import dashboardData from '../data/dashboardData.json';
 import styles from './Dashboard.module.css';
 
 const Dashboard = () => {
@@ -10,10 +11,11 @@ const Dashboard = () => {
   const [isLoggingOut, setIsLoggingOut] = useState(false);
   const [isLoading, setIsLoading] = useState(true);
 
-  if (!user) {
-    console.error('User data not available');
-    return <div>Error: User data not available</div>;
-  }
+  useEffect(() => {
+    if (user) {
+      setIsLoading(false);
+    }
+  }, [user]);
 
   const handleLogout = async () => {
     setIsLoggingOut(true);
@@ -26,39 +28,20 @@ const Dashboard = () => {
     }
   };
 
-  const dashboardData = [
-    {
-      id: 'total-projects',
-      title: 'Total Projects',
-      value: '12',
-      description: 'Active projects in your portfolio'
-    },
-    {
-      id: 'tasks-completed',
-      title: 'Tasks Completed',
-      value: '89',
-      description: 'Tasks completed this month'
-    },
-    {
-      id: 'team-members',
-      title: 'Team Members',
-      value: '8',
-      description: 'Active team members'
-    },
-    {
-      id: 'performance-score',
-      title: 'Performance Score',
-      value: '94%',
-      description: 'Your overall performance rating'
-    }
-  ];
+  if (isLoading) {
+    return <div>Loading...</div>;
+  }
+
+  if (!user) {
+    return <div>Error: User data not available</div>;
+  }
 
   return (
     <div className={styles.container}>
       <div className={styles.dashboard}>
         <div className={styles.dashboardHeader}>
           <div>
-            <h1>Welcome, {user?.name || 'User'}!</h1>
+            <h1>Welcome, {user.name}!</h1>
             <p>Here's your personalized dashboard overview</p>
           </div>
           <button 
@@ -72,7 +55,7 @@ const Dashboard = () => {
 
         <div className={styles.dashboardContent}>
           {dashboardData.map((item) => (
-            <div key={item.id} className={styles.dashboardCard}>
+            <div key={item.title} className={styles.dashboardCard}>
               <h3>{item.title}</h3>
               <p className={styles.dashboardCardValue}>
                 {item.value}
