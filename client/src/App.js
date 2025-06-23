@@ -1,31 +1,21 @@
-import React, { Suspense, lazy } from 'react';
-import { HashRouter as Router, Switch, Route, Redirect } from 'react-router-dom';
+import React from 'react';
+import { BrowserRouter as Router, Routes, Route, Navigate } from 'react-router-dom';
 import { AuthProvider } from './contexts/AuthContext';
+import Login from './components/Login';
+import Dashboard from './components/Dashboard';
 import ProtectedRoute from './components/ProtectedRoute';
-
-const Login = lazy(() => import('./components/Login'));
-const Dashboard = lazy(() => import('./components/Dashboard'));
 
 function App() {
   return (
-    <React.StrictMode>
-      <AuthProvider>
-        <Router>
-          <Suspense fallback={<div>Loading...</div>}>
-            <Switch>
-              <Route exact path="/login" component={Login} />
-              <ProtectedRoute exact path="/dashboard" component={Dashboard} />
-              <Route exact path="/">
-                <Redirect to="/login" />
-              </Route>
-              <Route path="*">
-                <div>404 Not Found</div>
-              </Route>
-            </Switch>
-          </Suspense>
-        </Router>
-      </AuthProvider>
-    </React.StrictMode>
+    <AuthProvider>
+      <Router>
+        <Routes>
+          <Route path="/login" element={<Login />} />
+          <Route path="/dashboard" element={<ProtectedRoute><Dashboard /></ProtectedRoute>} />
+          <Route path="/" element={<Navigate to="/login" replace />} />
+        </Routes>
+      </Router>
+    </AuthProvider>
   );
 }
 
