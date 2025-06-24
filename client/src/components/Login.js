@@ -43,6 +43,10 @@ const Login = () => {
         [name]: ''
       }));
     }
+
+    if (submitError) {
+      setSubmitError('');
+    }
   };
 
   const handleSubmit = async (e) => {
@@ -50,6 +54,7 @@ const Login = () => {
 
     const emailError = validateEmail(formData.email);
     const passwordError = validatePassword(formData.password);
+
     if (emailError || passwordError) {
       setErrors({
         email: emailError,
@@ -61,22 +66,13 @@ const Login = () => {
     setIsLoading(true);
     setSubmitError('');
 
-    try {
-      const result = await login(formData.email, formData.password);
-
-      if (result.success) {
-        if (isAuthenticated) {
-          navigate('/dashboard');
-        }
-      } else {
-        setSubmitError(result.message);
-      }
-    } catch (error) {
-      setSubmitError('An unexpected error occurred. Please try again.');
-    } finally {
-      setIsLoading(false);
-    }
+    await login(formData.email, formData.password);
   };
+
+  if (isAuthenticated) {
+    navigate('/dashboard');
+    return null;
+  }
 
   return (
     <div className="container">
@@ -96,8 +92,7 @@ const Login = () => {
               onChange={handleInputChange}
               className={errors.email ? 'error' : ''}
               placeholder="Enter your email"
-              required
-              aria-label="Email Address"
+              disabled={isLoading}
             />
             {errors.email && <div className="error">{errors.email}</div>}
           </div>
@@ -112,8 +107,7 @@ const Login = () => {
               onChange={handleInputChange}
               className={errors.password ? 'error' : ''}
               placeholder="Enter your password"
-              required
-              aria-label="Password"
+              disabled={isLoading}
             />
             {errors.password && <div className="error">{errors.password}</div>}
           </div>
