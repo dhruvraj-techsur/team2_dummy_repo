@@ -1,6 +1,22 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useAuth } from '../contexts/AuthContext';
+
+const validateEmail = (email) => {
+  if (!email) {
+    return 'Email is required';
+  } else if (!/\S+@\S+\.\S+/.test(email)) {
+    return 'Please enter a valid email address';
+  }
+  return '';
+};
+
+const validatePassword = (password) => {
+  if (!password) {
+    return 'Password is required';
+  }
+  return '';
+};
 
 const Login = () => {
   const [formData, setFormData] = useState({
@@ -14,32 +30,6 @@ const Login = () => {
   const { login, isAuthenticated } = useAuth();
   const navigate = useNavigate();
 
-  // Redirect if already authenticated
-  useEffect(() => {
-    if (isAuthenticated) {
-      navigate('/dashboard');
-    }
-  }, [isAuthenticated, navigate]);
-
-  const validateForm = () => {
-    const newErrors = {};
-
-    // Email validation
-    if (!formData.email) {
-      newErrors.email = 'Email is required';
-    } else if (!/\S+@\S+\.\S+/.test(formData.email)) {
-      newErrors.email = 'Please enter a valid email address';
-    }
-
-    // Password validation
-    if (!formData.password) {
-      newErrors.password = 'Password is required';
-    }
-
-    setErrors(newErrors);
-    return Object.keys(newErrors).length === 0;
-  };
-
   const handleInputChange = (e) => {
     const { name, value } = e.target;
     setFormData(prev => ({
@@ -47,24 +37,24 @@ const Login = () => {
       [name]: value
     }));
 
-    // Clear field-specific error when user starts typing
     if (errors[name]) {
       setErrors(prev => ({
         ...prev,
         [name]: ''
       }));
     }
-
-    // Clear submit error when user makes changes
-    if (submitError) {
-      setSubmitError('');
-    }
   };
 
   const handleSubmit = async (e) => {
     e.preventDefault();
 
-    if (!validateForm()) {
+    const emailError = validateEmail(formData.email);
+    const passwordError = validatePassword(formData.password);
+    if (emailError || passwordError) {
+      setErrors({
+        email: emailError,
+        password: passwordError
+      });
       return;
     }
 
@@ -75,7 +65,9 @@ const Login = () => {
       const result = await login(formData.email, formData.password);
 
       if (result.success) {
-        navigate('/dashboard');
+        if (isAuthenticated) {
+          navigate('/dashboard');
+        }
       } else {
         setSubmitError(result.message);
       }
@@ -104,7 +96,8 @@ const Login = () => {
               onChange={handleInputChange}
               className={errors.email ? 'error' : ''}
               placeholder="Enter your email"
-              disabled={isLoading}
+              required
+              aria-label="Email Address"
             />
             {errors.email && <div className="error">{errors.email}</div>}
           </div>
@@ -119,7 +112,8 @@ const Login = () => {
               onChange={handleInputChange}
               className={errors.password ? 'error' : ''}
               placeholder="Enter your password"
-              disabled={isLoading}
+              required
+              aria-label="Password"
             />
             {errors.password && <div className="error">{errors.password}</div>}
           </div>
@@ -149,4 +143,4 @@ const Login = () => {
   );
 };
 
-export default Login; 
+export default Login;
