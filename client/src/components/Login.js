@@ -52,34 +52,40 @@ const Login = () => {
   const handleSubmit = async (e) => {
     e.preventDefault();
 
+    if (isAuthenticated || isLoading) {
+      return;
+    }
+
     const emailError = validateEmail(formData.email);
     const passwordError = validatePassword(formData.password);
+    setErrors({ email: emailError, password: passwordError });
 
     if (emailError || passwordError) {
-      setErrors({
-        email: emailError,
-        password: passwordError
-      });
       return;
     }
 
     setIsLoading(true);
     setSubmitError('');
 
-    await login(formData.email, formData.password);
-  };
+    try {
+      const result = await login(formData.email, formData.password);
 
-  if (isAuthenticated) {
-    navigate('/dashboard');
-    return null;
-  }
+      if (result.success) {
+        navigate('/dashboard');
+      } else {
+        setSubmitError(result.message);
+      }
+    } catch (error) {
+      setSubmitError('An unexpected error occurred. Please try again.');
+    } finally {
+      setIsLoading(false);
+    }
+  };
 
   return (
     <div className="container">
       <div className="card">
-        <h1 style={{ textAlign: 'center', marginBottom: '2rem', color: '#333' }}>
-          Welcome Back
-        </h1>
+        <h1 className="welcome-text">Welcome Back</h1>
 
         <form onSubmit={handleSubmit}>
           <div className="form-group">
@@ -92,7 +98,7 @@ const Login = () => {
               onChange={handleInputChange}
               className={errors.email ? 'error' : ''}
               placeholder="Enter your email"
-              disabled={isLoading}
+              required
             />
             {errors.email && <div className="error">{errors.email}</div>}
           </div>
@@ -107,13 +113,13 @@ const Login = () => {
               onChange={handleInputChange}
               className={errors.password ? 'error' : ''}
               placeholder="Enter your password"
-              disabled={isLoading}
+              required
             />
             {errors.password && <div className="error">{errors.password}</div>}
           </div>
 
           {submitError && (
-            <div className="error" style={{ textAlign: 'center', marginBottom: '1rem' }}>
+            <div className="error submit-error">
               {submitError}
             </div>
           )}
@@ -121,17 +127,10 @@ const Login = () => {
           <button 
             type="submit" 
             className={`btn btn-primary ${isLoading ? 'loading' : ''}`}
-            disabled={isLoading}
           >
             {isLoading ? 'Signing In...' : 'Sign In'}
           </button>
         </form>
-
-        <div style={{ marginTop: '2rem', textAlign: 'center', color: '#666' }}>
-          <p><strong>Demo Credentials:</strong></p>
-          <p>Email: user@example.com</p>
-          <p>Password: password</p>
-        </div>
       </div>
     </div>
   );
