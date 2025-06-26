@@ -3,43 +3,59 @@ const readline = require('readline').createInterface({
   output: process.stdout
 });
 
-function add(a, b) {
-  return a + b;
-}
-
-function subtract(a, b) {
-  return a - b;
-}
-
-function multiply(a, b) {
-  return a * b;
-}
-
-function divide(a, b) {
-  if (b === 0) {
-    return 'Error: Division by zero';
+class Calculator {
+  add(a, b) {
+    return a + b;
   }
-  return a / b;
+
+  subtract(a, b) {
+    return a - b;
+  }
+
+  multiply(a, b) {
+    return a * b;
+  }
+
+  divide(a, b) {
+    if (b === 0) {
+      return 'Error: Division by zero';
+    }
+    return a / b;
+  }
 }
+
+const calculator = new Calculator();
 
 readline.question('Enter first number: ', (num1) => {
+  const a = parseFloat(num1);
+  if (isNaN(a)) {
+    console.log('Invalid number');
+    readline.close();
+    return;
+  }
+
   readline.question('Enter second number: ', (num2) => {
+    const b = parseFloat(num2);
+    if (isNaN(b)) {
+      console.log('Invalid number');
+      readline.close();
+      return;
+    }
+
     readline.question('Choose operation (add, subtract, multiply, divide): ', (op) => {
-      const a = parseFloat(num1);
-      const b = parseFloat(num2);
       let result;
       switch(op) {
         case 'add':
-          result = add(a, b);
+          result = calculator.add(a, b);
           break;
         case 'subtract':
-          result = subtract(a, b);
+          result = calculator.subtract(a, b);
           break;
         case 'multiply':
-          result = multiply(a, b);
+          result = calculator.multiply(a, b);
           break;
         case 'divide':
-          result = divide(a, b);
+          result = calculator.divide(a, b);
           break;
         default:
           result = 'Invalid operation';
@@ -48,4 +64,4 @@ readline.question('Enter first number: ', (num1) => {
       readline.close();
     });
   });
-}); 
+});
