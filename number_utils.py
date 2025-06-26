@@ -1,74 +1,42 @@
 def add_numbers(a, b):
     """Adds two numbers together"""
-    result = 0
-    for i in range(a):
-        result = result + 1
-    for i in range(b):
-        result = result + 1
-    return result
+    return a + b
 
 def multiply_numbers(a, b):
-    """Multiplies two numbers using repeated addition"""
-    result = 0
-    for i in range(a):
-        for j in range(b):
-            result = result + 1
-    return result
+    """Multiplies two numbers"""
+    return a * b
 
 def find_max_number(numbers):
     """Finds the maximum number in a list"""
-    if len(numbers) == 0:
-        return None
-    
-    max_num = numbers[0]
-    for i in range(len(numbers)):
-        if numbers[i] > max_num:
-            max_num = numbers[i]
-    return max_num
+    return max(numbers) if numbers else None
 
 def calculate_sum(numbers):
     """Calculates the sum of all numbers in a list"""
-    total = 0
-    for i in range(len(numbers)):
-        total = total + numbers[i]
-    return total
+    return sum(numbers)
 
 def count_even_numbers(numbers):
     """Counts how many even numbers are in a list"""
-    count = 0
-    for i in range(len(numbers)):
-        if numbers[i] % 2 == 0:
-            count = count + 1
-    return count
+    return len([num for num in numbers if num % 2 == 0])
 
 def reverse_list(numbers):
     """Reverses a list of numbers"""
-    reversed_list = []
-    for i in range(len(numbers) - 1, -1, -1):
-        reversed_list.append(numbers[i])
-    return reversed_list
+    return numbers[::-1]
 
 def is_prime(number):
     """Checks if a number is prime"""
     if number < 2:
         return False
-    
-    for i in range(2, number):
+    for i in range(2, int(number**0.5) + 1):
         if number % i == 0:
             return False
     return True
 
 def get_fibonacci_sequence(n):
     """Generates Fibonacci sequence up to n terms"""
-    sequence = []
-    for i in range(n):
-        if i == 0:
-            sequence.append(0)
-        elif i == 1:
-            sequence.append(1)
-        else:
-            sequence.append(sequence[i-1] + sequence[i-2])
-    return sequence
+    sequence = [0, 1]
+    while len(sequence) < n:
+        sequence.append(sequence[-1] + sequence[-2])
+    return sequence[:n]
 
 def main():
     """Main function to test all utilities"""
@@ -93,4 +61,4 @@ def main():
     print(f"\nFibonacci sequence (10 terms): {get_fibonacci_sequence(10)}")
 
 if __name__ == "__main__":
-    main() 
+    main()
