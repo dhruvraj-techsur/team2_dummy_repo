@@ -3,49 +3,57 @@ const readline = require('readline').createInterface({
   output: process.stdout
 });
 
-function add(a, b) {
-  return a + b;
-}
-
-function subtract(a, b) {
-  return a - b;
-}
-
-function multiply(a, b) {
-  return a * b;
-}
-
-function divide(a, b) {
-  if (b === 0) {
-    return 'Error: Division by zero';
+class Calculator {
+  add(a, b) {
+    return a + b;
   }
-  return a / b;
+
+  subtract(a, b) {
+    return a - b;
+  }
+
+  multiply(a, b) {
+    return a * b;
+  }
+
+  divide(a, b) {
+    if (b === 0) {
+      return 'Error: Division by zero';
+    }
+    return a / b;
+  }
 }
 
-readline.question('Enter first number: ', (num1) => {
-  readline.question('Enter second number: ', (num2) => {
-    readline.question('Choose operation (add, subtract, multiply, divide): ', (op) => {
-      const a = parseFloat(num1);
-      const b = parseFloat(num2);
-      let result;
-      switch(op) {
-        case 'add':
-          result = add(a, b);
-          break;
-        case 'subtract':
-          result = subtract(a, b);
-          break;
-        case 'multiply':
-          result = multiply(a, b);
-          break;
-        case 'divide':
-          result = divide(a, b);
-          break;
-        default:
-          result = 'Invalid operation';
-      }
-      console.log('Result:', result);
-      readline.close();
-    });
+const calculator = new Calculator();
+const operations = {
+  'add': calculator.add,
+  'subtract': calculator.subtract,
+  'multiply': calculator.multiply,
+  'divide': calculator.divide
+};
+
+function getNumberInput(promptText) {
+  readline.question(promptText, (num) => {
+    const parsedNum = parseFloat(num);
+    if (isNaN(parsedNum)) {
+      console.log('Invalid number. Please try again.');
+      getNumberInput(promptText);
+    } else {
+      return parsedNum;
+    }
   });
-}); 
+}
+
+const num1 = getNumberInput('Enter first number: ');
+const num2 = getNumberInput('Enter second number: ');
+
+readline.question('Choose operation (add, subtract, multiply, divide): ', (op) => {
+  if (!operations.hasOwnProperty(op)) {
+    console.log('Invalid operation. Please try again.');
+    readline.question('Choose operation (add, subtract, multiply, divide): ', op);
+  } else {
+    const result = operations[op](num1, num2);
+    console.log('Result:', result);
+    readline.close();
+  }
+});
