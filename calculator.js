@@ -1,62 +1,67 @@
-const readline = require('readline').createInterface({
-  input: process.stdin,
-  output: process.stdout
-});
+const readline = require('readline');
 
-function add(a, b) {
-  return a + b;
+function createReadlineInterface() {
+  return readline.createInterface({
+    input: process.stdin,
+    output: process.stdout
+  });
 }
 
-function subtract(a, b) {
-  return a - b;
-}
-
-function multiply(a, b) {
-  return a * b;
-}
-
-function divide(a, b) {
-  if (b === 0) {
-    return 'Error: Division by zero';
-  }
-  return a / b;
-}
-
-function calculate(a, b, op) {
-  switch(op) {
-    case 'add':
-      return add(a, b);
-    case 'subtract':
-      return subtract(a, b);
-    case 'multiply':
-      return multiply(a, b);
-    case 'divide':
-      return divide(a, b);
-    default:
-      return 'Invalid operation';
-  }
-}
-
-readline.question('Enter first number: ', (num1) => {
-  const a = parseFloat(num1);
-  if (isNaN(a)) {
+function validateNumber(num) {
+  const parsedNum = parseFloat(num);
+  if (isNaN(parsedNum)) {
     console.log('Error: Invalid number');
-    readline.close();
+    return null;
+  }
+  return parsedNum;
+}
+
+function askQuestion(rl, question) {
+  return new Promise((resolve) => {
+    rl.question(question, resolve);
+  });
+}
+
+const operations = {
+  add: (a, b) => a + b,
+  subtract: (a, b) => a - b,
+  multiply: (a, b) => a * b,
+  divide: (a, b) => {
+    if (b === 0) {
+      return 'Error: Division by zero';
+    }
+    return a / b;
+  }
+};
+
+async function main() {
+  const rl = createReadlineInterface();
+
+  const num1 = await askQuestion(rl, 'Enter first number: ');
+  const a = validateNumber(num1);
+  if (a === null) {
+    rl.close();
     return;
   }
 
-  readline.question('Enter second number: ', (num2) => {
-    const b = parseFloat(num2);
-    if (isNaN(b)) {
-      console.log('Error: Invalid number');
-      readline.close();
-      return;
-    }
+  const num2 = await askQuestion(rl, 'Enter second number: ');
+  const b = validateNumber(num2);
+  if (b === null) {
+    rl.close();
+    return;
+  }
 
-    readline.question('Choose operation (add, subtract, multiply, divide): ', (op) => {
-      const result = calculate(a, b, op);
-      console.log(`Result: ${result}`);
-      readline.close();
-    });
-  });
-});
+  const op = await askQuestion(rl, 'Choose operation (add, subtract, multiply, divide): ');
+  const operation = operations[op];
+  if (!operation) {
+    console.log('Error: Invalid operation');
+    rl.close();
+    return;
+  }
+
+  const result = operation(a, b);
+  console.log(`Result: ${result}`);
+  rl.close();
+}
+
+main();
