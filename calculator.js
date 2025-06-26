@@ -3,49 +3,50 @@ const readline = require('readline').createInterface({
   output: process.stdout
 });
 
-function add(a, b) {
-  return a + b;
-}
-
-function subtract(a, b) {
-  return a - b;
-}
-
-function multiply(a, b) {
-  return a * b;
-}
-
-function divide(a, b) {
-  if (b === 0) {
-    return 'Error: Division by zero';
+const operations = {
+  add: (a, b) => a + b,
+  subtract: (a, b) => a - b,
+  multiply: (a, b) => a * b,
+  divide: (a, b) => {
+    if (b === 0) {
+      throw new Error('Division by zero');
+    }
+    return a / b;
   }
-  return a / b;
-}
+};
 
 readline.question('Enter first number: ', (num1) => {
+  const a = parseFloat(num1);
+  if (isNaN(a)) {
+    console.log('Invalid number');
+    readline.close();
+    return;
+  }
+
   readline.question('Enter second number: ', (num2) => {
-    readline.question('Choose operation (add, subtract, multiply, divide): ', (op) => {
-      const a = parseFloat(num1);
-      const b = parseFloat(num2);
-      let result;
-      switch(op) {
-        case 'add':
-          result = add(a, b);
-          break;
-        case 'subtract':
-          result = subtract(a, b);
-          break;
-        case 'multiply':
-          result = multiply(a, b);
-          break;
-        case 'divide':
-          result = divide(a, b);
-          break;
-        default:
-          result = 'Invalid operation';
-      }
-      console.log('Result:', result);
+    const b = parseFloat(num2);
+    if (isNaN(b)) {
+      console.log('Invalid number');
       readline.close();
+      return;
+    }
+
+    readline.question('Choose operation (add, subtract, multiply, divide): ', (op) => {
+      const operation = operations[op];
+      if (!operation) {
+        console.log('Invalid operation');
+        readline.close();
+        return;
+      }
+
+      try {
+        const result = operation(a, b);
+        console.log('Result:', result);
+      } catch (error) {
+        console.log('Error:', error.message);
+      } finally {
+        readline.close();
+      }
     });
   });
-}); 
+});
