@@ -17,9 +17,25 @@ function validateNumber(num) {
 }
 
 function askQuestion(rl, question) {
-  return new Promise((resolve) => {
-    rl.question(question, resolve);
+  return new Promise((resolve, reject) => {
+    rl.question(question, (answer) => {
+      if (answer === '') {
+        reject('Error: No input provided');
+      } else {
+        resolve(answer);
+      }
+    });
   });
+}
+
+async function validateAndAskQuestion(rl, question) {
+  const num = await askQuestion(rl, question);
+  const validatedNum = validateNumber(num);
+  if (validatedNum === null) {
+    rl.close();
+    throw 'Error: Invalid number';
+  }
+  return validatedNum;
 }
 
 const operations = {
@@ -28,40 +44,32 @@ const operations = {
   multiply: (a, b) => a * b,
   divide: (a, b) => {
     if (b === 0) {
-      return 'Error: Division by zero';
+      throw 'Error: Division by zero';
     }
     return a / b;
   }
 };
 
-async function main() {
-  const rl = createReadlineInterface();
-
-  const num1 = await askQuestion(rl, 'Enter first number: ');
-  const a = validateNumber(num1);
-  if (a === null) {
-    rl.close();
-    return;
-  }
-
-  const num2 = await askQuestion(rl, 'Enter second number: ');
-  const b = validateNumber(num2);
-  if (b === null) {
-    rl.close();
-    return;
-  }
-
-  const op = await askQuestion(rl, 'Choose operation (add, subtract, multiply, divide): ');
+function executeOperation(a, b, op) {
   const operation = operations[op];
   if (!operation) {
-    console.log('Error: Invalid operation');
-    rl.close();
-    return;
+    throw 'Error: Invalid operation';
   }
-
   const result = operation(a, b);
   console.log(`Result: ${result}`);
-  rl.close();
+}
+
+async function main() {
+  try {
+    const rl = createReadlineInterface();
+    const a = await validateAndAskQuestion(rl, 'Enter first number: ');
+    const b = await validateAndAskQuestion(rl, 'Enter second number: ');
+    const op = await askQuestion(rl, 'Choose operation (add, subtract, multiply, divide): ');
+    executeOperation(a, b, op);
+    rl.close();
+  } catch (error) {
+    console.log(error);
+  }
 }
 
 main();
