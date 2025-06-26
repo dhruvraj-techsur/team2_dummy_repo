@@ -22,30 +22,41 @@ function divide(a, b) {
   return a / b;
 }
 
+function calculate(a, b, op) {
+  switch(op) {
+    case 'add':
+      return add(a, b);
+    case 'subtract':
+      return subtract(a, b);
+    case 'multiply':
+      return multiply(a, b);
+    case 'divide':
+      return divide(a, b);
+    default:
+      return 'Invalid operation';
+  }
+}
+
 readline.question('Enter first number: ', (num1) => {
+  const a = parseFloat(num1);
+  if (isNaN(a)) {
+    console.log('Error: Invalid number');
+    readline.close();
+    return;
+  }
+
   readline.question('Enter second number: ', (num2) => {
+    const b = parseFloat(num2);
+    if (isNaN(b)) {
+      console.log('Error: Invalid number');
+      readline.close();
+      return;
+    }
+
     readline.question('Choose operation (add, subtract, multiply, divide): ', (op) => {
-      const a = parseFloat(num1);
-      const b = parseFloat(num2);
-      let result;
-      switch(op) {
-        case 'add':
-          result = add(a, b);
-          break;
-        case 'subtract':
-          result = subtract(a, b);
-          break;
-        case 'multiply':
-          result = multiply(a, b);
-          break;
-        case 'divide':
-          result = divide(a, b);
-          break;
-        default:
-          result = 'Invalid operation';
-      }
-      console.log('Result:', result);
+      const result = calculate(a, b, op);
+      console.log(`Result: ${result}`);
       readline.close();
     });
   });
-}); 
+});
