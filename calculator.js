@@ -7,13 +7,16 @@ function createReadlineInterface() {
   });
 }
 
-function validateNumber(num) {
-  const parsedNum = parseFloat(num);
-  if (isNaN(parsedNum)) {
-    console.log('Error: Invalid number');
-    return null;
-  }
-  return parsedNum;
+function validateAndParseNumber(rl, question) {
+  return new Promise(async (resolve) => {
+    const num = await askQuestion(rl, question);
+    const parsedNum = parseFloat(num);
+    if (isNaN(parsedNum)) {
+      console.log('Error: Invalid number');
+      resolve(null);
+    }
+    resolve(parsedNum);
+  });
 }
 
 function askQuestion(rl, question) {
@@ -34,33 +37,41 @@ const operations = {
   }
 };
 
+function executeOperationAndPrintResult(rl, a, b) {
+  return new Promise(async (resolve) => {
+    const op = await askQuestion(rl, 'Choose operation (add, subtract, multiply, divide): ');
+    const operation = operations[op];
+    if (typeof operation !== 'function') {
+      console.log('Error: Invalid operation');
+      resolve(false);
+    }
+    const result = operation(a, b);
+    console.log(`Result: ${result}`);
+    resolve(true);
+  });
+}
+
 async function main() {
   const rl = createReadlineInterface();
 
-  const num1 = await askQuestion(rl, 'Enter first number: ');
-  const a = validateNumber(num1);
+  const a = await validateAndParseNumber(rl, 'Enter first number: ');
   if (a === null) {
     rl.close();
     return;
   }
 
-  const num2 = await askQuestion(rl, 'Enter second number: ');
-  const b = validateNumber(num2);
+  const b = await validateAndParseNumber(rl, 'Enter second number: ');
   if (b === null) {
     rl.close();
     return;
   }
 
-  const op = await askQuestion(rl, 'Choose operation (add, subtract, multiply, divide): ');
-  const operation = operations[op];
-  if (!operation) {
-    console.log('Error: Invalid operation');
+  const operationSuccessful = await executeOperationAndPrintResult(rl, a, b);
+  if (!operationSuccessful) {
     rl.close();
     return;
   }
 
-  const result = operation(a, b);
-  console.log(`Result: ${result}`);
   rl.close();
 }
 
