@@ -24,36 +24,48 @@ def kelvin_to_fahrenheit(kelvin):
     celsius = kelvin_to_celsius(kelvin)
     return celsius_to_fahrenheit(celsius)
 
+def validate_input(temp, unit):
+    """Validate user input for temperature and unit"""
+    try:
+        temp = float(temp)
+        unit = unit.upper()
+        if unit not in ['C', 'F', 'K']:
+            raise ValueError
+        return temp, unit
+    except ValueError:
+        print("Invalid input! Please enter a number for temperature and C, F, or K for unit.")
+        return None, None
+
+def print_converted_temperatures(temp, unit, conversions):
+    """Print the converted temperatures"""
+    for symbol, conversion in conversions.items():
+        if symbol != unit:
+            print(f"{temp}{unit} = {conversion(temp):.2f}{symbol}")
+
 def main():
     """Main function to run the temperature converter"""
     print("Temperature Converter")
     print("====================")
     
-    try:
-        # Get temperature and unit from user
-        temp = float(input("Enter temperature: "))
-        unit = input("Enter unit (C/F/K): ").upper()
-        
-        if unit == 'C':
-            f = celsius_to_fahrenheit(temp)
-            k = celsius_to_kelvin(temp)
-            print(f"{temp}°C = {f:.2f}°F = {k:.2f}K")
-            
-        elif unit == 'F':
-            c = fahrenheit_to_celsius(temp)
-            k = fahrenheit_to_kelvin(temp)
-            print(f"{temp}°F = {c:.2f}°C = {k:.2f}K")
-            
-        elif unit == 'K':
-            c = kelvin_to_celsius(temp)
-            f = kelvin_to_fahrenheit(temp)
-            print(f"{temp}K = {c:.2f}°C = {f:.2f}°F")
-            
-        else:
-            print("Invalid unit! Please use C, F, or K.")
-            
-    except ValueError:
-        print("Invalid temperature! Please enter a number.")
+    conversions = {
+        'C': {
+            'F': celsius_to_fahrenheit,
+            'K': celsius_to_kelvin
+        },
+        'F': {
+            'C': fahrenheit_to_celsius,
+            'K': fahrenheit_to_kelvin
+        },
+        'K': {
+            'C': kelvin_to_celsius,
+            'F': kelvin_to_fahrenheit
+        }
+    }
+    
+    temp, unit = validate_input(input("Enter temperature: "), input("Enter unit (C/F/K): "))
+    
+    if temp is not None and unit is not None:
+        print_converted_temperatures(temp, unit, conversions[unit])
 
 if __name__ == "__main__":
-    main() 
+    main()
