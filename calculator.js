@@ -10,7 +10,7 @@ function createReadlineInterface() {
 function validateNumber(num) {
   const parsedNum = parseFloat(num);
   if (isNaN(parsedNum)) {
-    console.log('Error: Invalid number');
+    console.log('Error: Input is not a valid number');
     return null;
   }
   return parsedNum;
@@ -26,13 +26,25 @@ const operations = {
   add: (a, b) => a + b,
   subtract: (a, b) => a - b,
   multiply: (a, b) => a * b,
-  divide: (a, b) => {
-    if (b === 0) {
-      return 'Error: Division by zero';
-    }
-    return a / b;
-  }
+  divide: (a, b) => a / b
 };
+
+function validateOperation(op) {
+  const operation = operations[op];
+  if (!operation) {
+    console.log('Error: Invalid operation. Choose from add, subtract, multiply, divide');
+    return null;
+  }
+  return operation;
+}
+
+function executeOperation(operation, a, b) {
+  if (operation === operations.divide && b === 0) {
+    console.log('Error: Division by zero is not allowed');
+    return null;
+  }
+  return operation(a, b);
+}
 
 async function main() {
   const rl = createReadlineInterface();
@@ -52,15 +64,16 @@ async function main() {
   }
 
   const op = await askQuestion(rl, 'Choose operation (add, subtract, multiply, divide): ');
-  const operation = operations[op];
+  const operation = validateOperation(op);
   if (!operation) {
-    console.log('Error: Invalid operation');
     rl.close();
     return;
   }
 
-  const result = operation(a, b);
-  console.log(`Result: ${result}`);
+  const result = executeOperation(operation, a, b);
+  if (result !== null) {
+    console.log(`Result: ${result}`);
+  }
   rl.close();
 }
 
