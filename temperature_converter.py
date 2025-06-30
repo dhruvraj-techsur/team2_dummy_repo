@@ -24,6 +24,20 @@ def kelvin_to_fahrenheit(kelvin):
     celsius = kelvin_to_celsius(kelvin)
     return celsius_to_fahrenheit(celsius)
 
+def convert_temperature(temp, unit):
+    """Convert temperature based on the provided unit"""
+    conversion_functions = {
+        'C': {'F': celsius_to_fahrenheit, 'K': celsius_to_kelvin},
+        'F': {'C': fahrenheit_to_celsius, 'K': fahrenheit_to_kelvin},
+        'K': {'C': kelvin_to_celsius, 'F': kelvin_to_fahrenheit}
+    }
+    return {unit_to: func(temp) for unit_to, func in conversion_functions[unit].items()}
+
+def print_converted_temperatures(temp, unit, converted_temps):
+    """Print the converted temperatures"""
+    for unit_to, converted_temp in converted_temps.items():
+        print(f"{temp}{unit} = {converted_temp:.2f}{unit_to}")
+
 def main():
     """Main function to run the temperature converter"""
     print("Temperature Converter")
@@ -34,21 +48,9 @@ def main():
         temp = float(input("Enter temperature: "))
         unit = input("Enter unit (C/F/K): ").upper()
         
-        if unit == 'C':
-            f = celsius_to_fahrenheit(temp)
-            k = celsius_to_kelvin(temp)
-            print(f"{temp}°C = {f:.2f}°F = {k:.2f}K")
-            
-        elif unit == 'F':
-            c = fahrenheit_to_celsius(temp)
-            k = fahrenheit_to_kelvin(temp)
-            print(f"{temp}°F = {c:.2f}°C = {k:.2f}K")
-            
-        elif unit == 'K':
-            c = kelvin_to_celsius(temp)
-            f = kelvin_to_fahrenheit(temp)
-            print(f"{temp}K = {c:.2f}°C = {f:.2f}°F")
-            
+        if unit in ['C', 'F', 'K']:
+            converted_temps = convert_temperature(temp, unit)
+            print_converted_temperatures(temp, unit, converted_temps)
         else:
             print("Invalid unit! Please use C, F, or K.")
             
@@ -56,4 +58,4 @@ def main():
         print("Invalid temperature! Please enter a number.")
 
 if __name__ == "__main__":
-    main() 
+    main()
