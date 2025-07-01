@@ -8,7 +8,7 @@ dist-ssr/
 coverage/
 *.tsbuildinfo
 
-# Logs
+# Log files
 logs/
 *.log
 npm-debug.log*
@@ -18,22 +18,21 @@ pnpm-debug.log*
 lerna-debug.log*
 
 # Local environment variables
-.env
-.env.*
+.env*
 *.local
 
-# Editor directories and project files
-.vscode/
+# Editor directories and files
+.vscode/*
 !.vscode/extensions.json
+!.vscode/settings.json
 .idea/
+.history/
+.DS_Store
+Thumbs.db
 *.suo
 *.ntvs*
 *.njsproj
 *.sln
 *.sw?
 
-# OS-specific files
-.DS_Store
-Thumbs.db
-ehthumbs.db
-Icon?
+# Miscellaneous
