@@ -1,15 +1,7 @@
-# React Login & Dashboard App
+# Client App – React + TypeScript + Vite
 
-A minimal React + TypeScript + Vite application implementing user authentication (login, dashboard, logout) with client-side validation and protected routes.
+This is the client-side application for the project, built with React, TypeScript, and Vite.
 
-## Features
+## 🚀 Getting Started
 
-- Login form with email/password and validation
-- Error handling and loading states
-- JWT/session-based authentication
-- Protected dashboard route (only accessible when logged in)
-- Logout functionality
-
-## Getting Started
-
-### Install dependencies
+1. **Install dependencies:**
