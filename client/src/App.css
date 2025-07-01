@@ -5,6 +5,16 @@
   text-align: center;
 }
 
+/* App container */
+.App {
+  background: #181a20;
+  border-radius: 12px;
+  box-shadow: 0 2px 16px 0 rgba(0,0,0,0.12);
+  padding: 2.5rem 2rem 2rem 2rem;
+  max-width: 400px;
+  margin: 2rem auto;
+}
+
 .logo {
   height: 6em;
   padding: 1.5em;
@@ -39,4 +49,113 @@
 
 .read-the-docs {
   color: #888;
+}
+
+/* Login Form Styles */
+form {
+  display: flex;
+  flex-direction: column;
+  gap: 1.25rem;
+  margin-top: 1.5rem;
+}
+
+.form-group {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 0.5rem;
+}
+
+label {
+  font-size: 1rem;
+  font-weight: 500;
+  color: #e0e0e0;
+}
+
+input[type="email"],
+input[type="password"] {
+  width: 100%;
+  padding: 0.6em 0.9em;
+  border: 1px solid #33384d;
+  border-radius: 6px;
+  background: #23263a;
+  color: #fff;
+  font-size: 1em;
+  transition: border-color 0.2s, box-shadow 0.2s;
+}
+
+input[type="email"]:focus,
+input[type="password"]:focus {
+  border-color: #646cff;
+  outline: none;
+  box-shadow: 0 0 0 2px #646cff33;
+}
+
+.error {
+  color: #ff4d4f;
+  font-size: 0.95em;
+  margin-top: 0.2em;
+  font-weight: 500;
+}
+
+/* Button improvements */
+button[type="submit"],
+button.logout-btn {
+  border-radius: 8px;
+  border: 1px solid transparent;
+  padding: 0.6em 1.2em;
+  font-size: 1em;
+  font-weight: 500;
+  font-family: inherit;
+  background-color: #1a1a1a;
+  color: #fff;
+  cursor: pointer;
+  transition: border-color 0.25s, background 0.2s, color 0.2s;
+  margin-top: 0.5rem;
+}
+
+button[type="submit"]:hover,
+button.logout-btn:hover {
+  border-color: #646cff;
+  background: #23263a;
+  color: #b3baff;
+}
+
+button[type="submit"]:focus,
+button.logout-btn:focus,
+button[type="submit"]:focus-visible,
+button.logout-btn:focus-visible {
+  outline: 4px auto -webkit-focus-ring-color;
+}
+
+/* Dashboard styles */
+.dashboard {
+  background: #181a20;
+  border-radius: 12px;
+  box-shadow: 0 2px 16px 0 rgba(0,0,0,0.12);
+  padding: 2.5rem 2rem 2rem 2rem;
+  max-width: 500px;
+  margin: 2rem auto;
+  color: #fff;
+  text-align: left;
+}
+
+.logout-btn {
+  display: inline-block;
+  margin-top: 1.5rem;
+}
+
+/* Responsive adjustments */
+@media (max-width: 600px) {
+  .App,
+  .dashboard {
+    padding: 1.2rem 0.5rem 1.5rem 0.5rem;
+    max-width: 98vw;
+  }
+  #root {
+    padding: 0.5rem;
+  }
+  .card {
+    padding: 1em;
+  }
 }
