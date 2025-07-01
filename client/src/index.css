@@ -24,10 +24,12 @@ a:hover {
 
 body {
   margin: 0;
-  display: flex;
-  place-items: center;
   min-width: 320px;
   min-height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background-color: inherit;
 }
 
 h1 {
@@ -44,14 +46,71 @@ button {
   font-family: inherit;
   background-color: #1a1a1a;
   cursor: pointer;
-  transition: border-color 0.25s;
+  transition: border-color 0.25s, box-shadow 0.2s;
 }
 button:hover {
   border-color: #646cff;
 }
 button:focus,
 button:focus-visible {
-  outline: 4px auto -webkit-focus-ring-color;
+  outline: 2px solid #646cff;
+  outline-offset: 2px;
+  box-shadow: 0 0 0 2px #646cff33;
+}
+
+form {
+  background: rgba(36, 36, 36, 0.98);
+  padding: 2.5rem 2rem;
+  border-radius: 12px;
+  box-shadow: 0 2px 16px 0 #00000022;
+  min-width: 320px;
+  max-width: 350px;
+  margin: 0 auto;
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem;
+}
+
+.form-group {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+}
+
+label {
+  font-size: 1rem;
+  font-weight: 500;
+  margin-bottom: 0.2rem;
+  color: inherit;
+}
+
+input[type="email"],
+input[type="password"] {
+  padding: 0.6em 0.8em;
+  border-radius: 6px;
+  border: 1px solid #ccc;
+  font-size: 1em;
+  font-family: inherit;
+  background: #181818;
+  color: #fff;
+  transition: border-color 0.2s, box-shadow 0.2s;
+}
+
+input[type="email"]:focus,
+input[type="password"]:focus {
+  border-color: #646cff;
+  outline: none;
+  box-shadow: 0 0 0 2px #646cff33;
+}
+
+.error {
+  color: #ff4d4f;
+  font-size: 0.95em;
+  margin-top: 0.1em;
+  font-weight: 500;
+  letter-spacing: 0.01em;
+  min-height: 1.2em;
+  display: block;
 }
 
 @media (prefers-color-scheme: light) {
@@ -64,5 +123,26 @@ button:focus-visible {
   }
   button {
     background-color: #f9f9f9;
+  }
+  form {
+    background: #fff;
+    box-shadow: 0 2px 16px 0 #00000011;
+  }
+  input[type="email"],
+  input[type="password"] {
+    background: #f9f9f9;
+    color: #213547;
+    border: 1px solid #bbb;
+  }
+}
+
+@media (max-width: 480px) {
+  form {
+    min-width: 0;
+    width: 100%;
+    padding: 1.2rem 0.5rem;
+  }
+  h1 {
+    font-size: 2em;
   }
 }
