@@ -2,13 +2,19 @@
   "name": "templates",
   "private": true,
   "version": "0.0.0",
+  "description": "React + TypeScript + Vite template with linting and formatting.",
+  "author": "",
+  "license": "MIT",
   "type": "module",
   "scripts": {
-    "dev": "vite",
     "build": "tsc -b && vite build",
-    "lint": "eslint .",
+    "clean": "rm -rf dist dist-ssr",
+    "dev": "vite",
+    "format": "prettier --write .",
+    "lint": "eslint . --ext .js,.jsx,.ts,.tsx",
+    "prepare": "husky install",
     "preview": "vite preview",
-    "prepare": "husky"
+    "start": "vite preview"
   },
   "dependencies": {
     "react": "^19.1.0",
@@ -35,7 +41,7 @@
       "eslint --fix",
       "prettier --write"
     ],
-    "**/*.{json,md,css,scss}": [
+    "**/*.{css,json,md,scss}": [
       "prettier --write"
     ]
   }
