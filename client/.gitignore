@@ -1,5 +1,13 @@
+# Dependency directories
+node_modules/
+
+# Build output
+dist/
+dist-ssr/
+.vite/
+
 # Logs
-logs
+logs/
 *.log
 npm-debug.log*
 yarn-debug.log*
@@ -7,18 +15,41 @@ yarn-error.log*
 pnpm-debug.log*
 lerna-debug.log*
 
-node_modules
-dist
-dist-ssr
+# Environment files
+.env
+.env.*
+!.env.example
+
+# Local config files
 *.local
 
-# Editor directories and files
-.vscode/*
+# TypeScript build info
+*.tsbuildinfo
+.tsbuildinfo
+node_modules/.tmp/
+
+# Editor directories and project files
+.vscode/
 !.vscode/extensions.json
-.idea
-.DS_Store
+.idea/
 *.suo
 *.ntvs*
 *.njsproj
 *.sln
 *.sw?
+
+# OS-specific files
+.DS_Store
+Thumbs.db
+ehthumbs.db
+Icon?
+.Spotlight-V100
+.Trashes
+
+# Prettier and ESLint caches
+.prettier-cache/
+.prettier/
+.eslintcache
+
+# Miscellaneous
+*.pid
