@@ -3,6 +3,10 @@
   margin: 0 auto;
   padding: 2rem;
   text-align: center;
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
 }
 
 .logo {
@@ -37,6 +41,128 @@
   padding: 2em;
 }
 
+/* Login Form Styles */
+.login-form {
+  background: #181818;
+  border-radius: 12px;
+  box-shadow: 0 2px 16px rgba(0,0,0,0.12);
+  max-width: 350px;
+  margin: 2rem auto;
+  padding: 2rem 2rem 1.5rem 2rem;
+  display: flex;
+  flex-direction: column;
+  gap: 1.25rem;
+}
+
+.form-group {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  margin-bottom: 1rem;
+}
+
+.form-label {
+  font-size: 1rem;
+  font-weight: 500;
+  margin-bottom: 0.5rem;
+  color: #e0e0e0;
+}
+
+.form-input {
+  width: 100%;
+  padding: 0.6em 0.9em;
+  border-radius: 6px;
+  border: 1px solid #333;
+  background: #232323;
+  color: #fff;
+  font-size: 1em;
+  transition: border-color 0.2s;
+  outline: none;
+  box-sizing: border-box;
+}
+
+.form-input:focus {
+  border-color: #646cff;
+  background: #23253a;
+}
+
+.form-error {
+  color: #ff4d4f;
+  font-size: 0.95em;
+  margin-top: 0.3em;
+  min-height: 1.2em;
+}
+
+.form-button {
+  width: 100%;
+  border-radius: 8px;
+  border: none;
+  padding: 0.7em 1.2em;
+  font-size: 1em;
+  font-weight: 600;
+  font-family: inherit;
+  background-color: #646cff;
+  color: #fff;
+  cursor: pointer;
+  transition: background 0.2s, box-shadow 0.2s;
+  margin-top: 0.5em;
+  box-shadow: 0 2px 8px rgba(100,108,255,0.08);
+}
+
+.form-button:disabled {
+  background: #44475a;
+  cursor: not-allowed;
+  opacity: 0.7;
+}
+
+.form-button:hover:not(:disabled),
+.form-button:focus-visible:not(:disabled) {
+  background: #535bf2;
+}
+
 .read-the-docs {
   color: #888;
+}
+
+/* Dashboard Styles */
+.dashboard {
+  background: #181818;
+  border-radius: 12px;
+  box-shadow: 0 2px 16px rgba(0,0,0,0.12);
+  max-width: 500px;
+  margin: 2rem auto;
+  padding: 2.5rem 2rem 2rem 2rem;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.logout-button {
+  margin-top: 2rem;
+  border-radius: 8px;
+  border: none;
+  padding: 0.7em 1.2em;
+  font-size: 1em;
+  font-weight: 600;
+  font-family: inherit;
+  background-color: #ff4d4f;
+  color: #fff;
+  cursor: pointer;
+  transition: background 0.2s;
+}
+
+.logout-button:hover,
+.logout-button:focus-visible {
+  background: #d9363e;
+}
+
+@media (max-width: 600px) {
+  .login-form,
+  .dashboard {
+    max-width: 95vw;
+    padding: 1.2rem 0.7rem;
+  }
+  #root {
+    padding: 1rem;
+  }
 }
