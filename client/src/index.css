@@ -35,6 +35,67 @@ h1 {
   line-height: 1.1;
 }
 
+/* --- Login Form Styles --- */
+form {
+  max-width: 360px;
+  width: 100%;
+  margin: 2rem auto;
+  padding: 2rem 1.5rem;
+  background: rgba(36, 36, 36, 0.95);
+  border-radius: 12px;
+  box-shadow: 0 2px 16px 0 rgba(0,0,0,0.10);
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem;
+}
+
+.form-group {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+}
+
+label {
+  font-size: 1rem;
+  font-weight: 500;
+  color: inherit;
+  margin-bottom: 0.2rem;
+}
+
+input[type="email"],
+input[type="password"] {
+  padding: 0.7em 1em;
+  border: 1.5px solid #444;
+  border-radius: 6px;
+  font-size: 1em;
+  font-family: inherit;
+  background: #181818;
+  color: #fff;
+  transition: border-color 0.2s, box-shadow 0.2s;
+}
+
+input[type="email"]:focus,
+input[type="password"]:focus {
+  outline: none;
+  border-color: #646cff;
+  box-shadow: 0 0 0 2px #646cff33;
+}
+
+input[type="email"]:invalid,
+input[type="password"]:invalid {
+  border-color: #e53935;
+}
+
+.error {
+  color: #ff5252;
+  font-size: 0.95em;
+  margin-top: 0.1em;
+  font-weight: 500;
+  letter-spacing: 0.01em;
+  min-height: 1.2em;
+  transition: color 0.2s;
+}
+
 button {
   border-radius: 8px;
   border: 1px solid transparent;
@@ -43,15 +104,29 @@ button {
   font-weight: 500;
   font-family: inherit;
   background-color: #1a1a1a;
+  color: inherit;
   cursor: pointer;
-  transition: border-color 0.25s;
+  transition: border-color 0.25s, background 0.2s;
+  margin-top: 0.5rem;
 }
 button:hover {
   border-color: #646cff;
+  background: #23234a;
 }
 button:focus,
 button:focus-visible {
-  outline: 4px auto -webkit-focus-ring-color;
+  outline: 3px solid #646cff;
+  outline-offset: 2px;
+}
+
+/* Responsive adjustments */
+@media (max-width: 480px) {
+  form {
+    padding: 1.2rem 0.5rem;
+  }
+  h1 {
+    font-size: 2.2em;
+  }
 }
 
 @media (prefers-color-scheme: light) {
@@ -64,5 +139,24 @@ button:focus-visible {
   }
   button {
     background-color: #f9f9f9;
+    color: #213547;
+  }
+  form {
+    background: #fff;
+    box-shadow: 0 2px 16px 0 rgba(0,0,0,0.06);
+  }
+  input[type="email"],
+  input[type="password"] {
+    background: #fff;
+    color: #213547;
+    border: 1.5px solid #bbb;
+  }
+  input[type="email"]:focus,
+  input[type="password"]:focus {
+    border-color: #646cff;
+    box-shadow: 0 0 0 2px #646cff33;
+  }
+  .error {
+    color: #d32f2f;
   }
 }
