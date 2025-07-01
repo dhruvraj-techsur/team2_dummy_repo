@@ -1,4 +1,3 @@
-
 # User Stories for Login and Dashboard (JIRA Format)
 
 ---
@@ -7,12 +6,11 @@
 
 ### 📝 Story: Display Login Form
 
-**Title:** Display Login Form
-
-**Description:**  
+**Summary:**  
 As a user, I want to see a login form with fields for email and password, so that I can enter my credentials to access the app.
 
-**Acceptance Criteria:**
+#### Acceptance Criteria
+
 - The login form includes:
   - Email input field
   - Password input field
