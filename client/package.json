@@ -3,12 +3,15 @@
   "private": true,
   "version": "0.0.0",
   "type": "module",
+  "sideEffects": false,
   "scripts": {
-    "dev": "vite",
     "build": "tsc -b && vite build",
-    "lint": "eslint .",
-    "preview": "vite preview",
-    "prepare": "husky"
+    "check-types": "tsc --noEmit",
+    "clean": "rm -rf dist tsconfig.tsbuildinfo",
+    "dev": "vite",
+    "lint": "eslint --ext .js,.jsx,.ts,.tsx .",
+    "prepare": "husky install",
+    "preview": "vite preview"
   },
   "dependencies": {
     "react": "^19.1.0",
