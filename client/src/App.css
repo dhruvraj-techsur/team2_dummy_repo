@@ -3,10 +3,6 @@
   margin: 0 auto;
   padding: 2rem;
   text-align: center;
-  min-height: 100vh;
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
 }
 
 .logo {
@@ -41,14 +37,18 @@
   padding: 2em;
 }
 
-/* Login Form Styles */
-.login-form {
+.read-the-docs {
+  color: #888;
+}
+
+/* --- Login Form Styles --- */
+form {
+  max-width: 350px;
+  margin: 2rem auto 0 auto;
+  padding: 2rem 2rem 1.5rem 2rem;
   background: #181818;
   border-radius: 12px;
-  box-shadow: 0 2px 16px rgba(0,0,0,0.12);
-  max-width: 350px;
-  margin: 2rem auto;
-  padding: 2rem 2rem 1.5rem 2rem;
+  box-shadow: 0 2px 16px 0 rgba(0,0,0,0.10);
   display: flex;
   flex-direction: column;
   gap: 1.25rem;
@@ -58,109 +58,83 @@
   display: flex;
   flex-direction: column;
   align-items: flex-start;
-  margin-bottom: 1rem;
+  gap: 0.5rem;
 }
 
-.form-label {
+label {
   font-size: 1rem;
   font-weight: 500;
-  margin-bottom: 0.5rem;
   color: #e0e0e0;
+  margin-bottom: 0.25rem;
 }
 
-.form-input {
+input[type="email"],
+input[type="password"] {
   width: 100%;
   padding: 0.6em 0.9em;
+  border: 1.5px solid #333;
   border-radius: 6px;
-  border: 1px solid #333;
   background: #232323;
   color: #fff;
   font-size: 1em;
-  transition: border-color 0.2s;
+  transition: border-color 0.2s, box-shadow 0.2s;
   outline: none;
   box-sizing: border-box;
 }
 
-.form-input:focus {
+input[type="email"]:focus,
+input[type="password"]:focus {
   border-color: #646cff;
-  background: #23253a;
+  box-shadow: 0 0 0 2px #646cff33;
 }
 
-.form-error {
+input[type="email"].input-error,
+input[type="password"].input-error {
+  border-color: #ff4d4f;
+  background: #2a1818;
+}
+
+.error {
   color: #ff4d4f;
   font-size: 0.95em;
-  margin-top: 0.3em;
-  min-height: 1.2em;
+  margin-top: 0.1em;
+  font-weight: 500;
+  letter-spacing: 0.01em;
 }
 
-.form-button {
+button[type="submit"],
+form button {
   width: 100%;
+  margin-top: 0.5rem;
   border-radius: 8px;
-  border: none;
+  border: 1px solid transparent;
   padding: 0.7em 1.2em;
-  font-size: 1em;
+  font-size: 1.1em;
   font-weight: 600;
   font-family: inherit;
   background-color: #646cff;
   color: #fff;
   cursor: pointer;
-  transition: background 0.2s, box-shadow 0.2s;
-  margin-top: 0.5em;
-  box-shadow: 0 2px 8px rgba(100,108,255,0.08);
+  transition: background 0.2s, border-color 0.2s;
+  box-shadow: 0 1px 6px 0 rgba(100,108,255,0.08);
 }
 
-.form-button:disabled {
-  background: #44475a;
-  cursor: not-allowed;
-  opacity: 0.7;
+button[type="submit"]:hover,
+form button:hover {
+  background-color: #535bf2;
+  border-color: #535bf2;
 }
 
-.form-button:hover:not(:disabled),
-.form-button:focus-visible:not(:disabled) {
-  background: #535bf2;
+button[type="submit"]:focus,
+form button:focus {
+  outline: 3px solid #646cff;
+  outline-offset: 2px;
 }
 
-.read-the-docs {
-  color: #888;
-}
-
-/* Dashboard Styles */
-.dashboard {
-  background: #181818;
-  border-radius: 12px;
-  box-shadow: 0 2px 16px rgba(0,0,0,0.12);
-  max-width: 500px;
-  margin: 2rem auto;
-  padding: 2.5rem 2rem 2rem 2rem;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-}
-
-.logout-button {
-  margin-top: 2rem;
-  border-radius: 8px;
-  border: none;
-  padding: 0.7em 1.2em;
-  font-size: 1em;
-  font-weight: 600;
-  font-family: inherit;
-  background-color: #ff4d4f;
-  color: #fff;
-  cursor: pointer;
-  transition: background 0.2s;
-}
-
-.logout-button:hover,
-.logout-button:focus-visible {
-  background: #d9363e;
-}
-
-@media (max-width: 600px) {
-  .login-form,
-  .dashboard {
-    max-width: 95vw;
-    padding: 1.2rem 0.7rem;
+@media (max-width: 480px) {
+  form {
+    padding: 1.2rem 0.7rem 1rem 0.7rem;
+    max-width: 98vw;
   }
   #root {
     padding: 1rem;
