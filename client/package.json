@@ -4,11 +4,14 @@
   "version": "0.0.0",
   "type": "module",
   "scripts": {
-    "dev": "vite",
     "build": "tsc -b && vite build",
-    "lint": "eslint .",
+    "clean": "rm -rf dist node_modules/.tmp",
+    "dev": "vite",
+    "format": "prettier --write \"**/*.{js,jsx,ts,tsx,json,md,css,scss,yml,yaml}\"",
+    "lint": "eslint . --ext .js,.jsx,.ts,.tsx",
+    "prepare": "husky",
     "preview": "vite preview",
-    "prepare": "husky"
+    "test": "echo \"No test specified\" && exit 0"
   },
   "dependencies": {
     "react": "^19.1.0",
@@ -35,7 +38,7 @@
       "eslint --fix",
       "prettier --write"
     ],
-    "**/*.{json,md,css,scss}": [
+    "**/*.{json,md,css,scss,yml,yaml}": [
       "prettier --write"
     ]
   }
