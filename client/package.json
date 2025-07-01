@@ -2,13 +2,23 @@
   "name": "templates",
   "private": true,
   "version": "0.0.0",
+  "description": "React + TypeScript + Vite client for login and dashboard app",
+  "author": "",
+  "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": ""
+  },
   "type": "module",
   "scripts": {
-    "dev": "vite",
     "build": "tsc -b && vite build",
-    "lint": "eslint .",
+    "clean": "rm -rf dist && rm -rf node_modules/.tmp",
+    "dev": "vite",
+    "lint": "eslint src",
+    "postinstall": "husky install",
+    "prepare": "husky install",
     "preview": "vite preview",
-    "prepare": "husky"
+    "start": "vite preview"
   },
   "dependencies": {
     "react": "^19.1.0",
@@ -31,11 +41,11 @@
     "vite": "^6.3.5"
   },
   "lint-staged": {
-    "**/*.{js,jsx,ts,tsx}": [
+    "**/*.{js,jsx,ts,tsx,cjs,mjs}": [
       "eslint --fix",
       "prettier --write"
     ],
-    "**/*.{json,md,css,scss}": [
+    "**/*.{json,jsonc,md,css,scss}": [
       "prettier --write"
     ]
   }
