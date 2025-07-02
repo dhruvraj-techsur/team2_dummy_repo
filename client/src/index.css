@@ -28,11 +28,15 @@ body {
   place-items: center;
   min-width: 320px;
   min-height: 100vh;
+  background: linear-gradient(135deg, #242424 0%, #383e4c 100%);
+  justify-content: center;
+  align-items: center;
 }
 
 h1 {
   font-size: 3.2em;
   line-height: 1.1;
+  margin-bottom: 0.5em;
 }
 
 button {
@@ -43,15 +47,75 @@ button {
   font-weight: 500;
   font-family: inherit;
   background-color: #1a1a1a;
+  color: #fff;
   cursor: pointer;
-  transition: border-color 0.25s;
+  transition: border-color 0.25s, background 0.25s;
+  margin-top: 1em;
+  outline: none;
 }
 button:hover {
   border-color: #646cff;
+  background: #23263a;
 }
 button:focus,
 button:focus-visible {
-  outline: 4px auto -webkit-focus-ring-color;
+  outline: 2px solid #646cff;
+  outline-offset: 2px;
+}
+
+form {
+  background: rgba(36, 36, 36, 0.98);
+  border-radius: 12px;
+  box-shadow: 0 4px 24px rgba(0,0,0,0.15);
+  padding: 2.5em 2em 2em 2em;
+  max-width: 350px;
+  width: 100%;
+  margin: 0 auto;
+  display: flex;
+  flex-direction: column;
+  gap: 1.2em;
+}
+
+.form-group {
+  display: flex;
+  flex-direction: column;
+  align-items: stretch;
+  gap: 0.4em;
+}
+
+label {
+  font-size: 1em;
+  font-weight: 500;
+  color: #bfc7d5;
+  margin-bottom: 0.2em;
+}
+
+input[type="email"],
+input[type="password"] {
+  padding: 0.7em 1em;
+  border: 1px solid #44495a;
+  border-radius: 6px;
+  background: #181a20;
+  color: #fff;
+  font-size: 1em;
+  transition: border-color 0.2s, box-shadow 0.2s;
+  outline: none;
+}
+
+input[type="email"]:focus,
+input[type="password"]:focus {
+  border-color: #646cff;
+  box-shadow: 0 0 0 2px #646cff33;
+}
+
+.error {
+  color: #ff4d4f;
+  font-size: 0.95em;
+  margin-top: 0.2em;
+  font-weight: 500;
+  letter-spacing: 0.01em;
+  min-height: 1.2em;
+  display: block;
 }
 
 @media (prefers-color-scheme: light) {
@@ -64,5 +128,34 @@ button:focus-visible {
   }
   button {
     background-color: #f9f9f9;
+    color: #213547;
+  }
+  form {
+    background: #fff;
+    box-shadow: 0 4px 24px rgba(60, 60, 60, 0.08);
+  }
+  input[type="email"],
+  input[type="password"] {
+    background: #f5f7fa;
+    color: #213547;
+    border: 1px solid #cfd8dc;
+  }
+  input[type="email"]:focus,
+  input[type="password"]:focus {
+    border-color: #646cff;
+    box-shadow: 0 0 0 2px #646cff33;
+  }
+  label {
+    color: #213547;
+  }
+}
+
+@media (max-width: 480px) {
+  form {
+    padding: 1.2em 0.7em 1.2em 0.7em;
+    max-width: 98vw;
+  }
+  h1 {
+    font-size: 2em;
   }
 }
