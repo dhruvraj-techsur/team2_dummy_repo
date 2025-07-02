@@ -1,5 +1,14 @@
+# Dependency directories
+node_modules/
+
+# Build output
+dist/
+dist-ssr/
+.vite/
+*.tsbuildinfo
+
 # Logs
-logs
+logs/
 *.log
 npm-debug.log*
 yarn-debug.log*
@@ -7,18 +16,54 @@ yarn-error.log*
 pnpm-debug.log*
 lerna-debug.log*
 
-node_modules
-dist
-dist-ssr
+# Environment variables
+.env
+.env.*
+!.env.example
+
+# Vite cache
+.vite/
+
+# ESLint cache
+.eslintcache
+
+# Coverage reports
+coverage/
+
+# Local config files
 *.local
 
 # Editor directories and files
-.vscode/*
+.vscode/
 !.vscode/extensions.json
-.idea
-.DS_Store
+.idea/
 *.suo
 *.ntvs*
 *.njsproj
 *.sln
 *.sw?
+
+# macOS
+.DS_Store
+.AppleDouble
+.LSOverride
+
+# Windows
+Thumbs.db
+ehthumbs.db
+Icon?
+Desktop.ini
+
+# Linux
+*~
+
+# Other system files
+.Spotlight-V100
+.Trashes
+
+# Misc
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+pnpm-debug.log*
+lerna-debug.log*
