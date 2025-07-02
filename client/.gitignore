@@ -1,5 +1,15 @@
+# Dependency directories
+node_modules/
+
+# Build output
+dist/
+dist-ssr/
+.vite/
+coverage/
+*.tsbuildinfo
+
 # Logs
-logs
+logs/
 *.log
 npm-debug.log*
 yarn-debug.log*
@@ -7,18 +17,29 @@ yarn-error.log*
 pnpm-debug.log*
 lerna-debug.log*
 
-node_modules
-dist
-dist-ssr
+# Local environment variables
+.env*
 *.local
 
 # Editor directories and files
-.vscode/*
+.vscode/
 !.vscode/extensions.json
-.idea
+.idea/
 .DS_Store
 *.suo
 *.ntvs*
 *.njsproj
 *.sln
 *.sw?
+
+# Tooling caches
+.eslintcache
+.parcel-cache/
+
+# Miscellaneous
+*.pid
+*.seed
+*.tgz
+*.bak
+*.orig
+*.rej
