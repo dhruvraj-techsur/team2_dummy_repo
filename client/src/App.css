@@ -40,3 +40,89 @@
 .read-the-docs {
   color: #888;
 }
+
+/* --- Login Form Styles --- */
+form {
+  max-width: 350px;
+  margin: 2rem auto 0 auto;
+  padding: 2rem 2rem 1.5rem 2rem;
+  background: rgba(255,255,255,0.04);
+  border-radius: 12px;
+  box-shadow: 0 2px 16px 0 rgba(0,0,0,0.08);
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem;
+}
+
+.form-group {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 0.4rem;
+}
+
+label {
+  font-size: 1rem;
+  font-weight: 500;
+  margin-bottom: 0.2rem;
+  color: #646cff;
+  letter-spacing: 0.01em;
+}
+
+input[type="email"],
+input[type="password"] {
+  width: 100%;
+  padding: 0.6em 0.9em;
+  border: 1px solid #ccc;
+  border-radius: 6px;
+  font-size: 1em;
+  background: #181818;
+  color: #fff;
+  transition: border-color 0.2s, box-shadow 0.2s;
+  outline: none;
+  box-sizing: border-box;
+}
+
+input[type="email"]:focus,
+input[type="password"]:focus {
+  border-color: #646cff;
+  box-shadow: 0 0 0 2px #646cff33;
+}
+
+.error {
+  color: #ff4d4f;
+  font-size: 0.95em;
+  margin-top: 0.1em;
+  font-weight: 500;
+  letter-spacing: 0.01em;
+}
+
+button[type="submit"] {
+  margin-top: 0.5rem;
+  width: 100%;
+  border-radius: 8px;
+  border: 1px solid transparent;
+  padding: 0.7em 1.2em;
+  font-size: 1.1em;
+  font-weight: 600;
+  font-family: inherit;
+  background-color: #646cff;
+  color: #fff;
+  cursor: pointer;
+  transition: background 0.2s, border-color 0.2s;
+  box-shadow: 0 1px 4px 0 rgba(100,108,255,0.08);
+}
+
+button[type="submit"]:hover,
+button[type="submit"]:focus {
+  background-color: #535bf2;
+  border-color: #535bf2;
+  outline: none;
+}
+
+@media (max-width: 480px) {
+  form {
+    padding: 1.2rem 0.7rem 1rem 0.7rem;
+    max-width: 98vw;
+  }
+}
