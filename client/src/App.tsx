@@ -4,10 +4,12 @@ import LoginForm from './components/LoginForm';
 
 function App() {
   return (
-    <div className="App">
-      <h1>Login</h1>
-      <LoginForm />
-    </div>
+    <main className="App" aria-label="Login Screen">
+      <div className="container">
+        <h1>Login</h1>
+        <LoginForm />
+      </div>
+    </main>
   );
 }
 
