@@ -4,11 +4,14 @@
   "version": "0.0.0",
   "type": "module",
   "scripts": {
-    "dev": "vite",
     "build": "tsc -b && vite build",
-    "lint": "eslint .",
-    "preview": "vite preview",
-    "prepare": "husky"
+    "check": "tsc --noEmit",
+    "clean": "rm -rf dist node_modules",
+    "dev": "vite",
+    "format": "prettier --write .",
+    "lint": "eslint src/**/*.{js,jsx,ts,tsx}",
+    "prepare": "husky install",
+    "preview": "vite preview"
   },
   "dependencies": {
     "react": "^19.1.0",
