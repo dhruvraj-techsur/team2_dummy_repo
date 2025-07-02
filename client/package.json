@@ -1,14 +1,26 @@
 {
   "name": "templates",
-  "private": true,
   "version": "0.0.0",
+  "private": true,
   "type": "module",
+  "description": "React + TypeScript + Vite template with login form and client-side validation.",
+  "author": "",
+  "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": ""
+  },
+  "sideEffects": false,
+  "engines": {
+    "node": ">=18.0.0",
+    "npm": ">=9.0.0"
+  },
   "scripts": {
-    "dev": "vite",
     "build": "tsc -b && vite build",
+    "dev": "vite",
     "lint": "eslint .",
-    "preview": "vite preview",
-    "prepare": "husky"
+    "prepare": "husky",
+    "preview": "vite preview"
   },
   "dependencies": {
     "react": "^19.1.0",
@@ -35,7 +47,7 @@
       "eslint --fix",
       "prettier --write"
     ],
-    "**/*.{json,md,css,scss}": [
+    "**/*.{json,jsonc,md,css,scss}": [
       "prettier --write"
     ]
   }
