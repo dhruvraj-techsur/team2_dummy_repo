@@ -40,3 +40,92 @@
 .read-the-docs {
   color: #888;
 }
+
+/* --- Login Form Styles --- */
+form {
+  max-width: 350px;
+  margin: 2rem auto 0 auto;
+  padding: 2rem 2rem 1.5rem 2rem;
+  background: rgba(255,255,255,0.04);
+  border-radius: 12px;
+  box-shadow: 0 2px 16px 0 rgba(0,0,0,0.08);
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem;
+}
+
+.form-group {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 0.4rem;
+}
+
+label {
+  font-size: 1rem;
+  font-weight: 500;
+  margin-bottom: 0.2rem;
+  color: inherit;
+}
+
+input[type="email"],
+input[type="password"] {
+  width: 100%;
+  padding: 0.6em 0.9em;
+  border: 1.5px solid #ccc;
+  border-radius: 6px;
+  font-size: 1em;
+  background: #fff;
+  color: #222;
+  transition: border-color 0.2s, box-shadow 0.2s;
+  box-sizing: border-box;
+}
+
+input[type="email"]:focus,
+input[type="password"]:focus {
+  border-color: #646cff;
+  outline: none;
+  box-shadow: 0 0 0 2px #646cff33;
+}
+
+input[type="email"].error,
+input[type="password"].error {
+  border-color: #e53935;
+  background: #fff0f0;
+}
+
+.error {
+  color: #e53935;
+  font-size: 0.95em;
+  margin-top: 0.1em;
+  font-weight: 500;
+  letter-spacing: 0.01em;
+}
+
+button[type="submit"] {
+  width: 100%;
+  margin-top: 0.5rem;
+  background: #646cff;
+  color: #fff;
+  border: none;
+  border-radius: 6px;
+  padding: 0.7em 0;
+  font-size: 1.08em;
+  font-weight: 600;
+  cursor: pointer;
+  transition: background 0.2s, box-shadow 0.2s;
+  box-shadow: 0 1px 4px 0 rgba(100,108,255,0.08);
+}
+
+button[type="submit"]:hover,
+button[type="submit"]:focus {
+  background: #535bf2;
+  outline: none;
+}
+
+@media (max-width: 480px) {
+  form {
+    max-width: 95vw;
+    padding: 1.2rem 0.7rem 1rem 0.7rem;
+  }
+}
