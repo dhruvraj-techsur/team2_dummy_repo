@@ -10,7 +10,6 @@ function createReadlineInterface() {
 function validateNumber(num) {
   const parsedNum = parseFloat(num);
   if (isNaN(parsedNum)) {
-    console.log('Error: Invalid number');
     return null;
   }
   return parsedNum;
@@ -34,34 +33,50 @@ const operations = {
   }
 };
 
+async function promptNumber(rl, promptText) {
+  while (true) {
+    const input = (await askQuestion(rl, promptText)).trim();
+    const num = validateNumber(input);
+    if (num !== null) {
+      return num;
+    }
+    console.log('Error: Please enter a valid number.');
+  }
+}
+
+async function promptOperation(rl, a, b) {
+  const validOps = Object.keys(operations);
+  while (true) {
+    const opInput = (await askQuestion(
+      rl,
+      `Choose operation (${validOps.join(', ')}): `
+    )).trim().toLowerCase();
+    const operation = operations[opInput];
+    if (!operation) {
+      console.log('Error: Invalid operation. Please choose from:', validOps.join(', '));
+      continue;
+    }
+    if (opInput === 'divide' && b === 0) {
+      console.log('Error: Division by zero is not allowed. Please enter a different operation or change the second number.');
+      continue;
+    }
+    return { opInput, operation };
+  }
+}
+
 async function main() {
   const rl = createReadlineInterface();
 
-  const num1 = await askQuestion(rl, 'Enter first number: ');
-  const a = validateNumber(num1);
-  if (a === null) {
-    rl.close();
-    return;
-  }
+  try {
+    const a = await promptNumber(rl, 'Enter first number: ');
+    const b = await promptNumber(rl, 'Enter second number: ');
+    const { opInput, operation } = await promptOperation(rl, a, b);
 
-  const num2 = await askQuestion(rl, 'Enter second number: ');
-  const b = validateNumber(num2);
-  if (b === null) {
+    const result = operation(a, b);
+    console.log(`Result: ${result}`);
+  } finally {
     rl.close();
-    return;
   }
-
-  const op = await askQuestion(rl, 'Choose operation (add, subtract, multiply, divide): ');
-  const operation = operations[op];
-  if (!operation) {
-    console.log('Error: Invalid operation');
-    rl.close();
-    return;
-  }
-
-  const result = operation(a, b);
-  console.log(`Result: ${result}`);
-  rl.close();
 }
 
 main();
