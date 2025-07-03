@@ -10,7 +10,7 @@ function createReadlineInterface() {
 function validateNumber(num) {
   const parsedNum = parseFloat(num);
   if (isNaN(parsedNum)) {
-    console.log('Error: Invalid number');
+    console.log('Error: Please enter a valid number.');
     return null;
   }
   return parsedNum;
@@ -28,40 +28,61 @@ const operations = {
   multiply: (a, b) => a * b,
   divide: (a, b) => {
     if (b === 0) {
-      return 'Error: Division by zero';
+      return null;
     }
     return a / b;
   }
 };
 
+async function promptForNumber(rl, promptText) {
+  while (true) {
+    const input = await askQuestion(rl, promptText);
+    const num = validateNumber(input);
+    if (num !== null) {
+      return num;
+    }
+  }
+}
+
+async function promptForOperation(rl, a, b) {
+  while (true) {
+    const opInput = await askQuestion(
+      rl,
+      'Choose operation (add, subtract, multiply, divide): '
+    );
+    const opKey = opInput.trim().toLowerCase();
+    const operation = operations[opKey];
+    if (!operation) {
+      console.log('Error: Invalid operation. Please choose from add, subtract, multiply, divide.');
+      continue;
+    }
+    if (opKey === 'divide' && b === 0) {
+      console.log('Error: Division by zero is not allowed. Please choose a different operation or change the second number.');
+      continue;
+    }
+    return { operation, opKey };
+  }
+}
+
 async function main() {
   const rl = createReadlineInterface();
+  try {
+    const a = await promptForNumber(rl, 'Enter first number: ');
+    const b = await promptForNumber(rl, 'Enter second number: ');
+    const { operation, opKey } = await promptForOperation(rl, a, b);
 
-  const num1 = await askQuestion(rl, 'Enter first number: ');
-  const a = validateNumber(num1);
-  if (a === null) {
+    const result = operation(a, b);
+    if (result === null && opKey === 'divide') {
+      // This should not occur due to earlier check, but just in case
+      console.log('Error: Division by zero.');
+    } else {
+      console.log(`Result: ${result}`);
+    }
+  } catch (err) {
+    console.log('An unexpected error occurred:', err.message);
+  } finally {
     rl.close();
-    return;
   }
-
-  const num2 = await askQuestion(rl, 'Enter second number: ');
-  const b = validateNumber(num2);
-  if (b === null) {
-    rl.close();
-    return;
-  }
-
-  const op = await askQuestion(rl, 'Choose operation (add, subtract, multiply, divide): ');
-  const operation = operations[op];
-  if (!operation) {
-    console.log('Error: Invalid operation');
-    rl.close();
-    return;
-  }
-
-  const result = operation(a, b);
-  console.log(`Result: ${result}`);
-  rl.close();
 }
 
 main();
