@@ -10,7 +10,7 @@ function createReadlineInterface() {
 function validateNumber(num) {
   const parsedNum = parseFloat(num);
   if (isNaN(parsedNum)) {
-    console.log('Error: Invalid number');
+    console.log('Error: Invalid number. Please enter a valid number.');
     return null;
   }
   return parsedNum;
@@ -34,34 +34,57 @@ const operations = {
   }
 };
 
+async function promptForNumber(rl, promptText) {
+  while (true) {
+    const input = await askQuestion(rl, promptText);
+    const trimmed = input.trim();
+    const num = validateNumber(trimmed);
+    if (num !== null) {
+      return num;
+    }
+    // Loop again for valid input
+  }
+}
+
+async function promptForOperation(rl) {
+  const validOps = Object.keys(operations);
+  while (true) {
+    const input = await askQuestion(
+      rl,
+      `Choose operation (${validOps.join(', ')}): `
+    );
+    const op = input.trim().toLowerCase();
+    if (validOps.includes(op)) {
+      return op;
+    }
+    console.log('Error: Invalid operation. Please choose a valid operation.');
+  }
+}
+
 async function main() {
   const rl = createReadlineInterface();
+  try {
+    const a = await promptForNumber(rl, 'Enter first number: ');
+    const b = await promptForNumber(rl, 'Enter second number: ');
 
-  const num1 = await askQuestion(rl, 'Enter first number: ');
-  const a = validateNumber(num1);
-  if (a === null) {
+    let op;
+    let result;
+    while (true) {
+      op = await promptForOperation(rl);
+      result = operations[op](a, b);
+      if (result === 'Error: Division by zero') {
+        console.log(result);
+        continue;
+      }
+      break;
+    }
+
+    console.log(`Result: ${result}`);
+  } catch (err) {
+    console.error('An unexpected error occurred:', err);
+  } finally {
     rl.close();
-    return;
   }
-
-  const num2 = await askQuestion(rl, 'Enter second number: ');
-  const b = validateNumber(num2);
-  if (b === null) {
-    rl.close();
-    return;
-  }
-
-  const op = await askQuestion(rl, 'Choose operation (add, subtract, multiply, divide): ');
-  const operation = operations[op];
-  if (!operation) {
-    console.log('Error: Invalid operation');
-    rl.close();
-    return;
-  }
-
-  const result = operation(a, b);
-  console.log(`Result: ${result}`);
-  rl.close();
 }
 
 main();
