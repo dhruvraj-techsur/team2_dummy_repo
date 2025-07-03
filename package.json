@@ -1,0 +1,8 @@
+{
+  "name": "team2_dummy_repo",
+  "version": "1.0.0",
+  "main": "calculator.js",
+  "dependencies": {
+    "lodash": "^4.17.21"
+  }
+} 
