@@ -2,12 +2,20 @@
 <html lang="en">
   <head>
     <meta charset="UTF-8" />
-    <link rel="icon" type="image/svg+xml" href="/vite.svg" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title><%= projectName %></title>
+    <meta name="description" content="Login to access your personalized dashboard and manage your account securely." />
+    <link rel="icon" type="image/svg+xml" href="/vite.svg" />
+    <link rel="preconnect" href="https://your_API_backend_url_here" />
+    <link rel="preload" href="/src/main.tsx" as="script" />
+    <meta name="theme-color" content="#242424" />
+    <meta name="mobile-web-app-capable" content="yes" />
+    <title>Login - Your App Name</title>
   </head>
   <body>
-    <div id="root"></div>
+    <div id="root" aria-label="Application root"></div>
+    <noscript>
+      <strong>We're sorry but this app doesn't work properly without JavaScript enabled. Please enable it to continue.</strong>
+    </noscript>
     <script type="module" src="/src/main.tsx"></script>
   </body>
 </html>
