@@ -26,12 +26,15 @@ jobs:
       - name: Check for lockfile changes
         id: lockfile
         run: |
-          if git diff --quiet package-lock.json; then
-            echo "No lockfile changes."
-            echo "changed=false" >> $GITHUB_OUTPUT
-          else
+          if [ -f package-lock.json ] && ! git ls-files --error-unmatch package-lock.json >/dev/null 2>&1; then
+            echo "Lockfile created."
+            echo "changed=true" >> $GITHUB_OUTPUT
+          elif ! git diff --quiet package-lock.json; then
             echo "Lockfile changed."
             echo "changed=true" >> $GITHUB_OUTPUT
+          else
+            echo "No lockfile changes."
+            echo "changed=false" >> $GITHUB_OUTPUT
           fi
 
       - name: Commit and push lockfile if changed
