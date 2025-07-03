@@ -3,23 +3,30 @@
   "private": true,
   "version": "0.0.0",
   "type": "module",
+  "engines": {
+    "node": ">=16"
+  },
   "scripts": {
     "dev": "vite",
     "build": "tsc -b && vite build",
     "lint": "eslint .",
+    "format": "prettier --write \"src/**/*.{js,jsx,ts,tsx,json,css,scss,md}\"",
     "preview": "vite preview",
-    "prepare": "husky"
+    "prepare": "husky install",
+    "test": "echo \"No test specified\" && exit 0"
   },
   "dependencies": {
-    "react": "^19.1.0",
-    "react-dom": "^19.1.0"
+    "react": "^18.2.0",
+    "react-dom": "^18.2.0"
   },
   "devDependencies": {
     "@eslint/js": "^9.25.0",
-    "@types/react": "^19.1.2",
-    "@types/react-dom": "^19.1.2",
+    "@types/react": "^18.0.38",
+    "@types/react-dom": "^18.0.11",
     "@vitejs/plugin-react": "^4.4.1",
     "eslint": "^9.29.0",
+    "eslint-config-prettier": "^9.0.0",
+    "eslint-plugin-prettier": "^4.2.1",
     "eslint-plugin-react-hooks": "^5.2.0",
     "eslint-plugin-react-refresh": "^0.4.19",
     "globals": "^16.0.0",
@@ -38,5 +45,17 @@
     "**/*.{json,md,css,scss}": [
       "prettier --write"
     ]
-  }
+  },
+  "files": [
+    "src",
+    "public",
+    "index.html",
+    "vite.config.ts"
+  ],
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/yourusername/yourrepo.git"
+  },
+  "author": "Your Name <youremail@example.com>",
+  "homepage": "https://yourprojecthomepage.com"
 }
