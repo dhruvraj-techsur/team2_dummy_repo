@@ -1,8 +1,19 @@
 {
   "name": "team2_dummy_repo",
   "version": "1.0.0",
+  "description": "A sample repository for calculator and utility scripts.",
   "main": "calculator.js",
+  "scripts": {
+    "start": "node calculator.js",
+    "test": "echo \"No tests specified\" && exit 0",
+    "lint": "echo \"No linter configured\" && exit 0"
+  },
+  "author": "",
+  "license": "MIT",
+  "engines": {
+    "node": ">=14.0.0"
+  },
   "dependencies": {
     "lodash": "^4.17.21"
   }
-} 
+}
