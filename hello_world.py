@@ -1,31 +1,33 @@
 import re
 
-def greet(name):
-    """Returns a greeting message to the user."""
+NAME_REGEX = re.compile(r"^[a-zA-Z\s'-]{1,50}$")
+
+def greet(name: str) -> str:
+    """Return a greeting message to the user."""
     return f"Hello, {name}! Your name has {len(name)} characters."
 
-def main():
+def is_valid_name(name: str) -> bool:
+    """
+    Validate the user's name.
+    Allows letters, spaces, hyphens, and apostrophes. Length 1-50.
+    """
+    return bool(NAME_REGEX.fullmatch(name))
+
+def main() -> None:
     """Main function to get user input and greet them."""
-    user_name = input("Enter your name: ")
+    while True:
+        user_name = input("Enter your name: ").strip()
 
-    if not user_name:
-        print("Error: Name cannot be empty.")
-        return
+        if not user_name:
+            print("Error: Name cannot be empty.")
+            continue
 
-    if len(user_name) > 50:
-        print("Error: Name is too long. It should be less than 50 characters.")
-        return
+        if not is_valid_name(user_name):
+            print("Error: Name should only contain letters, spaces, hyphens, or apostrophes (max 50 characters).")
+            continue
 
-    if any(char.isdigit() for char in user_name):
-        print("Error: Name should not contain numbers.")
-        return
-
-    if not re.match("^[a-zA-Z]*$", user_name):
-        print("Error: Name should not contain special characters.")
-        return
-
-    greeting_message = greet(user_name)
-    print(greeting_message)
+        print(greet(user_name))
+        break
 
 if __name__ == "__main__":
     main()
