@@ -1,31 +1,38 @@
 import re
 
-def greet(name):
-    """Returns a greeting message to the user."""
+def greet(name: str) -> str:
+    """Return a greeting message to the user."""
     return f"Hello, {name}! Your name has {len(name)} characters."
 
-def main():
+def is_valid_name(name: str) -> (bool, str):
+    """
+    Validate the user's name.
+    Allows letters, spaces, hyphens, and apostrophes.
+    Returns (is_valid, error_message).
+    """
+    if not name:
+        return False, "Error: Name cannot be empty."
+    if len(name) > 50:
+        return False, "Error: Name is too long. It should be less than 50 characters."
+    if not re.match(r"^[a-zA-Z\s'-]+$", name):
+        return False, "Error: Name should only contain letters, spaces, hyphens, or apostrophes."
+    return True, ""
+
+def main() -> None:
     """Main function to get user input and greet them."""
-    user_name = input("Enter your name: ")
+    while True:
+        try:
+            user_name = input("Enter your name: ").strip()
+        except (EOFError, KeyboardInterrupt):
+            print("\nAborted.")
+            return
 
-    if not user_name:
-        print("Error: Name cannot be empty.")
-        return
-
-    if len(user_name) > 50:
-        print("Error: Name is too long. It should be less than 50 characters.")
-        return
-
-    if any(char.isdigit() for char in user_name):
-        print("Error: Name should not contain numbers.")
-        return
-
-    if not re.match("^[a-zA-Z]*$", user_name):
-        print("Error: Name should not contain special characters.")
-        return
-
-    greeting_message = greet(user_name)
-    print(greeting_message)
+        is_valid, error_message = is_valid_name(user_name)
+        if is_valid:
+            print(greet(user_name))
+            break
+        else:
+            print(error_message)
 
 if __name__ == "__main__":
     main()
