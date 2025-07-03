@@ -1,8 +1,27 @@
 {
   "name": "team2_dummy_repo",
   "version": "1.0.0",
+  "description": "A sample repository for calculator, hello world, and temperature converter utilities.",
   "main": "calculator.js",
+  "type": "commonjs",
+  "scripts": {
+    "start": "node calculator.js",
+    "test": "echo \"No tests specified\" && exit 0",
+    "lint": "echo \"No linter configured\" && exit 0"
+  },
+  "keywords": [
+    "calculator",
+    "temperature",
+    "converter",
+    "hello-world",
+    "utilities"
+  ],
+  "author": "",
+  "license": "ISC",
+  "engines": {
+    "node": ">=14.0.0"
+  },
   "dependencies": {
     "lodash": "^4.17.21"
   }
-} 
+}
