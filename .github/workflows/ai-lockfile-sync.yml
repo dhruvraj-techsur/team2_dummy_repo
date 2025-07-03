@@ -4,8 +4,6 @@ on:
   push:
     branches:
       - 'ai_refined_code_*'
-    paths:
-      - 'package.json'
 
 jobs:
   sync-lockfile:
