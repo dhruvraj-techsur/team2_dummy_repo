@@ -1,8 +1,20 @@
 {
   "name": "team2_dummy_repo",
   "version": "1.0.0",
+  "description": "A dummy repository for Team 2 featuring calculator and utility scripts.",
   "main": "calculator.js",
+  "type": "commonjs",
+  "author": "",
+  "license": "MIT",
+  "scripts": {
+    "start": "node calculator.js",
+    "test": "echo \"No tests specified\" && exit 0",
+    "lint": "echo \"No linter configured\" && exit 0"
+  },
+  "engines": {
+    "node": ">=14.0.0"
+  },
   "dependencies": {
     "lodash": "^4.17.21"
   }
-} 
+}
