@@ -7,18 +7,40 @@ yarn-error.log*
 pnpm-debug.log*
 lerna-debug.log*
 
-node_modules
-dist
-dist-ssr
+# Runtime data
+node_modules/
+dist/
+dist-ssr/
+.cache/
+.vite/
+.turbo/
+
+# Local env files
 *.local
+.env
+!.env.example
+
+# TypeScript
+*.tsbuildinfo
 
 # Editor directories and files
-.vscode/*
+.vscode/
 !.vscode/extensions.json
-.idea
+.idea/
 .DS_Store
 *.suo
 *.ntvs*
 *.njsproj
 *.sln
 *.sw?
+
+# Yarn Plug'n'Play
+.pnp.*
+.pnp.js
+
+# ESLint cache
+.eslintcache
+
+# Test coverage
+coverage/
+test-results/
