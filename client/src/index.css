@@ -1,3 +1,4 @@
+/* Global base styles */
 :root {
   font-family: system-ui, Avenir, Helvetica, Arial, sans-serif;
   line-height: 1.5;
@@ -11,30 +12,48 @@
   text-rendering: optimizeLegibility;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
+  box-sizing: border-box;
 }
 
+*, *::before, *::after {
+  box-sizing: inherit;
+}
+
+/* Links */
 a {
   font-weight: 500;
   color: #646cff;
-  text-decoration: inherit;
+  text-decoration: none;
+  transition: color 0.3s ease;
 }
-a:hover {
+a:hover,
+a:focus-visible {
   color: #535bf2;
+  outline: none;
 }
 
+/* Body and layout */
 body {
   margin: 0;
   display: flex;
   place-items: center;
+  justify-content: center;
   min-width: 320px;
   min-height: 100vh;
+  background-color: inherit;
+  color: inherit;
 }
 
+/* Headings */
 h1 {
   font-size: 3.2em;
   line-height: 1.1;
+  margin: 0 0 1rem 0;
+  font-weight: 700;
+  text-align: center;
 }
 
+/* Buttons */
 button {
   border-radius: 8px;
   border: 1px solid transparent;
@@ -43,26 +62,122 @@ button {
   font-weight: 500;
   font-family: inherit;
   background-color: #1a1a1a;
+  color: rgba(255, 255, 255, 0.87);
   cursor: pointer;
-  transition: border-color 0.25s;
+  transition: border-color 0.25s ease, background-color 0.25s ease, color 0.25s ease;
+  user-select: none;
 }
-button:hover {
+button:hover,
+button:focus-visible {
   border-color: #646cff;
+  outline: none;
 }
-button:focus,
 button:focus-visible {
   outline: 4px auto -webkit-focus-ring-color;
 }
 
+/* Form container */
+form {
+  background-color: #2e2e2e;
+  padding: 2rem;
+  border-radius: 12px;
+  box-shadow: 0 4px 12px rgb(0 0 0 / 0.5);
+  width: 100%;
+  max-width: 400px;
+  box-sizing: border-box;
+}
+
+/* Form groups */
+.form-group {
+  display: flex;
+  flex-direction: column;
+  margin-bottom: 1.25rem;
+}
+
+/* Labels */
+label {
+  margin-bottom: 0.5rem;
+  font-weight: 600;
+  font-size: 1rem;
+  color: rgba(255, 255, 255, 0.9);
+}
+
+/* Inputs */
+input[type='email'],
+input[type='password'] {
+  padding: 0.5em 0.75em;
+  font-size: 1rem;
+  border-radius: 6px;
+  border: 1px solid #555;
+  background-color: #1a1a1a;
+  color: rgba(255, 255, 255, 0.9);
+  transition: border-color 0.25s ease, background-color 0.25s ease;
+  font-family: inherit;
+}
+input[type='email']:focus,
+input[type='password']:focus {
+  outline: none;
+  border-color: #646cff;
+  background-color: #222222;
+}
+
+/* Error messages */
+.error {
+  margin-top: 0.25rem;
+  color: #ff6b6b;
+  font-size: 0.875rem;
+  font-weight: 600;
+  line-height: 1.2;
+}
+
+/* Responsive adjustments */
+@media (max-width: 480px) {
+  form {
+    padding: 1.5rem 1rem;
+    margin: 0 1rem;
+  }
+  h1 {
+    font-size: 2.4em;
+  }
+}
+
+/* Light mode overrides */
 @media (prefers-color-scheme: light) {
   :root {
     color: #213547;
     background-color: #ffffff;
   }
-  a:hover {
+  a:hover,
+  a:focus-visible {
     color: #747bff;
   }
   button {
     background-color: #f9f9f9;
+    color: #213547;
+  }
+  button:hover,
+  button:focus-visible {
+    border-color: #646cff;
+  }
+  form {
+    background-color: #f5f7fa;
+    box-shadow: 0 4px 12px rgb(0 0 0 / 0.1);
+  }
+  label {
+    color: #213547;
+  }
+  input[type='email'],
+  input[type='password'] {
+    background-color: #fff;
+    border: 1px solid #ccc;
+    color: #213547;
+  }
+  input[type='email']:focus,
+  input[type='password']:focus {
+    border-color: #646cff;
+    background-color: #e9efff;
+  }
+  .error {
+    color: #d93025;
   }
 }
