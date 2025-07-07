@@ -3,23 +3,31 @@
   "private": true,
   "version": "0.0.0",
   "type": "module",
+  "engines": {
+    "node": ">=16"
+  },
   "scripts": {
-    "dev": "vite",
     "build": "tsc -b && vite build",
-    "lint": "eslint .",
+    "dev": "vite",
+    "format": "prettier --write \"src/**/*.{js,jsx,ts,tsx,json,css,scss,md}\"",
+    "lint": "eslint --cache .",
+    "prepare": "husky install",
     "preview": "vite preview",
-    "prepare": "husky"
+    "test": "echo \"No tests specified\" && exit 0",
+    "type-check": "tsc --noEmit"
   },
   "dependencies": {
-    "react": "^19.1.0",
-    "react-dom": "^19.1.0"
+    "react": "^18.2.0",
+    "react-dom": "^18.2.0"
   },
   "devDependencies": {
     "@eslint/js": "^9.25.0",
-    "@types/react": "^19.1.2",
-    "@types/react-dom": "^19.1.2",
+    "@types/react": "^18.0.38",
+    "@types/react-dom": "^18.0.11",
     "@vitejs/plugin-react": "^4.4.1",
     "eslint": "^9.29.0",
+    "eslint-config-prettier": "^9.0.0",
+    "eslint-plugin-prettier": "^4.2.1",
     "eslint-plugin-react-hooks": "^5.2.0",
     "eslint-plugin-react-refresh": "^0.4.19",
     "globals": "^16.0.0",
@@ -28,15 +36,30 @@
     "prettier": "^3.5.3",
     "typescript": "~5.8.3",
     "typescript-eslint": "^8.30.1",
-    "vite": "^6.3.5"
+    "vite": "^4.3.9"
   },
   "lint-staged": {
     "**/*.{js,jsx,ts,tsx}": [
-      "eslint --fix",
-      "prettier --write"
+      "prettier --write",
+      "eslint --fix"
     ],
     "**/*.{json,md,css,scss}": [
       "prettier --write"
     ]
-  }
+  },
+  "browserslist": [
+    "defaults",
+    "not IE 11",
+    "maintained node versions"
+  ],
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/yourusername/yourrepo.git"
+  },
+  "author": "Your Name <youremail@example.com>",
+  "files": [
+    "src",
+    "public",
+    "index.html"
+  ]
 }
