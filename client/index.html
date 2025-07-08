@@ -1,13 +1,24 @@
-<!doctype html>
+<!DOCTYPE html>
 <html lang="en">
   <head>
     <meta charset="UTF-8" />
-    <link rel="icon" type="image/svg+xml" href="/vite.svg" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title><%= projectName %></title>
+    <title>My Vite App</title>
+    <meta name="description" content="A modern web application built with Vite and React." />
+    <meta property="og:title" content="My Vite App" />
+    <meta property="og:description" content="A modern web application built with Vite and React." />
+    <meta property="og:image" content="/public/vite.svg" />
+    <meta property="og:url" content="https://myviteapp.com" />
+    <link rel="icon" type="image/svg+xml" href="/vite.svg" />
+    <link rel="apple-touch-icon" href="/public/vite.svg" />
+    <meta name="theme-color" content="#ffffff" />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
   </head>
   <body>
-    <div id="root"></div>
+    <noscript>
+      <p>This application requires JavaScript to function properly. Please enable JavaScript in your browser settings.</p>
+    </noscript>
+    <div id="root" role="main"></div>
     <script type="module" src="/src/main.tsx"></script>
   </body>
 </html>
