@@ -7,18 +7,47 @@ yarn-error.log*
 pnpm-debug.log*
 lerna-debug.log*
 
-node_modules
-dist
-dist-ssr
-*.local
+# Dependency directories
+node_modules/
+jspm_packages/
+
+# Distribution directories
+dist/
+dist-ssr/
+build/
+
+# Environment variables
+.env
+.env.*.local
 
 # Editor directories and files
 .vscode/*
 !.vscode/extensions.json
-.idea
+.idea/
 .DS_Store
 *.suo
 *.ntvs*
 *.njsproj
 *.sln
 *.sw?
+
+# Testing
+coverage/
+
+# Miscellaneous
+*.local
+*.tgz
+*.lock
+*.cache
+.npmrc
+.yarnrc
+.yarn.lock
+.pnp/
+.pnp.js
+.npm/
+.yarn/
+.husky/
+.lintstagedrc
+.editorconfig
+.eslintcache
+.changelog
