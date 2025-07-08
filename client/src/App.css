@@ -1,23 +1,41 @@
+/* Define CSS Variables for Consistency */
+:root {
+  --max-width: 1280px;
+  --padding: 2rem;
+  --logo-height: 6em;
+  --logo-padding: 1.5em;
+  --logo-hover-shadow: 0 0 2em #646cffaa;
+  --logo-react-hover-shadow: 0 0 2em #61dafbaa;
+  --card-padding: 2em;
+  --text-color: #888;
+  --focus-outline: 3px solid #0056b3;
+  --focus-bg: #e7f1ff;
+  --focus-shadow: 0 0 5px #0056b3;
+}
+
+/* Base Styles */
 #root {
-  max-width: 1280px;
+  max-width: var(--max-width);
   margin: 0 auto;
-  padding: 2rem;
+  padding: var(--padding);
   text-align: center;
 }
 
+/* Logo Styles */
 .logo {
-  height: 6em;
-  padding: 1.5em;
+  height: var(--logo-height);
+  padding: var(--logo-padding);
   will-change: filter;
   transition: filter 300ms;
 }
 .logo:hover {
-  filter: drop-shadow(0 0 2em #646cffaa);
+  filter: drop-shadow(var(--logo-hover-shadow));
 }
 .logo.react:hover {
-  filter: drop-shadow(0 0 2em #61dafbaa);
+  filter: drop-shadow(var(--logo-react-hover-shadow));
 }
 
+/* Animation */
 @keyframes logo-spin {
   from {
     transform: rotate(0deg);
@@ -27,16 +45,40 @@
   }
 }
 
+/* Respect User's Motion Preferences */
 @media (prefers-reduced-motion: no-preference) {
-  a:nth-of-type(2) .logo {
+  .logo {
     animation: logo-spin infinite 20s linear;
   }
 }
 
+/* Card Styles */
 .card {
-  padding: 2em;
+  padding: var(--card-padding);
 }
 
+/* Text Styles */
 .read-the-docs {
-  color: #888;
+  color: var(--text-color);
+}
+
+/* Accessibility: Focus Styles */
+*:focus-visible {
+  outline: var(--focus-outline);
+  background-color: var(--focus-bg);
+  box-shadow: var(--focus-shadow);
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+  #root {
+    padding: 1rem;
+  }
+  .logo {
+    height: 4em;
+    padding: 1em;
+  }
+  .card {
+    padding: 1em;
+  }
 }
