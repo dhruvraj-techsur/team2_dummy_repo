@@ -43,15 +43,52 @@ button {
   font-weight: 500;
   font-family: inherit;
   background-color: #1a1a1a;
+  color: white;
   cursor: pointer;
-  transition: border-color 0.25s;
+  transition: background-color 0.25s, border-color 0.25s;
 }
 button:hover {
+  background-color: #333;
   border-color: #646cff;
 }
 button:focus,
 button:focus-visible {
   outline: 4px auto -webkit-focus-ring-color;
+}
+
+input,
+select,
+textarea {
+  font-family: inherit;
+  font-size: 1em;
+  padding: 0.5em;
+  margin-bottom: 1em;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  width: 100%;
+  box-sizing: border-box;
+}
+input:focus,
+select:focus,
+textarea:focus {
+  outline: 2px solid #646cff;
+  border-color: #646cff;
+}
+
+label {
+  display: block;
+  margin-bottom: 0.5em;
+  font-weight: 500;
+}
+
+.form-group {
+  margin-bottom: 1.5em;
+}
+
+.error {
+  color: #d32f2f;
+  font-size: 0.875em;
+  margin-top: 0.25em;
 }
 
 @media (prefers-color-scheme: light) {
@@ -64,5 +101,9 @@ button:focus-visible {
   }
   button {
     background-color: #f9f9f9;
+    color: #213547;
+  }
+  button:hover {
+    background-color: #e0e0e0;
   }
 }
