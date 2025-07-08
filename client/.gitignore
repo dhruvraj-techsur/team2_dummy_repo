@@ -7,18 +7,39 @@ yarn-error.log*
 pnpm-debug.log*
 lerna-debug.log*
 
+# Node modules
 node_modules
+
+# Build artifacts
 dist
 dist-ssr
+build
+
+# Local environment variables
 *.local
+.env
+.env.*
 
 # Editor directories and files
 .vscode/*
 !.vscode/extensions.json
 .idea
+*.iml
 .DS_Store
 *.suo
 *.ntvs*
 *.njsproj
 *.sln
 *.sw?
+
+# TypeScript declaration files
+*.d.ts
+
+# Test coverage reports
+coverage/
+
+# Temporary files
+*.tmp
+
+# Sensitive information
+secrets.txt
