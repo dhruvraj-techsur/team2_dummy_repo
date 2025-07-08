@@ -7,18 +7,49 @@ yarn-error.log*
 pnpm-debug.log*
 lerna-debug.log*
 
-node_modules
-dist
-dist-ssr
-*.local
+# Dependency directories
+node_modules/
+
+# Build artifacts
+dist/
+dist-ssr/
+build/
+
+# Environment variables
+.env
+.env.*
 
 # Editor directories and files
 .vscode/*
 !.vscode/extensions.json
-.idea
+.idea/
 .DS_Store
 *.suo
 *.ntvs*
 *.njsproj
 *.sln
 *.sw?
+
+# Test coverage reports
+coverage/
+
+# Prettier configuration
+.prettierignore
+
+# Husky configuration
+.husky/
+
+# Lint-staged configuration
+.lintstagedrc
+
+# DCCache files
+.dccache
+
+# TypeScript declaration files
+*.d.ts
+
+# Temporary files
+*.tmp
+
+# Sensitive information
+secrets.txt
