@@ -1,13 +1,17 @@
-<!doctype html>
+<!DOCTYPE html>
 <html lang="en">
   <head>
     <meta charset="UTF-8" />
-    <link rel="icon" type="image/svg+xml" href="/vite.svg" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title><%= projectName %></title>
+    <meta name="description" content="Login and Dashboard React application" />
+    <link rel="icon" type="image/svg+xml" href="/vite.svg" />
+    <link rel="preload" href="/src/main.tsx" as="script" />
+    <title>Login and Dashboard App</title>
   </head>
   <body>
-    <div id="root"></div>
-    <script type="module" src="/src/main.tsx"></script>
+    <!-- React app root -->
+    <div id="root" aria-label="Application root"></div>
+    <script type="module" src="/src/main.tsx" defer></script>
   </body>
 </html>
