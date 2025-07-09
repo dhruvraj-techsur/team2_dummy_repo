@@ -3,40 +3,191 @@
   margin: 0 auto;
   padding: 2rem;
   text-align: center;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  min-height: 100vh;
+  background-color: inherit;
+  color: inherit;
 }
 
-.logo {
-  height: 6em;
-  padding: 1.5em;
-  will-change: filter;
-  transition: filter 300ms;
-}
-.logo:hover {
-  filter: drop-shadow(0 0 2em #646cffaa);
-}
-.logo.react:hover {
-  filter: drop-shadow(0 0 2em #61dafbaa);
+.App {
+  width: 100%;
+  max-width: 400px;
+  background-color: var(--background, #1a1a1a);
+  padding: 2rem;
+  border-radius: 12px;
+  box-shadow: 0 4px 12px rgb(0 0 0 / 0.3);
+  color: inherit;
 }
 
-@keyframes logo-spin {
-  from {
-    transform: rotate(0deg);
+h1 {
+  margin-bottom: 1.5rem;
+  font-size: 2rem;
+  font-weight: 600;
+  color: inherit;
+}
+
+form {
+  display: flex;
+  flex-direction: column;
+  gap: 1.25rem;
+  width: 100%;
+}
+
+.form-group {
+  display: flex;
+  flex-direction: column;
+  text-align: left;
+}
+
+label {
+  margin-bottom: 0.5rem;
+  font-weight: 500;
+  font-size: 1rem;
+  color: inherit;
+}
+
+input[type='email'],
+input[type='password'] {
+  padding: 0.6em 0.8em;
+  font-size: 1rem;
+  border: 1.5px solid #444;
+  border-radius: 6px;
+  background-color: #222;
+  color: #eee;
+  transition: border-color 0.25s ease, box-shadow 0.25s ease;
+}
+
+input[type='email']:focus,
+input[type='password']:focus {
+  outline: none;
+  border-color: #646cff;
+  box-shadow: 0 0 6px #646cffaa;
+  background-color: #1a1a1a;
+  color: #fff;
+}
+
+input[aria-invalid='true'] {
+  border-color: #e55353;
+  background-color: #3a1a1a;
+  color: #fddede;
+}
+
+.error {
+  margin-top: 0.25rem;
+  font-size: 0.875rem;
+  color: #e55353;
+  font-weight: 500;
+}
+
+button[type='submit'] {
+  margin-top: 0.5rem;
+  padding: 0.75em 1.2em;
+  font-size: 1.1rem;
+  font-weight: 600;
+  border-radius: 8px;
+  border: none;
+  background-color: #646cff;
+  color: #fff;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}
+
+button[type='submit']:hover:not(:disabled),
+button[type='submit']:focus-visible {
+  background-color: #535bf2;
+  outline-offset: 2px;
+  outline: 2px solid #535bf2;
+}
+
+button[type='submit']:disabled {
+  background-color: #9999cc;
+  cursor: not-allowed;
+  opacity: 0.7;
+}
+
+main {
+  width: 100%;
+  max-width: 600px;
+  padding: 2rem;
+  background-color: var(--background, #1a1a1a);
+  border-radius: 12px;
+  box-shadow: 0 4px 12px rgb(0 0 0 / 0.3);
+  color: inherit;
+  text-align: center;
+}
+
+main h1 {
+  margin-bottom: 1rem;
+  font-size: 2.5rem;
+  font-weight: 700;
+}
+
+main p {
+  font-size: 1.2rem;
+  margin-bottom: 2rem;
+}
+
+main button {
+  padding: 0.75em 1.5em;
+  font-size: 1.1rem;
+  font-weight: 600;
+  border-radius: 8px;
+  border: none;
+  background-color: #646cff;
+  color: #fff;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}
+
+main button:hover,
+main button:focus-visible {
+  background-color: #535bf2;
+  outline-offset: 2px;
+  outline: 2px solid #535bf2;
+}
+
+@media (prefers-color-scheme: light) {
+  #root {
+    background-color: #fff;
+    color: #213547;
   }
-  to {
-    transform: rotate(360deg);
+  .App,
+  main {
+    background-color: #f9f9f9;
+    color: #213547;
+    box-shadow: 0 4px 12px rgb(33 53 71 / 0.15);
   }
-}
-
-@media (prefers-reduced-motion: no-preference) {
-  a:nth-of-type(2) .logo {
-    animation: logo-spin infinite 20s linear;
+  input[type='email'],
+  input[type='password'] {
+    background-color: #fff;
+    border: 1.5px solid #ccc;
+    color: #213547;
   }
-}
-
-.card {
-  padding: 2em;
-}
-
-.read-the-docs {
-  color: #888;
+  input[type='email']:focus,
+  input[type='password']:focus {
+    background-color: #fff;
+    border-color: #747bff;
+    box-shadow: 0 0 6px #747bffaa;
+    color: #213547;
+  }
+  input[aria-invalid='true'] {
+    background-color: #fddede;
+    border-color: #e55353;
+    color: #a00;
+  }
+  button[type='submit'],
+  main button {
+    background-color: #747bff;
+    color: #fff;
+  }
+  button[type='submit']:hover:not(:disabled),
+  button[type='submit']:focus-visible,
+  main button:hover,
+  main button:focus-visible {
+    background-color: #646cff;
+    outline-color: #646cff;
+  }
 }
