@@ -2,12 +2,24 @@
 <html lang="en">
   <head>
     <meta charset="UTF-8" />
-    <link rel="icon" type="image/svg+xml" href="/vite.svg" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title><%= projectName %></title>
+    <meta name="description" content="Login and Dashboard React app" />
+    <meta name="theme-color" content="#242424" />
+    <meta name="referrer" content="no-referrer" />
+    <meta name="robots" content="index, follow" />
+    <link rel="icon" type="image/svg+xml" href="/vite.svg" />
+    <link rel="manifest" href="/manifest.webmanifest" />
+    <title>Login and Dashboard App</title>
+    <link rel="preload" href="/src/main.tsx" as="script" />
   </head>
   <body>
-    <div id="root"></div>
+    <div id="root" aria-label="Application root"></div>
+    <noscript>
+      <p style="color: red; text-align: center; margin-top: 1rem;">
+        This application requires JavaScript to run. Please enable JavaScript in your browser.
+      </p>
+    </noscript>
     <script type="module" src="/src/main.tsx"></script>
   </body>
 </html>
