@@ -1,13 +1,19 @@
 <!doctype html>
 <html lang="en">
   <head>
-    <meta charset="UTF-8" />
+    <meta charset="utf-8" />
     <link rel="icon" type="image/svg+xml" href="/vite.svg" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title><%= projectName %></title>
+    <meta name="description" content="Login and Dashboard React App" />
+    <meta name="theme-color" content="#242424" />
+    <title><%= projectName || 'React App' %></title>
+    <!-- Preconnect to API server for improved performance -->
+    <% if (typeof VITE_API_URL !== 'undefined' && VITE_API_URL) { %>
+      <link rel="preconnect" href="<%= VITE_API_URL %>" crossorigin />
+    <% } %>
   </head>
   <body>
-    <div id="root"></div>
-    <script type="module" src="/src/main.tsx"></script>
+    <div id="root" aria-label="Application Root"></div>
+    <script type="module" src="/src/main.tsx" defer></script>
   </body>
 </html>
