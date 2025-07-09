@@ -40,3 +40,73 @@
 .read-the-docs {
   color: #888;
 }
+
+/* Login form styles */
+form {
+  max-width: 360px;
+  margin: 0 auto;
+  text-align: left;
+}
+
+.form-group {
+  margin-bottom: 1.25rem;
+  display: flex;
+  flex-direction: column;
+}
+
+label {
+  font-weight: 600;
+  margin-bottom: 0.5rem;
+  font-size: 1rem;
+  color: var(--label-color, #333);
+}
+
+input[type='email'],
+input[type='password'] {
+  padding: 0.5rem 0.75rem;
+  font-size: 1rem;
+  border: 1.5px solid #ccc;
+  border-radius: 6px;
+  transition: border-color 0.3s ease;
+  font-family: inherit;
+}
+
+input[type='email']:focus,
+input[type='password']:focus {
+  outline: none;
+  border-color: #646cff;
+  box-shadow: 0 0 4px #646cff88;
+}
+
+.error {
+  color: #d93025;
+  font-size: 0.875rem;
+  margin-top: 0.25rem;
+  font-weight: 500;
+}
+
+button[type='submit'] {
+  width: 100%;
+  padding: 0.75rem 1rem;
+  font-size: 1.1rem;
+  font-weight: 600;
+  color: #fff;
+  background-color: #646cff;
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+  font-family: inherit;
+}
+
+button[type='submit']:hover,
+button[type='submit']:focus-visible {
+  background-color: #535bf2;
+  outline-offset: 2px;
+}
+
+@media (max-width: 400px) {
+  form {
+    padding: 0 1rem;
+  }
+}
