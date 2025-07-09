@@ -11,28 +11,46 @@
   text-rendering: optimizeLegibility;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
+  box-sizing: border-box;
 }
 
-a {
-  font-weight: 500;
-  color: #646cff;
-  text-decoration: inherit;
-}
-a:hover {
-  color: #535bf2;
+*, *::before, *::after {
+  box-sizing: inherit;
 }
 
 body {
   margin: 0;
   display: flex;
   place-items: center;
+  justify-content: center;
   min-width: 320px;
   min-height: 100vh;
+  padding: 1rem;
+  max-width: 480px;
+  margin-left: auto;
+  margin-right: auto;
+  background-color: inherit;
+  color: inherit;
 }
 
 h1 {
   font-size: 3.2em;
   line-height: 1.1;
+  margin-bottom: 1rem;
+}
+
+a {
+  font-weight: 500;
+  color: #646cff;
+  text-decoration: inherit;
+  cursor: pointer;
+  transition: color 0.25s ease;
+}
+a:hover,
+a:focus-visible {
+  color: #535bf2;
+  outline: none;
+  text-decoration: underline;
 }
 
 button {
@@ -43,15 +61,68 @@ button {
   font-weight: 500;
   font-family: inherit;
   background-color: #1a1a1a;
+  color: rgba(255, 255, 255, 0.87);
   cursor: pointer;
-  transition: border-color 0.25s;
+  transition: border-color 0.25s, background-color 0.25s;
+  user-select: none;
 }
-button:hover {
+button:hover:not(:disabled) {
   border-color: #646cff;
 }
 button:focus,
 button:focus-visible {
   outline: 4px auto -webkit-focus-ring-color;
+}
+button:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+  border-color: transparent;
+  background-color: #333333;
+}
+
+.form-group {
+  margin-bottom: 1rem;
+  text-align: left;
+}
+
+label {
+  display: block;
+  margin-bottom: 0.25rem;
+  font-weight: 600;
+  color: inherit;
+}
+
+input[type='email'],
+input[type='password'] {
+  width: 100%;
+  padding: 0.5em 0.75em;
+  font-size: 1em;
+  font-family: inherit;
+  border: 1px solid #555555;
+  border-radius: 6px;
+  background-color: #1a1a1a;
+  color: rgba(255, 255, 255, 0.87);
+  transition: border-color 0.25s, background-color 0.25s;
+}
+input[type='email']:focus,
+input[type='password']:focus {
+  outline: none;
+  border-color: #646cff;
+  background-color: #222222;
+}
+input[type='email']:disabled,
+input[type='password']:disabled {
+  background-color: #333333;
+  cursor: not-allowed;
+  color: #999999;
+  border-color: #444444;
+}
+
+.error {
+  color: #ff6b6b;
+  font-size: 0.875em;
+  margin-top: 0.25rem;
+  display: block;
 }
 
 @media (prefers-color-scheme: light) {
@@ -59,10 +130,32 @@ button:focus-visible {
     color: #213547;
     background-color: #ffffff;
   }
-  a:hover {
+  a:hover,
+  a:focus-visible {
     color: #747bff;
   }
   button {
     background-color: #f9f9f9;
+    color: #213547;
+  }
+  button:hover:not(:disabled) {
+    border-color: #646cff;
+  }
+  input[type='email'],
+  input[type='password'] {
+    background-color: #f9f9f9;
+    color: #213547;
+    border: 1px solid #ccc;
+  }
+  input[type='email']:focus,
+  input[type='password']:focus {
+    background-color: #ffffff;
+    border-color: #646cff;
+  }
+  input[type='email']:disabled,
+  input[type='password']:disabled {
+    background-color: #eaeaea;
+    color: #999999;
+    border-color: #ddd;
   }
 }
