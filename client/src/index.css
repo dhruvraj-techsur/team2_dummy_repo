@@ -4,35 +4,52 @@
   font-weight: 400;
 
   color-scheme: light dark;
-  color: rgba(255, 255, 255, 0.87);
+  color: #e0e0e0;
   background-color: #242424;
 
   font-synthesis: none;
   text-rendering: optimizeLegibility;
+}
+
+*, *::before, *::after {
+  box-sizing: border-box;
+}
+
+body {
+  margin: 0;
+  padding: 0;
+  display: flex;
+  place-items: center;
+  min-width: 320px;
+  min-height: 100vh;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
+  font-family: inherit;
+  color: inherit;
+  background-color: inherit;
+}
+
+h1 {
+  font-size: 3.2em;
+  line-height: 1.1;
+  margin: 0;
 }
 
 a {
   font-weight: 500;
   color: #646cff;
   text-decoration: inherit;
+  cursor: pointer;
+  transition: color 0.25s ease;
 }
-a:hover {
+a:hover,
+a:focus-visible {
   color: #535bf2;
+  outline-offset: 2px;
+  outline: 2px solid transparent;
 }
-
-body {
-  margin: 0;
-  display: flex;
-  place-items: center;
-  min-width: 320px;
-  min-height: 100vh;
-}
-
-h1 {
-  font-size: 3.2em;
-  line-height: 1.1;
+a:focus-visible {
+  outline-color: #646cff;
 }
 
 button {
@@ -44,14 +61,37 @@ button {
   font-family: inherit;
   background-color: #1a1a1a;
   cursor: pointer;
-  transition: border-color 0.25s;
+  transition: border-color 0.25s ease;
 }
-button:hover {
+button:hover,
+button:focus-visible {
   border-color: #646cff;
+  outline: none;
 }
-button:focus,
 button:focus-visible {
   outline: 4px auto -webkit-focus-ring-color;
+}
+
+input,
+textarea,
+select {
+  font-family: inherit;
+  font-size: 1em;
+  line-height: 1.5;
+  padding: 0.5em 0.75em;
+  border: 1px solid #444;
+  border-radius: 6px;
+  background-color: #1a1a1a;
+  color: #e0e0e0;
+  transition: border-color 0.25s ease;
+}
+input:focus,
+textarea:focus,
+select:focus {
+  outline: none;
+  border-color: #646cff;
+  background-color: #222;
+  color: #fff;
 }
 
 @media (prefers-color-scheme: light) {
@@ -59,10 +99,39 @@ button:focus-visible {
     color: #213547;
     background-color: #ffffff;
   }
-  a:hover {
+  a:hover,
+  a:focus-visible {
     color: #747bff;
+    outline-color: #747bff;
   }
   button {
     background-color: #f9f9f9;
+    color: #213547;
+  }
+  button:hover,
+  button:focus-visible {
+    border-color: #747bff;
+  }
+  input,
+  textarea,
+  select {
+    background-color: #fff;
+    border-color: #ccc;
+    color: #213547;
+  }
+  input:focus,
+  textarea:focus,
+  select:focus {
+    border-color: #747bff;
+    background-color: #f0f4ff;
+    color: #213547;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  * {
+    transition: none !important;
+    animation-duration: 0 !important;
+    animation-iteration-count: 1 !important;
   }
 }
