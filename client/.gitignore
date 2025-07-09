@@ -1,24 +1,54 @@
 # Logs
-logs
 *.log
+lerna-debug.log*
 npm-debug.log*
+pnpm-debug.log*
 yarn-debug.log*
 yarn-error.log*
-pnpm-debug.log*
-lerna-debug.log*
 
+# Dependency directories
 node_modules
+
+# Build output
 dist
 dist-ssr
-*.local
+
+# TypeScript
+*.tsbuildinfo
+
+# Environment files
+.env
+.env.local
+.env.*.local
+!.env.example
 
 # Editor directories and files
-.vscode/*
-!.vscode/extensions.json
-.idea
 .DS_Store
+.idea
+.vscode
+!.vscode/extensions.json
+
+# OS generated files
 *.suo
 *.ntvs*
 *.njsproj
 *.sln
 *.sw?
+
+# Cache and coverage
+.cache
+.coverage
+.eslintcache
+.parcel-cache
+
+# Package manager files
+.pnp.*
+.npm
+.yarn
+
+# Miscellaneous
+*.local
+
+# Monorepo / Framework
+.next
+.turbo
