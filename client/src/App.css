@@ -5,6 +5,67 @@
   text-align: center;
 }
 
+.App {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  min-height: 100vh;
+  padding: 2rem;
+  box-sizing: border-box;
+  text-align: center;
+}
+
+.dashboard {
+  max-width: 480px;
+  width: 100%;
+  background-color: var(--background-color, #1a1a1a);
+  padding: 2rem;
+  border-radius: 8px;
+  box-shadow: 0 0 10px rgba(100, 108, 255, 0.3);
+  color: var(--text-color, inherit);
+}
+
+.dashboard h1 {
+  margin-bottom: 1rem;
+  font-size: 2.5rem;
+}
+
+.dashboard p {
+  font-size: 1.25rem;
+  margin-bottom: 2rem;
+}
+
+.dashboard button {
+  border-radius: 8px;
+  border: 1px solid transparent;
+  padding: 0.6em 1.2em;
+  font-size: 1em;
+  font-weight: 500;
+  font-family: inherit;
+  background-color: #1a1a1a;
+  color: inherit;
+  cursor: pointer;
+  transition: border-color 0.25s, background-color 0.25s;
+  user-select: none;
+}
+
+.dashboard button:hover:not(:disabled) {
+  border-color: #646cff;
+}
+
+.dashboard button:focus,
+.dashboard button:focus-visible {
+  outline: 4px auto -webkit-focus-ring-color;
+}
+
+.dashboard button:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+  border-color: transparent;
+}
+
+/* Logo styles retained for potential branding */
 .logo {
   height: 6em;
   padding: 1.5em;
