@@ -1,6 +1,12 @@
 import React, { useState } from 'react';
 
-const LoginForm: React.FC = () => {
+interface LoginFormProps {
+  onSubmit: (email: string, password: string) => Promise<void>;
+  loading: boolean;
+  error: string | null;
+}
+
+const LoginForm: React.FC<LoginFormProps> = ({ onSubmit, loading, error }) => {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [errors, setErrors] = useState<{ email?: string; password?: string }>({});
@@ -10,12 +16,49 @@ const LoginForm: React.FC = () => {
     return emailRegex.test(email);
   };
 
+  const validateForm = () => {
+    const newErrors: { email?: string; password?: string } = {};
+    if (!email.trim()) {
+      newErrors.email = 'Email is required';
+    } else if (!validateEmail(email.trim())) {
+      newErrors.email = 'Please enter a valid email address';
+    }
+    if (!password) {
+      newErrors.password = 'Password is required';
+    }
+    setErrors(newErrors);
+    return Object.keys(newErrors).length === 0;
+  };
+
+  const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
+    e.preventDefault();
+    setErrors({});
+    if (!validateForm()) {
+      return;
+    }
+    await onSubmit(email.trim(), password);
+  };
+
   return (
-    <form onSubmit={handleSubmit}>
+    <form onSubmit={handleSubmit} noValidate>
       <div className="form-group">
         <label htmlFor="email">Email</label>
-        <input type="email" id="email" value={email} onChange={(e) => setEmail(e.target.value)} />
-        {errors.email && <span className="error">{errors.email}</span>}
+        <input
+          type="email"
+          id="email"
+          value={email}
+          onChange={(e) => setEmail(e.target.value)}
+          aria-invalid={!!errors.email}
+          aria-describedby="email-error"
+          required
+          autoComplete="email"
+          disabled={loading}
+        />
+        {errors.email && (
+          <span className="error" id="email-error" role="alert">
+            {errors.email}
+          </span>
+        )}
       </div>
       <div className="form-group">
         <label htmlFor="password">Password</label>
@@ -24,10 +67,26 @@ const LoginForm: React.FC = () => {
           id="password"
           value={password}
           onChange={(e) => setPassword(e.target.value)}
+          aria-invalid={!!errors.password}
+          aria-describedby="password-error"
+          required
+          autoComplete="current-password"
+          disabled={loading}
         />
-        {errors.password && <span className="error">{errors.password}</span>}
+        {errors.password && (
+          <span className="error" id="password-error" role="alert">
+            {errors.password}
+          </span>
+        )}
       </div>
-      <button type="submit">Login</button>
+      {error && (
+        <div className="error" role="alert" style={{ marginBottom: '1rem' }}>
+          {error}
+        </div>
+      )}
+      <button type="submit" disabled={loading}>
+        {loading ? 'Logging in...' : 'Login'}
+      </button>
     </form>
   );
 };
