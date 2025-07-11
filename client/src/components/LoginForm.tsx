@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useCallback } from 'react';
 
 const LoginForm: React.FC = () => {
   const [email, setEmail] = useState('');
@@ -10,12 +10,39 @@ const LoginForm: React.FC = () => {
     return emailRegex.test(email);
   };
 
+  const handleSubmit = useCallback(
+    (e: React.FormEvent) => {
+      e.preventDefault();
+      const newErrors: { email?: string; password?: string } = {};
+      if (!email) newErrors.email = 'Email is required';
+      else if (!validateEmail(email)) newErrors.email = 'Invalid email format';
+      if (!password) newErrors.password = 'Password is required';
+      setErrors(newErrors);
+      if (Object.keys(newErrors).length === 0) {
+        // Proceed with form submission
+      }
+    },
+    [email, password]
+  );
+
   return (
     <form onSubmit={handleSubmit}>
       <div className="form-group">
         <label htmlFor="email">Email</label>
-        <input type="email" id="email" value={email} onChange={(e) => setEmail(e.target.value)} />
-        {errors.email && <span className="error">{errors.email}</span>}
+        <input
+          type="email"
+          id="email"
+          value={email}
+          onChange={(e) => setEmail(e.target.value)}
+          required
+          aria-invalid={!!errors.email}
+          aria-describedby={errors.email ? 'email-error' : undefined}
+        />
+        {errors.email && (
+          <span id="email-error" role="alert">
+            {errors.email}
+          </span>
+        )}
       </div>
       <div className="form-group">
         <label htmlFor="password">Password</label>
@@ -24,8 +51,15 @@ const LoginForm: React.FC = () => {
           id="password"
           value={password}
           onChange={(e) => setPassword(e.target.value)}
+          required
+          aria-invalid={!!errors.password}
+          aria-describedby={errors.password ? 'password-error' : undefined}
         />
-        {errors.password && <span className="error">{errors.password}</span>}
+        {errors.password && (
+          <span id="password-error" role="alert">
+            {errors.password}
+          </span>
+        )}
       </div>
       <button type="submit">Login</button>
     </form>
