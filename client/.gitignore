@@ -7,18 +7,49 @@ yarn-error.log*
 pnpm-debug.log*
 lerna-debug.log*
 
+# Dependency directories
 node_modules
+
+# Build output
 dist
 dist-ssr
+
+# Local environment files
 *.local
+.env
+.env.local
+.env.*.local
+
+# Cache and coverage
+.cache
+coverage
 
 # Editor directories and files
-.vscode/*
+.vscode
 !.vscode/extensions.json
 .idea
+*.iml
 .DS_Store
+
+# JetBrains IDE files
 *.suo
 *.ntvs*
 *.njsproj
 *.sln
 *.sw?
+
+# Yarn Plug'n'Play
+.pnp.*
+.pnp.js
+
+# ESLint cache
+.eslintcache
+
+# Turborepo
+.turbo
+
+# Parcel cache
+.parcel-cache
+
+# Next.js build output (if applicable)
+.next
