@@ -1,21 +1,83 @@
-import React, { useState } from 'react';
+import { useState } from 'react';
 
 const LoginForm: React.FC = () => {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [errors, setErrors] = useState<{ email?: string; password?: string }>({});
+  const [serverError, setServerError] = useState('');
+  const [loading, setLoading] = useState(false);
 
   const validateEmail = (email: string) => {
     const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
     return emailRegex.test(email);
   };
 
+  const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
+    e.preventDefault();
+    setServerError('');
+    const trimmedEmail = email.trim();
+    const trimmedPassword = password.trim();
+
+    const newErrors: { email?: string; password?: string } = {};
+    if (!trimmedEmail) {
+      newErrors.email = 'Email is required.';
+    } else if (!validateEmail(trimmedEmail)) {
+      newErrors.email = 'Please enter a valid email address.';
+    }
+    if (!trimmedPassword) {
+      newErrors.password = 'Password is required.';
+    }
+
+    setErrors(newErrors);
+    if (Object.keys(newErrors).length > 0) {
+      return;
+    }
+
+    setLoading(true);
+    try {
+      const response = await fetch(`${import.meta.env.VITE_API_URL}/api/login`, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({ email: trimmedEmail, password: trimmedPassword }),
+      });
+
+      if (response.ok) {
+        // Assuming the backend returns a token or sets a cookie
+        // Redirect to dashboard
+        window.location.href = '/dashboard';
+      } else if (response.status === 401) {
+        setServerError('Invalid email or password.');
+      } else {
+        setServerError('An unexpected error occurred. Please try again.');
+      }
+    } catch {
+      setServerError('Unable to connect to the server. Please try again later.');
+    } finally {
+      setLoading(false);
+    }
+  };
+
   return (
-    <form onSubmit={handleSubmit}>
+    <form onSubmit={handleSubmit} noValidate aria-describedby="server-error" aria-live="polite">
       <div className="form-group">
         <label htmlFor="email">Email</label>
-        <input type="email" id="email" value={email} onChange={(e) => setEmail(e.target.value)} />
-        {errors.email && <span className="error">{errors.email}</span>}
+        <input
+          type="email"
+          id="email"
+          value={email}
+          onChange={(e) => setEmail(e.target.value)}
+          required
+          autoComplete="email"
+          aria-describedby={errors.email ? 'email-error' : undefined}
+          aria-invalid={!!errors.email}
+        />
+        {errors.email && (
+          <span className="error" id="email-error" role="alert">
+            {errors.email}
+          </span>
+        )}
       </div>
       <div className="form-group">
         <label htmlFor="password">Password</label>
@@ -24,10 +86,25 @@ const LoginForm: React.FC = () => {
           id="password"
           value={password}
           onChange={(e) => setPassword(e.target.value)}
+          required
+          autoComplete="current-password"
+          aria-describedby={errors.password ? 'password-error' : undefined}
+          aria-invalid={!!errors.password}
         />
-        {errors.password && <span className="error">{errors.password}</span>}
+        {errors.password && (
+          <span className="error" id="password-error" role="alert">
+            {errors.password}
+          </span>
+        )}
       </div>
-      <button type="submit">Login</button>
+      {serverError && (
+        <div className="error" id="server-error" role="alert" style={{ marginBottom: '1rem' }}>
+          {serverError}
+        </div>
+      )}
+      <button type="submit" disabled={loading} aria-busy={loading}>
+        {loading ? 'Logging in...' : 'Login'}
+      </button>
     </form>
   );
 };
