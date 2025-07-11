@@ -1,14 +1,13 @@
-import React from 'react';
 import './App.css';
 import LoginForm from './components/LoginForm';
 
-function App() {
+const App: React.FC = () => {
   return (
-    <div className="App">
+    <main className="App" aria-label="Login page">
       <h1>Login</h1>
       <LoginForm />
-    </div>
+    </main>
   );
-}
+};
 
 export default App;
