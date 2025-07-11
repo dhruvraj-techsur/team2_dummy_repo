@@ -4,10 +4,198 @@
     <meta charset="UTF-8" />
     <link rel="icon" type="image/svg+xml" href="/vite.svg" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title><%= projectName %></title>
+    <title>Login - MyApp</title>
+    <style>
+      body {
+        font-family: Arial, sans-serif;
+        background: #f9f9f9;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        height: 100vh;
+        margin: 0;
+      }
+      #login-form {
+        background: white;
+        padding: 2rem;
+        border-radius: 6px;
+        box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+        width: 320px;
+      }
+      #login-form h1 {
+        margin-bottom: 1rem;
+        font-size: 1.5rem;
+        text-align: center;
+      }
+      label {
+        display: block;
+        margin-bottom: 0.25rem;
+        font-weight: 600;
+      }
+      input[type="email"],
+      input[type="password"] {
+        width: 100%;
+        padding: 0.5rem;
+        margin-bottom: 1rem;
+        border: 1px solid #ccc;
+        border-radius: 4px;
+        font-size: 1rem;
+        box-sizing: border-box;
+      }
+      button {
+        width: 100%;
+        padding: 0.6rem;
+        font-size: 1rem;
+        font-weight: 600;
+        color: white;
+        background-color: #007bff;
+        border: none;
+        border-radius: 4px;
+        cursor: pointer;
+      }
+      button:disabled {
+        background-color: #6c757d;
+        cursor: not-allowed;
+      }
+      .error-message {
+        color: #d93025;
+        font-size: 0.875rem;
+        margin-bottom: 1rem;
+        display: none;
+      }
+      .loading {
+        opacity: 0.7;
+        pointer-events: none;
+      }
+    </style>
   </head>
   <body>
-    <div id="root"></div>
-    <script type="module" src="/src/main.tsx"></script>
+    <div id="root">
+      <form id="login-form" novalidate>
+        <h1>Login</h1>
+        <div>
+          <label for="email">Email</label>
+          <input
+            type="email"
+            id="email"
+            name="email"
+            placeholder="you@example.com"
+            required
+            autocomplete="username"
+            aria-describedby="email-error"
+          />
+          <div id="email-error" class="error-message" role="alert"></div>
+        </div>
+        <div>
+          <label for="password">Password</label>
+          <input
+            type="password"
+            id="password"
+            name="password"
+            placeholder="Enter your password"
+            required
+            autocomplete="current-password"
+            aria-describedby="password-error"
+          />
+          <div id="password-error" class="error-message" role="alert"></div>
+        </div>
+        <div>
+          <button type="submit" id="login-button">Login</button>
+        </div>
+        <div id="form-error" class="error-message" role="alert"></div>
+      </form>
+    </div>
+    <script type="module">
+      const form = document.getElementById('login-form');
+      const emailInput = document.getElementById('email');
+      const passwordInput = document.getElementById('password');
+      const loginButton = document.getElementById('login-button');
+      const emailError = document.getElementById('email-error');
+      const passwordError = document.getElementById('password-error');
+      const formError = document.getElementById('form-error');
+
+      function validateEmail(email) {
+        // Simple email regex for basic validation
+        const re = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+        return re.test(email);
+      }
+
+      function clearErrors() {
+        emailError.textContent = '';
+        emailError.style.display = 'none';
+        passwordError.textContent = '';
+        passwordError.style.display = 'none';
+        formError.textContent = '';
+        formError.style.display = 'none';
+      }
+
+      form.addEventListener('submit', async (event) => {
+        event.preventDefault();
+        clearErrors();
+
+        let valid = true;
+
+        const email = emailInput.value.trim();
+        const password = passwordInput.value;
+
+        if (!email) {
+          emailError.textContent = 'Email is required.';
+          emailError.style.display = 'block';
+          valid = false;
+        } else if (!validateEmail(email)) {
+          emailError.textContent = 'Please enter a valid email address.';
+          emailError.style.display = 'block';
+          valid = false;
+        }
+
+        if (!password) {
+          passwordError.textContent = 'Password is required.';
+          passwordError.style.display = 'block';
+          valid = false;
+        }
+
+        if (!valid) {
+          return;
+        }
+
+        loginButton.disabled = true;
+        loginButton.textContent = 'Logging in...';
+        form.classList.add('loading');
+
+        try {
+          const response = await fetch('/api/login', {
+            method: 'POST',
+            headers: {
+              'Content-Type': 'application/json',
+            },
+            body: JSON.stringify({ email, password }),
+          });
+
+          if (response.ok) {
+            // Assuming backend returns JSON with token or session info
+            const data = await response.json();
+            // Store token securely - here localStorage as example
+            if (data.token) {
+              localStorage.setItem('authToken', data.token);
+            }
+            // Redirect to dashboard
+            window.location.href = '/dashboard';
+          } else if (response.status === 401) {
+            formError.textContent = 'Invalid email or password.';
+            formError.style.display = 'block';
+          } else {
+            formError.textContent = 'An unexpected error occurred. Please try again.';
+            formError.style.display = 'block';
+          }
+        } catch (error) {
+          formError.textContent = 'Network error. Please check your connection.';
+          formError.style.display = 'block';
+        } finally {
+          loginButton.disabled = false;
+          loginButton.textContent = 'Login';
+          form.classList.remove('loading');
+        }
+      });
+    </script>
   </body>
 </html>
