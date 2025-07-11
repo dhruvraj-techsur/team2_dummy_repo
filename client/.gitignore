@@ -1,24 +1,40 @@
 # Logs
-logs
 *.log
+lerna-debug.log*
 npm-debug.log*
+pnpm-debug.log*
 yarn-debug.log*
 yarn-error.log*
-pnpm-debug.log*
-lerna-debug.log*
 
+# Dependency directories
 node_modules
 dist
 dist-ssr
+
+# Local environment files
 *.local
+.env
+.env.local
+
+# Coverage and cache
+coverage
+.cache
 
 # Editor directories and files
-.vscode/*
-!.vscode/extensions.json
-.idea
 .DS_Store
+.idea
+.vscode
+!.vscode/extensions.json
+
+# Visual Studio files
+*.sln
 *.suo
 *.ntvs*
 *.njsproj
-*.sln
+
+# Swap files
 *.sw?
+
+# Other
+.turbo
+.next
