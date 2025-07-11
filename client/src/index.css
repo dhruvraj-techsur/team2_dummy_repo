@@ -1,3 +1,14 @@
+/* Global base styles */
+html {
+  box-sizing: border-box;
+  font-size: 16px;
+  scroll-behavior: smooth;
+}
+
+*, *::before, *::after {
+  box-sizing: inherit;
+}
+
 :root {
   font-family: system-ui, Avenir, Helvetica, Arial, sans-serif;
   line-height: 1.5;
@@ -13,28 +24,44 @@
   -moz-osx-font-smoothing: grayscale;
 }
 
+/* Body and layout */
+body {
+  margin: 0;
+  display: flex;
+  place-items: center;
+  min-inline-size: 320px;
+  min-block-size: 100vh;
+}
+
+/* Headings */
+h1 {
+  font-size: 3.2em;
+  line-height: 1.1;
+  margin-block-end: 0.5em;
+}
+
+/* Links */
 a {
   font-weight: 500;
   color: #646cff;
   text-decoration: inherit;
 }
-a:hover {
+
+a:hover,
+a:focus-visible {
   color: #535bf2;
+  outline-offset: 2px;
+  outline: 2px solid transparent;
 }
 
-body {
-  margin: 0;
-  display: flex;
-  place-items: center;
-  min-width: 320px;
-  min-height: 100vh;
+a:focus-visible {
+  outline-color: #646cff;
+  outline-style: solid;
+  outline-width: 2px;
+  border-radius: 4px;
 }
 
-h1 {
-  font-size: 3.2em;
-  line-height: 1.1;
-}
-
+/* Buttons */
 button {
   border-radius: 8px;
   border: 1px solid transparent;
@@ -46,22 +73,35 @@ button {
   cursor: pointer;
   transition: border-color 0.25s;
 }
-button:hover {
+
+button:hover,
+button:focus-visible {
   border-color: #646cff;
+  outline: none;
 }
-button:focus,
+
 button:focus-visible {
   outline: 4px auto -webkit-focus-ring-color;
 }
 
+button:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+/* Light mode overrides */
 @media (prefers-color-scheme: light) {
   :root {
     color: #213547;
     background-color: #ffffff;
   }
-  a:hover {
+
+  a:hover,
+  a:focus-visible {
     color: #747bff;
+    outline-color: #747bff;
   }
+
   button {
     background-color: #f9f9f9;
   }
