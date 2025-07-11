@@ -5,38 +5,172 @@
   text-align: center;
 }
 
-.logo {
-  height: 6em;
-  padding: 1.5em;
-  will-change: filter;
-  transition: filter 300ms;
-}
-.logo:hover {
-  filter: drop-shadow(0 0 2em #646cffaa);
-}
-.logo.react:hover {
-  filter: drop-shadow(0 0 2em #61dafbaa);
+/* Login Form Container */
+.login-form {
+  max-width: 360px;
+  margin: 2rem auto;
+  padding: 2rem;
+  background-color: var(--form-bg, #1a1a1a);
+  border-radius: 12px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
+  color: var(--form-text, #fff);
+  font-family: inherit;
+  text-align: left;
 }
 
-@keyframes logo-spin {
-  from {
-    transform: rotate(0deg);
-  }
+/* Form Fields */
+.login-form label {
+  display: block;
+  margin-bottom: 0.5rem;
+  font-weight: 600;
+  font-size: 1rem;
+  color: var(--form-label, #ccc);
+}
+
+.login-form input[type="email"],
+.login-form input[type="password"] {
+  width: 100%;
+  padding: 0.6em 0.8em;
+  margin-bottom: 1.25rem;
+  border: 1.5px solid #444;
+  border-radius: 6px;
+  background-color: var(--input-bg, #121212);
+  color: var(--input-text, #eee);
+  font-size: 1rem;
+  transition: border-color 0.3s ease, box-shadow 0.3s ease;
+  font-family: inherit;
+}
+
+.login-form input[type="email"]:focus,
+.login-form input[type="password"]:focus {
+  outline: none;
+  border-color: #646cff;
+  box-shadow: 0 0 6px #646cffaa;
+  background-color: var(--input-bg-focus, #1a1a1a);
+}
+
+/* Error state for inputs */
+.login-form input[type="email"].error,
+.login-form input[type="password"].error {
+  border-color: #e55353;
+  background-color: #2a1a1a;
+  box-shadow: 0 0 6px #e55353aa;
+}
+
+/* Error message */
+.login-form .error-message {
+  color: #e55353;
+  font-size: 0.875rem;
+  margin-top: -1rem;
+  margin-bottom: 1rem;
+  font-weight: 600;
+}
+
+/* Login Button */
+.login-form button[type="submit"] {
+  width: 100%;
+  padding: 0.75em 1em;
+  font-size: 1.1rem;
+  font-weight: 700;
+  color: #fff;
+  background-color: #646cff;
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+  font-family: inherit;
+}
+
+.login-form button[type="submit"]:hover:not(:disabled),
+.login-form button[type="submit"]:focus-visible:not(:disabled) {
+  background-color: #535bf2;
+  outline: none;
+  box-shadow: 0 0 8px #535bf2aa;
+}
+
+.login-form button[type="submit"]:disabled {
+  background-color: #444a9e;
+  cursor: not-allowed;
+  opacity: 0.7;
+}
+
+/* Loading spinner inside button */
+.login-form button[type="submit"].loading {
+  position: relative;
+  pointer-events: none;
+  color: transparent;
+}
+
+.login-form button[type="submit"].loading::after {
+  content: "";
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  width: 1.2em;
+  height: 1.2em;
+  margin: -0.6em 0 0 -0.6em;
+  border: 2px solid transparent;
+  border-top-color: #fff;
+  border-radius: 50%;
+  animation: spinner 0.8s linear infinite;
+}
+
+@keyframes spinner {
   to {
     transform: rotate(360deg);
   }
 }
 
-@media (prefers-reduced-motion: no-preference) {
-  a:nth-of-type(2) .logo {
-    animation: logo-spin infinite 20s linear;
+/* Light mode overrides */
+@media (prefers-color-scheme: light) {
+  .login-form {
+    background-color: #f9f9f9;
+    color: #213547;
+    box-shadow: 0 4px 12px rgba(33, 53, 71, 0.15);
   }
-}
 
-.card {
-  padding: 2em;
-}
+  .login-form input[type="email"],
+  .login-form input[type="password"] {
+    background-color: #fff;
+    color: #213547;
+    border: 1.5px solid #ccc;
+  }
 
-.read-the-docs {
-  color: #888;
+  .login-form input[type="email"]:focus,
+  .login-form input[type="password"]:focus {
+    background-color: #fff;
+    border-color: #747bff;
+    box-shadow: 0 0 6px #747bffaa;
+  }
+
+  .login-form input[type="email"].error,
+  .login-form input[type="password"].error {
+    border-color: #e55353;
+    background-color: #fff0f0;
+    box-shadow: 0 0 6px #e55353aa;
+  }
+
+  .login-form .error-message {
+    color: #e55353;
+  }
+
+  .login-form button[type="submit"] {
+    background-color: #747bff;
+    color: #fff;
+  }
+
+  .login-form button[type="submit"]:hover:not(:disabled),
+  .login-form button[type="submit"]:focus-visible:not(:disabled) {
+    background-color: #646cff;
+    box-shadow: 0 0 8px #646cffaa;
+  }
+
+  .login-form button[type="submit"]:disabled {
+    background-color: #a3a9ff;
+    opacity: 0.7;
+  }
+
+  .login-form button[type="submit"].loading::after {
+    border-top-color: #213547;
+  }
 }
