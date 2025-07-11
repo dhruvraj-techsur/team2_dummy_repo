@@ -1,25 +1,52 @@
 :root {
-  font-family: system-ui, Avenir, Helvetica, Arial, sans-serif;
-  line-height: 1.5;
-  font-weight: 400;
+  --font-family: system-ui, Avenir, Helvetica, Arial, sans-serif;
+  --line-height: 1.5;
+  --font-weight: 400;
+
+  --color-text-light: rgba(255, 255, 255, 0.87);
+  --color-bg-dark: #242424;
+  --color-link: #646cff;
+  --color-link-hover: #535bf2;
+  --color-button-bg-dark: #1a1a1a;
+  --color-button-border-hover: #646cff;
+
+  --color-text-dark: #213547;
+  --color-bg-light: #ffffff;
+  --color-link-hover-light: #747bff;
+  --color-button-bg-light: #f9f9f9;
+
+  font-family: var(--font-family);
+  line-height: var(--line-height);
+  font-weight: var(--font-weight);
 
   color-scheme: light dark;
-  color: rgba(255, 255, 255, 0.87);
-  background-color: #242424;
+  color: var(--color-text-light);
+  background-color: var(--color-bg-dark);
 
   font-synthesis: none;
   text-rendering: optimizeLegibility;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
+  box-sizing: border-box;
+}
+
+*, *::before, *::after {
+  box-sizing: inherit;
 }
 
 a {
   font-weight: 500;
-  color: #646cff;
+  color: var(--color-link);
   text-decoration: inherit;
+  cursor: pointer;
+  transition: color 0.25s ease;
 }
-a:hover {
-  color: #535bf2;
+a:hover,
+a:focus-visible {
+  color: var(--color-link-hover);
+  outline-offset: 2px;
+  outline: 2px solid var(--color-link-hover);
+  outline-radius: 4px;
 }
 
 body {
@@ -28,11 +55,16 @@ body {
   place-items: center;
   min-width: 320px;
   min-height: 100vh;
+  background-color: inherit;
+  color: inherit;
+  font-family: inherit;
+  line-height: inherit;
 }
 
 h1 {
   font-size: 3.2em;
   line-height: 1.1;
+  margin: 0 0 1rem 0;
 }
 
 button {
@@ -42,27 +74,81 @@ button {
   font-size: 1em;
   font-weight: 500;
   font-family: inherit;
-  background-color: #1a1a1a;
+  background-color: var(--color-button-bg-dark);
   cursor: pointer;
-  transition: border-color 0.25s;
+  transition: border-color 0.25s ease, background-color 0.25s ease;
 }
-button:hover {
-  border-color: #646cff;
+button:hover,
+button:focus-visible {
+  border-color: var(--color-button-border-hover);
+  outline: none;
 }
-button:focus,
 button:focus-visible {
   outline: 4px auto -webkit-focus-ring-color;
 }
 
+.form-group {
+  margin-bottom: 1rem;
+  text-align: left;
+  max-width: 320px;
+  width: 100%;
+}
+
+label {
+  display: block;
+  margin-bottom: 0.25rem;
+  font-weight: 600;
+  cursor: pointer;
+}
+
+input[type='email'],
+input[type='password'] {
+  width: 100%;
+  padding: 0.5em 0.75em;
+  border: 1px solid #ccc;
+  border-radius: 6px;
+  font-size: 1em;
+  font-family: inherit;
+  transition: border-color 0.25s ease, box-shadow 0.25s ease;
+}
+
+input[type='email']:focus,
+input[type='password']:focus {
+  border-color: var(--color-link);
+  outline: none;
+  box-shadow: 0 0 0 3px rgba(100, 108, 255, 0.3);
+}
+
+.error {
+  color: #ff6b6b;
+  font-size: 0.875em;
+  margin-top: 0.25rem;
+  display: block;
+}
+
 @media (prefers-color-scheme: light) {
   :root {
-    color: #213547;
-    background-color: #ffffff;
+    color: var(--color-text-dark);
+    background-color: var(--color-bg-light);
   }
-  a:hover {
-    color: #747bff;
+  a:hover,
+  a:focus-visible {
+    color: var(--color-link-hover-light);
+    outline-color: var(--color-link-hover-light);
   }
   button {
-    background-color: #f9f9f9;
+    background-color: var(--color-button-bg-light);
+    color: var(--color-text-dark);
+  }
+  input[type='email'],
+  input[type='password'] {
+    border-color: #999;
+    background-color: #fff;
+    color: var(--color-text-dark);
+  }
+  input[type='email']:focus,
+  input[type='password']:focus {
+    border-color: var(--color-link-hover-light);
+    box-shadow: 0 0 0 3px rgba(116, 123, 255, 0.3);
   }
 }
