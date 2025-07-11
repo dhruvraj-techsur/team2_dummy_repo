@@ -3,11 +3,17 @@
   <head>
     <meta charset="UTF-8" />
     <link rel="icon" type="image/svg+xml" href="/vite.svg" />
+    <link rel="preconnect" href="/" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title><%= projectName %></title>
+    <meta name="description" content="Login to MyApp to access your personalized dashboard." />
+    <meta name="theme-color" content="#242424" />
+    <title>Login - MyApp</title>
   </head>
   <body>
-    <div id="root"></div>
+    <div id="root" aria-label="Application root"></div>
+    <noscript>
+      <strong>We're sorry but this app doesn't work properly without JavaScript enabled. Please enable it to continue.</strong>
+    </noscript>
     <script type="module" src="/src/main.tsx"></script>
   </body>
 </html>
