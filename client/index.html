@@ -5,9 +5,188 @@
     <link rel="icon" type="image/svg+xml" href="/vite.svg" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title><%= projectName %></title>
+    <style>
+      body {
+        font-family: Arial, sans-serif;
+        background: #f9f9f9;
+        margin: 0;
+        padding: 0;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        height: 100vh;
+      }
+      #login-container {
+        background: white;
+        padding: 2rem;
+        border-radius: 8px;
+        box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+        width: 320px;
+      }
+      h1 {
+        margin-top: 0;
+        margin-bottom: 1rem;
+        font-size: 1.5rem;
+        text-align: center;
+      }
+      form {
+        display: flex;
+        flex-direction: column;
+      }
+      label {
+        margin-bottom: 0.25rem;
+        font-weight: 600;
+      }
+      input[type="email"],
+      input[type="password"] {
+        padding: 0.5rem;
+        margin-bottom: 1rem;
+        border: 1px solid #ccc;
+        border-radius: 4px;
+        font-size: 1rem;
+      }
+      input[type="email"]:invalid {
+        border-color: #e74c3c;
+      }
+      button {
+        padding: 0.75rem;
+        background-color: #007bff;
+        color: white;
+        border: none;
+        border-radius: 4px;
+        font-size: 1rem;
+        cursor: pointer;
+      }
+      button:disabled {
+        background-color: #6c757d;
+        cursor: not-allowed;
+      }
+      #error-message {
+        color: #e74c3c;
+        font-size: 0.875rem;
+        margin-bottom: 1rem;
+        min-height: 1.25rem;
+        text-align: center;
+      }
+      #loading {
+        text-align: center;
+        margin-bottom: 1rem;
+        font-size: 0.9rem;
+        color: #555;
+        display: none;
+      }
+    </style>
   </head>
   <body>
+    <div id="login-container" aria-live="polite">
+      <h1>Login</h1>
+      <div id="error-message" role="alert" aria-atomic="true"></div>
+      <div id="loading">Loading...</div>
+      <form id="login-form" novalidate>
+        <label for="email">Email</label>
+        <input
+          type="email"
+          id="email"
+          name="email"
+          placeholder="you@example.com"
+          required
+          autocomplete="username"
+          aria-describedby="email-error"
+        />
+        <label for="password">Password</label>
+        <input
+          type="password"
+          id="password"
+          name="password"
+          placeholder="Enter your password"
+          required
+          autocomplete="current-password"
+          aria-describedby="password-error"
+        />
+        <button type="submit" id="login-button">Login</button>
+      </form>
+    </div>
     <div id="root"></div>
+    <script type="module">
+      const form = document.getElementById('login-form');
+      const emailInput = document.getElementById('email');
+      const passwordInput = document.getElementById('password');
+      const errorMessage = document.getElementById('error-message');
+      const loadingIndicator = document.getElementById('loading');
+      const loginButton = document.getElementById('login-button');
+
+      function validateEmail(email) {
+        // Simple email regex for client-side validation
+        const re = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+        return re.test(email);
+      }
+
+      function setLoading(isLoading) {
+        if (isLoading) {
+          loadingIndicator.style.display = 'block';
+          loginButton.disabled = true;
+        } else {
+          loadingIndicator.style.display = 'none';
+          loginButton.disabled = false;
+        }
+      }
+
+      form.addEventListener('submit', async (event) => {
+        event.preventDefault();
+        errorMessage.textContent = '';
+
+        const email = emailInput.value.trim();
+        const password = passwordInput.value;
+
+        if (!email) {
+          errorMessage.textContent = 'Email is required.';
+          emailInput.focus();
+          return;
+        }
+        if (!validateEmail(email)) {
+          errorMessage.textContent = 'Please enter a valid email address.';
+          emailInput.focus();
+          return;
+        }
+        if (!password) {
+          errorMessage.textContent = 'Password is required.';
+          passwordInput.focus();
+          return;
+        }
+
+        setLoading(true);
+
+        try {
+          const response = await fetch('/api/login', {
+            method: 'POST',
+            headers: {
+              'Content-Type': 'application/json',
+            },
+            body: JSON.stringify({ email, password }),
+          });
+
+          if (response.ok) {
+            // Assuming backend returns JSON with token or session info
+            const data = await response.json();
+            // Store token securely (example: localStorage)
+            if (data.token) {
+              localStorage.setItem('authToken', data.token);
+            }
+            // Redirect to dashboard
+            window.location.href = '/dashboard';
+          } else if (response.status === 401) {
+            const errorData = await response.json();
+            errorMessage.textContent = errorData.message || 'Invalid email or password.';
+          } else {
+            errorMessage.textContent = 'An unexpected error occurred. Please try again.';
+          }
+        } catch (error) {
+          errorMessage.textContent = 'Network error. Please check your connection.';
+        } finally {
+          setLoading(false);
+        }
+      });
+    </script>
     <script type="module" src="/src/main.tsx"></script>
   </body>
 </html>
