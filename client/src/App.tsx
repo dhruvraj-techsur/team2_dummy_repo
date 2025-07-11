@@ -1,12 +1,7 @@
-import React from 'react';
-import './App.css';
-import LoginForm from './components/LoginForm';
-
 function App() {
   return (
-    <div className="App">
-      <h1>Login</h1>
-      <LoginForm />
+    <div>
+      <h1>Hello, world!</h1>
     </div>
   );
 }
