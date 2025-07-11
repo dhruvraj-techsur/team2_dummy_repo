@@ -1,21 +1,94 @@
 import React, { useState } from 'react';
+import { useNavigate } from 'react-router-dom';
+
+interface Errors {
+  email?: string;
+  password?: string;
+  general?: string;
+}
 
 const LoginForm: React.FC = () => {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
-  const [errors, setErrors] = useState<{ email?: string; password?: string }>({});
+  const [errors, setErrors] = useState<Errors>({});
+  const [loading, setLoading] = useState(false);
+  const navigate = useNavigate();
 
   const validateEmail = (email: string) => {
     const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
     return emailRegex.test(email);
   };
 
+  const validateForm = (): boolean => {
+    const newErrors: Errors = {};
+    if (!email.trim()) {
+      newErrors.email = 'Email is required.';
+    } else if (!validateEmail(email.trim())) {
+      newErrors.email = 'Please enter a valid email address.';
+    }
+    if (!password) {
+      newErrors.password = 'Password is required.';
+    }
+    setErrors(newErrors);
+    return Object.keys(newErrors).length === 0;
+  };
+
+  const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
+    e.preventDefault();
+    if (!validateForm()) {
+      return;
+    }
+    setLoading(true);
+    setErrors({});
+    try {
+      const response = await fetch('/api/login', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({ email: email.trim(), password }),
+      });
+
+      if (response.ok) {
+        const data = await response.json();
+        if (data.token) {
+          localStorage.setItem('token', data.token);
+          navigate('/dashboard');
+        } else {
+          setErrors({ general: 'Login failed: no token received.' });
+        }
+      } else if (response.status === 401) {
+        setErrors({ general: 'Invalid email or password.' });
+      } else {
+        setErrors({ general: 'An unexpected error occurred. Please try again.' });
+      }
+    } catch {
+      setErrors({ general: 'Network error. Please try again.' });
+    } finally {
+      setLoading(false);
+    }
+  };
+
   return (
-    <form onSubmit={handleSubmit}>
+    <form onSubmit={handleSubmit} noValidate>
+      {errors.general && <div className="error" role="alert">{errors.general}</div>}
       <div className="form-group">
         <label htmlFor="email">Email</label>
-        <input type="email" id="email" value={email} onChange={(e) => setEmail(e.target.value)} />
-        {errors.email && <span className="error">{errors.email}</span>}
+        <input
+          type="email"
+          id="email"
+          value={email}
+          onChange={(e) => setEmail(e.target.value)}
+          aria-invalid={!!errors.email}
+          aria-describedby={errors.email ? 'email-error' : undefined}
+          disabled={loading}
+          required
+        />
+        {errors.email && (
+          <span className="error" id="email-error" role="alert">
+            {errors.email}
+          </span>
+        )}
       </div>
       <div className="form-group">
         <label htmlFor="password">Password</label>
@@ -24,10 +97,20 @@ const LoginForm: React.FC = () => {
           id="password"
           value={password}
           onChange={(e) => setPassword(e.target.value)}
+          aria-invalid={!!errors.password}
+          aria-describedby={errors.password ? 'password-error' : undefined}
+          disabled={loading}
+          required
         />
-        {errors.password && <span className="error">{errors.password}</span>}
+        {errors.password && (
+          <span className="error" id="password-error" role="alert">
+            {errors.password}
+          </span>
+        )}
       </div>
-      <button type="submit">Login</button>
+      <button type="submit" disabled={loading}>
+        {loading ? 'Logging in...' : 'Login'}
+      </button>
     </form>
   );
 };
