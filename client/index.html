@@ -4,9 +4,55 @@
     <meta charset="UTF-8" />
     <link rel="icon" type="image/svg+xml" href="/vite.svg" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title><%= projectName %></title>
+    <title>Login - MyApp</title>
   </head>
   <body>
+    <main>
+      <section aria-labelledby="login-heading" style="max-width: 400px; margin: 2rem auto; padding: 1rem;">
+        <h1 id="login-heading">Login</h1>
+        <form id="login-form" novalidate>
+          <div style="margin-bottom: 1rem;">
+            <label for="email">Email</label><br />
+            <input
+              type="email"
+              id="email"
+              name="email"
+              placeholder="you@example.com"
+              required
+              autocomplete="username"
+              aria-describedby="email-error"
+              style="width: 100%; padding: 0.5rem; box-sizing: border-box;"
+            />
+            <div id="email-error" role="alert" style="color: red; font-size: 0.875rem; display: none;"></div>
+          </div>
+          <div style="margin-bottom: 1rem;">
+            <label for="password">Password</label><br />
+            <input
+              type="password"
+              id="password"
+              name="password"
+              placeholder="Enter your password"
+              required
+              autocomplete="current-password"
+              aria-describedby="password-error"
+              style="width: 100%; padding: 0.5rem; box-sizing: border-box;"
+            />
+            <div id="password-error" role="alert" style="color: red; font-size: 0.875rem; display: none;"></div>
+          </div>
+          <button
+            type="submit"
+            id="login-button"
+            style="width: 100%; padding: 0.75rem; font-size: 1rem; cursor: pointer;"
+          >
+            Login
+          </button>
+          <div id="form-error" role="alert" style="color: red; margin-top: 1rem; font-size: 0.9rem; display: none;"></div>
+          <div id="loading" aria-live="polite" style="margin-top: 1rem; font-size: 0.9rem; display: none;">
+            Loading...
+          </div>
+        </form>
+      </section>
+    </main>
     <div id="root"></div>
     <script type="module" src="/src/main.tsx"></script>
   </body>
