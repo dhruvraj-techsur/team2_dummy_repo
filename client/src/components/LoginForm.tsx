@@ -10,6 +10,22 @@ const LoginForm: React.FC = () => {
     return emailRegex.test(email);
   };
 
+  const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
+    e.preventDefault();
+
+    const newErrors: { email?: string; password?: string } = {};
+    if (!email) newErrors.email = 'Email is required';
+    else if (!validateEmail(email)) newErrors.email = 'Email is invalid';
+    if (!password) newErrors.password = 'Password is required';
+
+    setErrors(newErrors);
+
+    if (Object.keys(newErrors).length === 0) {
+      // Normally, here you would trigger login API call
+      // But per instructions, no additional features added
+    }
+  };
+
   return (
     <form onSubmit={handleSubmit}>
       <div className="form-group">
