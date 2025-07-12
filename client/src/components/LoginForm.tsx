@@ -10,6 +10,26 @@ const LoginForm: React.FC = () => {
     return emailRegex.test(email);
   };
 
+  const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
+    event.preventDefault();
+    // Basic validation
+    const newErrors: { email?: string; password?: string } = {};
+    if (!email) {
+      newErrors.email = 'Email is required';
+    } else if (!validateEmail(email)) {
+      newErrors.email = 'Invalid email format';
+    }
+    if (!password) {
+      newErrors.password = 'Password is required';
+    }
+    setErrors(newErrors);
+
+    if (Object.keys(newErrors).length === 0) {
+      // Normally here you would handle submission to backend
+      // This is a placeholder to prevent errors
+    }
+  };
+
   return (
     <form onSubmit={handleSubmit}>
       <div className="form-group">
