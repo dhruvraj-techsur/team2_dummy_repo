@@ -1,14 +1,17 @@
-import React from 'react';
+import React, { Suspense, lazy } from 'react';
 import './App.css';
-import LoginForm from './components/LoginForm';
 
-function App() {
+const LoginForm = lazy(() => import('./components/LoginForm'));
+
+const App: React.FC = () => {
   return (
-    <div className="App">
+    <div className="App" role="main">
       <h1>Login</h1>
-      <LoginForm />
+      <Suspense fallback={<div>Loading...</div>}>
+        <LoginForm />
+      </Suspense>
     </div>
   );
-}
+};
 
 export default App;
