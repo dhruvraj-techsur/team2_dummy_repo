@@ -10,6 +10,25 @@ const LoginForm: React.FC = () => {
     return emailRegex.test(email);
   };
 
+  const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
+    event.preventDefault();
+    // Simple validation example (can be adjusted as needed)
+    const newErrors: { email?: string; password?: string } = {};
+    if (!email) {
+      newErrors.email = 'Email is required';
+    } else if (!validateEmail(email)) {
+      newErrors.email = 'Invalid email format';
+    }
+    if (!password) {
+      newErrors.password = 'Password is required';
+    }
+    setErrors(newErrors);
+
+    if (Object.keys(newErrors).length === 0) {
+      // Submit logic here, e.g. call API
+    }
+  };
+
   return (
     <form onSubmit={handleSubmit}>
       <div className="form-group">
