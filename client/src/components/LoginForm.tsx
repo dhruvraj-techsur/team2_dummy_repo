@@ -3,11 +3,11 @@ import React, { useState } from 'react';
 const LoginForm: React.FC = () => {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
-  const [errors, setErrors] = useState<{ email?: string; password?: string }>({});
+  const [errors] = useState<{ email?: string; password?: string }>({});
 
-  const validateEmail = (email: string) => {
-    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-    return emailRegex.test(email);
+  const handleSubmit = (e: React.FormEvent) => {
+    e.preventDefault();
+    // Placeholder: validation and submission logic can go here
   };
 
   return (
