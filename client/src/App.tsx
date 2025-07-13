@@ -1,14 +1,14 @@
-import React from 'react';
+import React, { FC } from 'react';
 import './App.css';
 import LoginForm from './components/LoginForm';
 
-function App() {
+const App: FC = (): JSX.Element => {
   return (
-    <div className="App">
+    <main className="app-container" role="main">
       <h1>Login</h1>
       <LoginForm />
-    </div>
+    </main>
   );
-}
+};
 
 export default App;
